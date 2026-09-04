@@ -82,8 +82,9 @@
     font-size:.82rem;letter-spacing:2px;background:var(--primary-tint);padding:7px 16px;border-radius:999px;
     border:1px solid color-mix(in srgb,var(--primary) 22%,transparent)}
   .kicker svg{width:15px;height:15px}
-  .hero h1{font-size:clamp(2.1rem,6.5vw,3.7rem);font-weight:700;line-height:1.3;margin:26px 0 0;
-    letter-spacing:.5px}
+  .hero h1{font-size:clamp(2.1rem,6.5vw,3.7rem);font-weight:700;line-height:1.35;margin:26px 0 0;
+    letter-spacing:.5px;display:inline-block}
+  .hero h1 .hl{display:block;text-align:justify;text-align-last:justify} /* توازن السطرين: محاذاة من الطرفين */
   .hero .lead{font-size:clamp(1rem,2.6vw,1.18rem);color:var(--text);max-width:560px;margin:20px auto 0;font-weight:400;
     text-shadow:0 1px 10px rgba(246,242,251,.95)}
   .today-pill{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px;
@@ -238,7 +239,7 @@
 
 <header class="hero" id="hero">
   <div class="hero-inner">
-    <h1 class="reveal">مواسم الخير<br>أقرب مما تظن</h1>
+    <h1 class="reveal"><span class="hl">مواسم الخير</span><span class="hl">أقرب مما تظن</span></h1>
     <p class="lead reveal">تابع العدّ التنازلي لأعظم المواسم — رمضان والعيدان ويوم عرفة وبداية العام الهجري — بالتقويمين الهجري والميلادي.</p>
     <div class="today-pill reveal">
       <span class="tp-lbl">اليوم</span>
@@ -264,9 +265,9 @@
   <!-- ALL EVENTS -->
   <section>
     <div class="sec-head reveal">
-      <span class="sec-kicker">التقويم القادم</span>
-      <h2>المواسم القادمة على التوالي</h2>
-      <p>كل موسم بتاريخه الهجري والميلادي، ويوم وقوعه من الأسبوع، والمتبقّي عليه.</p>
+      <span class="sec-kicker">التقويم الهجري</span>
+      <h2>مناسبات السنة على الترتيب</h2>
+      <p>من بداية العام الهجري إلى نهايته — كل موسم بتاريخه الهجري والميلادي، ويوم وقوعه، والمتبقّي عليه.</p>
       <div class="rule"></div>
     </div>
     <div class="events" id="events"></div>
@@ -404,11 +405,11 @@ function hijriMonthLen(hy,hm){const a=hijriToGreg(hy,hm,1);const nm=hm===12?1:hm
 
 /* ---------- events ---------- */
 const EVENTS=[
+  {key:'newyear', name:'بداية السنة الهجرية',m:1,  d:1},
   {key:'ramadan', name:'رمضان',              m:9,  d:1, showLen:true},
   {key:'fitr',    name:'عيد الفطر',          m:10, d:1},
   {key:'arafah',  name:'يوم عرفة',           m:12, d:9},
   {key:'adha',    name:'عيد الأضحى',         m:12, d:10},
-  {key:'newyear', name:'بداية السنة الهجرية',m:1,  d:1},
 ];
 function nextOccurrence(ev,todayH){let y=todayH.y;if(cmp({y:todayH.y,m:ev.m,d:ev.d},todayH)<0)y=todayH.y+1;return{hy:y,greg:hijriToGreg(y,ev.m,ev.d)};}
 
@@ -421,9 +422,8 @@ function renderToday(){const u=todayUTC();
 let liveEls=[];
 function buildEventsUI(){
   const todayH=gregToHijri(todayUTC());
-  const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)}));
-  occ.sort((a,b)=>a.greg-b.greg);
-  const nearest=occ[0];
+  const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)})); // القائمة بترتيب السنة الهجرية
+  const nearest=occ.reduce((a,b)=>b.greg<a.greg?b:a); // المناسبة القادمة = الأقرب زمنيًا
   liveEls=[];
 
   // featured
