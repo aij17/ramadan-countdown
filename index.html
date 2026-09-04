@@ -520,12 +520,12 @@ function initReveal(){
   const els=[...document.querySelectorAll('.reveal')];
   if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}
   revealObs=new IntersectionObserver((entries)=>{
-    for(const en of entries){if(en.isIntersecting){en.target.classList.add('in');revealObs.unobserve(en.target);}}
-  },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    for(const en of entries) en.target.classList.toggle('in',en.isIntersecting); // toggle => تعيد الحركة كل مرة تسحب
+  },{threshold:0.12,rootMargin:'0px 0px -6% 0px'});
   els.forEach(e=>revealObs.observe(e));
-  // guarantee the first screenful animates in on load (never stays hidden)
+  // إظهار أول شاشة فورًا عند التحميل
   setTimeout(()=>{const vh=window.innerHeight||800;els.forEach(el=>{const r=el.getBoundingClientRect();
-    if(r.top<vh*0.96&&r.bottom>0){el.classList.add('in');revealObs.unobserve(el);}});},80);
+    if(r.top<vh*0.96&&r.bottom>0)el.classList.add('in');});},80);
 }
 
 /* ---------- backdrop pattern ---------- */
