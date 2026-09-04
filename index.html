@@ -51,16 +51,19 @@
 
   /* Hero */
   .hero{position:relative;text-align:center;overflow:hidden;border-radius:0 0 34px 34px;isolation:isolate}
-  .hero-bg{position:absolute;left:0;right:0;top:-16%;height:134%;z-index:-2;will-change:transform}
-  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center 56%;
-    filter:grayscale(1) brightness(1.15) contrast(1.03);opacity:0;animation:heroFade 26s infinite;transform:scale(1.06)}
+  .hero-bg{position:absolute;inset:0;z-index:-2}
+  /* خلفية ثابتة (background-attachment:fixed) => تبقى مكانها والمحتوى ينزلق فوقها */
+  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center 50%;background-attachment:fixed;
+    filter:grayscale(1) brightness(1.13) contrast(1.05);opacity:0;animation:heroFade 27s infinite}
   .hero-slide:nth-child(1){animation-delay:0s}
-  .hero-slide:nth-child(2){animation-delay:13s}
-  @keyframes heroFade{0%{opacity:0;transform:scale(1.10)}4%{opacity:1}44%{opacity:1}50%{opacity:0;transform:scale(1.06)}100%{opacity:0}}
+  .hero-slide:nth-child(2){animation-delay:9s}
+  .hero-slide:nth-child(3){animation-delay:18s;filter:grayscale(1) brightness(1.75) contrast(1.02)}
+  @keyframes heroFade{0%{opacity:0}3%{opacity:1}30%{opacity:1}36%{opacity:0}100%{opacity:0}}
   .hero-overlay{position:absolute;inset:0;z-index:-1;
-    background:linear-gradient(180deg, rgba(241,237,251,.82) 0%, rgba(214,201,241,.62) 52%, rgba(246,242,251,.98) 100%)}
+    background:linear-gradient(180deg, rgba(241,237,251,.80) 0%, rgba(214,201,241,.58) 52%, rgba(246,242,251,.98) 100%)}
   .hero-inner{max-width:1000px;margin:0 auto;padding:82px 22px 62px}
-  @media(prefers-reduced-motion:reduce){.hero-slide{animation:none;transform:none}.hero-slide:nth-child(1){opacity:1}}
+  @media(prefers-reduced-motion:reduce){.hero-slide{animation:none}.hero-slide:nth-child(1){opacity:1}}
+  @media(max-width:820px){.hero-slide{background-attachment:scroll}}
   .kicker{display:inline-flex;align-items:center;gap:9px;color:var(--primary);font-weight:600;
     font-size:.82rem;letter-spacing:2px;background:var(--primary-tint);padding:7px 16px;border-radius:999px;
     border:1px solid color-mix(in srgb,var(--primary) 22%,transparent)}
@@ -209,6 +212,7 @@
   <div class="hero-bg" id="heroBg">
     <div class="hero-slide" style="background-image:url('assets/mosque.jpg')"></div>
     <div class="hero-slide" style="background-image:url('assets/mosque2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('assets/mosque3.jpg')"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
@@ -305,6 +309,7 @@
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
       <div class="credit"><img class="cmark" src="assets/logo.png" alt="شعار AbuNorah17"> © 2026 <b>AbuNorah17</b> · جميع الحقوق محفوظة</div>
+      <div class="imgcredit">صورة ساعة مكة: saudipics · <a href="https://commons.wikimedia.org/wiki/File:Abraj-al-Bait_largest_clock_tower_ever.jpg" target="_blank" rel="noopener">ويكيميديا</a> · CC BY-SA 4.0</div>
     </div>
   </footer>
 
@@ -573,14 +578,11 @@ function init(){
   document.getElementById('convBtn').addEventListener('click',runConvert);
 
   const nav=document.getElementById('nav');
-  const heroBg=document.getElementById('heroBg');
-  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let lastY=window.scrollY, ticking=false;
+  let lastY=window.scrollY;
   function onScroll(){
     const y=window.scrollY;
     nav.classList.toggle('scrolled',y>10);
     if(Math.abs(y-lastY)>4){document.body.dataset.sd=(y>lastY)?'down':'up';lastY=y;} // اتجاه السحب لعكس الأنميشن
-    if(heroBg&&!reduce&&!ticking){ticking=true;requestAnimationFrame(()=>{heroBg.style.transform='translateY('+(y*0.32)+'px)';ticking=false;});} // بارالاكس الصورة
   }
   document.body.dataset.sd='down';
   onScroll();
