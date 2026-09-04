@@ -6,9 +6,8 @@
 <meta name="theme-color" content="#6b4fa8">
 <meta name="description" content="دُنُوّ — مواسم الخير أقرب مما تظن. عدّاد تنازلي للمناسبات الهجرية: رمضان، عيد الفطر، يوم عرفة، عيد الأضحى، وبداية السنة الهجرية، بالتاريخين الهجري (أم القرى) والميلادي مع يوم الأسبوع، ومحوّل تواريخ حتى ١٥٠٠ هجري.">
 <title>دُنُوّ — مواسم الخير أقرب مما تظن</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/npm/@dawod/thmanyah-font-web/index.css" rel="stylesheet">
 <style>
   :root{
     --bg:#f6f2fb; --bg-2:#efe8f8; --surface:#ffffff; --surface-2:#f7f2fd;
@@ -30,12 +29,12 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    font-family:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+    font-family:"Thmanyah Sans",system-ui,"Segoe UI",Tahoma,sans-serif;
     background:var(--bg); color:var(--text); line-height:1.85; font-weight:400;
     -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     overflow-x:hidden;
   }
-  h1,h2,h3,.brand-name,.display{font-family:"Reem Kufi","IBM Plex Sans Arabic",sans-serif;color:var(--heading)}
+  h1,h2,h3,.brand-name,.display{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;color:var(--heading)}
   .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
   ::selection{background:var(--primary-tint);color:var(--heading)}
 
@@ -113,7 +112,7 @@
     border-radius:14px;display:grid;place-items:center;border:1px solid var(--line-2)}
   .ev .evicon svg{width:30px;height:30px}
   .ev .evbody{flex:1;min-width:0}
-  .ev .evname{font-size:1.22rem;font-weight:600;color:var(--heading);font-family:"Reem Kufi",sans-serif}
+  .ev .evname{font-size:1.22rem;font-weight:600;color:var(--heading);font-family:"Thmanyah Serif Display","Thmanyah Sans",serif}
   .ev .evdate{font-size:.9rem;color:var(--text);margin-top:3px}
   .ev .evdate .wd{color:var(--primary);font-weight:600}
   .ev .evdate .sep{color:var(--muted);margin:0 6px}
@@ -154,13 +153,18 @@
   .result .wd{color:var(--primary);font-weight:600}
   .result .err{color:#d9534f}
   [data-theme="dark"] .result .err{color:#ff8f8f}
-  .tools{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media(max-width:720px){.tools{grid-template-columns:1fr}}
+  .seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:4px;gap:4px;margin-bottom:22px}
+  .seg-btn{flex:1;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:.95rem;
+    font-weight:600;padding:11px 8px;border-radius:9px;cursor:pointer;transition:.18s;display:flex;align-items:center;justify-content:center;gap:8px}
+  .seg-btn svg{width:17px;height:17px}
+  .seg-btn.active{background:var(--primary);color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--primary) 35%,transparent)}
+  .conv-inputs{min-height:74px}
+  .conv-max{max-width:520px;margin:0 auto}
 
   /* Year list */
   .ylist{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
   .yitem{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
-  .yitem .yn{font-weight:600;color:var(--heading);display:flex;align-items:center;gap:9px;font-family:"Reem Kufi",sans-serif;font-size:1.05rem}
+  .yitem .yn{font-weight:600;color:var(--heading);display:flex;align-items:center;gap:9px;font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:1.05rem}
   .yitem .yn svg{width:22px;height:22px;color:var(--primary);flex:none}
   .yitem .yd{font-size:.86rem;color:var(--text);margin-top:8px}
   .yitem .yd .wd{color:var(--primary);font-weight:600}
@@ -169,7 +173,7 @@
 
   footer{border-top:1px solid var(--line);margin-top:30px;padding:40px 0 60px;text-align:center}
   footer .fmark{width:40px;height:40px;color:var(--primary);margin:0 auto 14px}
-  footer .fname{font-family:"Reem Kufi",sans-serif;font-size:1.4rem;color:var(--heading);font-weight:700}
+  footer .fname{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:1.5rem;color:var(--heading);font-weight:700}
   footer .fslogan{color:var(--primary);font-size:.95rem;margin-top:2px;margin-bottom:16px}
   footer p{color:var(--muted);font-size:.85rem;line-height:2;max-width:560px;margin:0 auto}
   footer b{color:var(--text);font-weight:600}
@@ -255,24 +259,27 @@
       <p>حوّل بين التاريخين الهجري والميلادي في الاتجاهين حتى ١٥٠٠ هجري.</p>
       <div class="rule"></div>
     </div>
-    <div class="tools">
-      <div class="panel reveal">
-        <h3><span id="ic-h2g"></span> من هجري إلى ميلادي</h3>
-        <div class="row">
-          <div style="flex:1"><label class="fl">اليوم</label><select id="h_d"></select></div>
-          <div style="flex:2"><label class="fl">الشهر</label><select id="h_m"></select></div>
-          <div style="flex:1.3"><label class="fl">السنة</label><input type="number" id="h_y" min="1300" max="1500" inputmode="numeric"></div>
+    <div class="panel reveal conv-max">
+      <h3><span id="ic-conv"></span> محوّل التواريخ</h3>
+      <div class="seg" id="convSeg">
+        <button class="seg-btn active" type="button" data-dir="h2g">هجري ← ميلادي</button>
+        <button class="seg-btn" type="button" data-dir="g2h">ميلادي ← هجري</button>
+      </div>
+      <div class="conv-inputs">
+        <div id="h2gInputs">
+          <div class="row">
+            <div style="flex:1"><label class="fl">اليوم</label><select id="h_d"></select></div>
+            <div style="flex:2"><label class="fl">الشهر</label><select id="h_m"></select></div>
+            <div style="flex:1.3"><label class="fl">السنة الهجرية</label><input type="number" id="h_y" min="1300" max="1500" inputmode="numeric"></div>
+          </div>
         </div>
-        <button class="btn full" id="h2gBtn" type="button" style="margin-top:16px">حوّل إلى ميلادي</button>
-        <div class="result" id="h2gRes">أدخل تاريخًا هجريًا لعرض ما يقابله ميلاديًا.</div>
+        <div id="g2hInputs" hidden>
+          <label class="fl">اختر التاريخ الميلادي</label>
+          <input type="date" id="g_date" min="1883-01-01" max="2077-12-31">
+        </div>
       </div>
-      <div class="panel reveal">
-        <h3><span id="ic-g2h"></span> من ميلادي إلى هجري</h3>
-        <label class="fl">اختر التاريخ الميلادي</label>
-        <input type="date" id="g_date" min="1883-01-01" max="2077-12-31">
-        <button class="btn full" id="g2hBtn" type="button" style="margin-top:16px">حوّل إلى هجري</button>
-        <div class="result" id="g2hRes">اختر تاريخًا ميلاديًا لعرض ما يقابله هجريًا.</div>
-      </div>
+      <button class="btn full" id="convBtn" type="button" style="margin-top:18px">حوّل</button>
+      <div class="result" id="convRes">أدخل تاريخًا لعرض ما يقابله.</div>
     </div>
   </section>
 
@@ -464,21 +471,31 @@ function fillInputs(){
   const th=gregToHijri(todayUTC());document.getElementById('h_y').value=th.y;mm.value=th.m;md.value=th.d;
   const n=new Date();document.getElementById('g_date').value=`${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
 }
-function convertH2G(){
-  const y=+document.getElementById('h_y').value,m=+document.getElementById('h_m').value,d=+document.getElementById('h_d').value;
-  const res=document.getElementById('h2gRes');
-  if(!(y>=1300&&y<=1500)){res.className='result';res.innerHTML='<span class="err">السنة يجب أن تكون بين ١٣٠٠ و ١٥٠٠.</span>';return;}
-  const g=hijriToGreg(y,m,d),back=gregToHijri(g);
-  if(back.d!==d){res.className='result';res.innerHTML=`<span class="err">هذا اليوم غير موجود في ${hijriMonthNames[m]} ${ar(y)} (الشهر ${ar(hijriMonthLen(y,m))} يومًا).</span>`;return;}
-  res.className='result ok';
-  res.innerHTML=`${ar(d)} ${hijriMonthNames[m]} ${ar(y)} هـ يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtGregShort.format(g)} م</b>`;
+let convDir='h2g';
+function setConvDir(dir){
+  convDir=dir;
+  document.querySelectorAll('#convSeg .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.dir===dir));
+  document.getElementById('h2gInputs').hidden = dir!=='h2g';
+  document.getElementById('g2hInputs').hidden = dir!=='g2h';
+  const res=document.getElementById('convRes');
+  res.className='result';res.textContent='أدخل تاريخًا لعرض ما يقابله.';
 }
-function convertG2H(){
-  const v=document.getElementById('g_date').value,res=document.getElementById('g2hRes');
-  if(!v){res.className='result';res.innerHTML='<span class="err">اختر تاريخًا أولًا.</span>';return;}
-  const [Y,M,D]=v.split('-').map(Number),g=new Date(Date.UTC(Y,M-1,D));
-  res.className='result ok';
-  res.innerHTML=`${fmtGregShort.format(g)} م يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtHijriShort.format(g)}</b>`;
+function runConvert(){
+  const res=document.getElementById('convRes');
+  if(convDir==='h2g'){
+    const y=+document.getElementById('h_y').value,m=+document.getElementById('h_m').value,d=+document.getElementById('h_d').value;
+    if(!(y>=1300&&y<=1500)){res.className='result';res.innerHTML='<span class="err">السنة يجب أن تكون بين ١٣٠٠ و ١٥٠٠.</span>';return;}
+    const g=hijriToGreg(y,m,d),back=gregToHijri(g);
+    if(back.d!==d){res.className='result';res.innerHTML=`<span class="err">هذا اليوم غير موجود في ${hijriMonthNames[m]} ${ar(y)} (الشهر ${ar(hijriMonthLen(y,m))} يومًا).</span>`;return;}
+    res.className='result ok';
+    res.innerHTML=`${ar(d)} ${hijriMonthNames[m]} ${ar(y)} هـ يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtGregShort.format(g)} م</b>`;
+  }else{
+    const v=document.getElementById('g_date').value;
+    if(!v){res.className='result';res.innerHTML='<span class="err">اختر تاريخًا أولًا.</span>';return;}
+    const [Y,M,D]=v.split('-').map(Number),g=new Date(Date.UTC(Y,M-1,D));
+    res.className='result ok';
+    res.innerHTML=`${fmtGregShort.format(g)} م يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtHijriShort.format(g)}</b>`;
+  }
 }
 
 /* ---------- reveal on scroll ---------- */
@@ -517,8 +534,7 @@ function init(){
   document.getElementById('brandMark').innerHTML=ICONS.mark;
   document.getElementById('kickerMark').innerHTML=ICONS.mark;
   document.getElementById('footMark').innerHTML=ICONS.mark;
-  document.getElementById('ic-h2g').innerHTML=ICONS.convert;
-  document.getElementById('ic-g2h').innerHTML=ICONS.calc;
+  document.getElementById('ic-conv').innerHTML=ICONS.convert;
   initBackdrop();
   renderToday();
   buildEventsUI();
@@ -531,8 +547,8 @@ function init(){
   document.getElementById('themeBtn').addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
   document.getElementById('yearBtn').addEventListener('click',()=>renderYear(+document.getElementById('yearInput').value));
   document.getElementById('yearInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('yearBtn').click();});
-  document.getElementById('h2gBtn').addEventListener('click',convertH2G);
-  document.getElementById('g2hBtn').addEventListener('click',convertG2H);
+  document.querySelectorAll('#convSeg .seg-btn').forEach(b=>b.addEventListener('click',()=>setConvDir(b.dataset.dir)));
+  document.getElementById('convBtn').addEventListener('click',runConvert);
 
   const nav=document.getElementById('nav');
   const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>10);onScroll();
