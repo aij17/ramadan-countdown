@@ -187,10 +187,17 @@
   .credit b{color:var(--heading);font-weight:700;letter-spacing:.3px}
   .imgcredit{margin-top:16px;font-size:.72rem;color:var(--muted);opacity:.85}
   .imgcredit a{color:var(--primary);text-decoration:none}
+  .hadith{max-width:640px;margin:10px auto 24px;padding:24px 30px;border-radius:20px;
+    background:linear-gradient(180deg,var(--primary-tint),color-mix(in srgb,var(--primary-tint) 30%,transparent));
+    border:1px solid color-mix(in srgb,var(--primary) 26%,transparent);box-shadow:var(--shadow-sm);position:relative}
+  .hadith .horn{display:block;color:var(--primary);opacity:.6;font-size:1.15rem;letter-spacing:8px;margin-bottom:8px}
+  .hadith .htxt{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:clamp(1.08rem,2.8vw,1.42rem);
+    color:var(--heading);line-height:2.15;font-weight:500}
+  .hadith .hsrc{display:block;margin-top:12px;font-size:.85rem;color:var(--primary);font-weight:600}
 
   /* reveal-on-scroll — أقوى وأوضح + اتجاهي (عكسي عند السحب لأعلى) */
-  .reveal{opacity:0;transform:translateY(56px) scale(.965);filter:blur(7px);
-    transition:opacity .9s cubic-bezier(.18,.86,.28,1), transform 1s cubic-bezier(.18,.86,.28,1), filter .9s ease}
+  .reveal{opacity:0;transform:translateY(52px) scale(.97);filter:blur(3px);
+    transition:opacity .9s cubic-bezier(.18,.86,.28,1), transform 1s cubic-bezier(.18,.86,.28,1), filter .8s ease}
   .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
   body[data-sd="up"] .reveal:not(.in){transform:translateY(-56px) scale(.965)}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none}html{scroll-behavior:auto}}
@@ -303,6 +310,11 @@
     <div class="reveal">
       <div class="fmark" id="footMark"></div>
       <div class="fname">دُنُوّ</div>
+      <div class="hadith">
+        <span class="horn">۞ ۞ ۞</span>
+        <div class="htxt">«صُومُوا لِرُؤْيَتِهِ وَأَفْطِرُوا لِرُؤْيَتِهِ، فَإِنْ غُمَّ عَلَيْكُمْ فَأَكْمِلُوا الْعِدَّةَ ثَلَاثِينَ»</div>
+        <span class="hsrc">متفق عليه · من حديث أبي هريرة رضي الله عنه</span>
+      </div>
       <p>
         الحساب مبني على <b>تقويم أم القرى</b> الرسمي، ويغطي حتى ١٥٠٠ هجري.<br>
         مستند مفاهيميًا إلى كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا.<br>
@@ -353,16 +365,22 @@ const ICONS = {
   convert: S(`<path d="M4 8h13l-3-3M20 16H7l3 3"/>`),
   calc: S(`<rect x="5" y="3" width="14" height="18" rx="2.4"/><path d="M8 7h8M8 11h2M12 11h2M8 14.5h2M12 14.5h2M8 18h2M12 18h2"/>`),
 };
-/* شعار دُنُوّ: هلال يحتضن محرابًا بداخله مسجد — بدون نجوم */
-const LOGO=`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs><linearGradient id="lav" x1="8" y1="6" x2="54" y2="58" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="var(--primary-2)"/><stop offset="1" stop-color="var(--primary)"/></linearGradient></defs>
-  <path d="M41 6a26 26 0 1 0 0 52 20.6 20.6 0 1 1 0-52z" fill="url(#lav)"/>
-  <path d="M32 50V30a8.7 8.7 0 0 1 17.4 0v20" stroke="url(#lav)" stroke-width="3.3" stroke-linecap="round"/>
-  <path d="M29.5 50.5h22.4" stroke="url(#lav)" stroke-width="3.3" stroke-linecap="round"/>
-  <path d="M40.7 31.6c2.1 1.5 3.2 3.2 3.2 5.3h-6.4c0-2.1 1.1-3.8 3.2-5.3z" fill="url(#lav)"/>
-  <rect x="39.2" y="36.4" width="3" height="13.6" rx="1" fill="url(#lav)"/>
-  <path d="M40.7 30.4V28" stroke="url(#lav)" stroke-width="2" stroke-linecap="round"/>
+/* شعار دُنُوّ: أيقونة — هلال أبيض يحتضن محرابًا بداخله مسجد (بدون نجوم) */
+const LOGO=`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="dbg" x1="6" y1="4" x2="58" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8571c6"/><stop offset="1" stop-color="#584790"/></linearGradient>
+    <linearGradient id="dwin" x1="42" y1="14" x2="42" y2="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#463868"/><stop offset="1" stop-color="#b6a2e6"/></linearGradient>
+    <mask id="cres"><circle cx="39" cy="32" r="21" fill="#fff"/><circle cx="48.5" cy="30" r="17.6" fill="#000"/></mask>
+  </defs>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="16" fill="url(#dbg)"/>
+  <path d="M34.5 46V27c0-6.2 3-10.4 7.5-11.4 4.5 1 7.5 5.2 7.5 11.4v19z" fill="url(#dwin)"/>
+  <g fill="#5a4990">
+    <path d="M42 30c2 1.4 3.1 3.2 3.1 5.4h-6.2C38.9 33.2 40 31.4 42 30z"/>
+    <rect x="40.7" y="34.8" width="2.6" height="11.2" rx=".6"/>
+    <path d="M36 46v-6.4c0-1.3.9-2.2 1.9-2.2s1.9.9 1.9 2.2V46z" opacity=".72"/>
+    <path d="M44.2 46v-6.4c0-1.3.9-2.2 1.9-2.2s1.9.9 1.9 2.2V46z" opacity=".72"/>
+  </g>
+  <circle cx="39" cy="32" r="21" fill="#fdfcff" mask="url(#cres)"/>
 </svg>`;
 const gregMonthNames=["","يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 
