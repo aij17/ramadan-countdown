@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#6b4fa8">
-<meta name="description" content="دُنُوّ — مواسم الخير أقرب مما تظن. عدّاد تنازلي للمناسبات الهجرية: رمضان، عيد الفطر، يوم عرفة، عيد الأضحى، وبداية السنة الهجرية، بالتاريخين الهجري (أم القرى) والميلادي مع يوم الأسبوع، ومحوّل تواريخ حتى ١٥٠٠ هجري.">
+<meta name="description" content="دُنُوّ — مواسم الخير أقرب مما تظن. عدّاد تنازلي للمناسبات الهجرية: رمضان، عيد الفطر، يوم عرفة، عيد الأضحى، وبداية السنة الهجرية، بالتاريخين الهجري (أم القرى) والميلادي مع يوم الأسبوع، ومحوّل تواريخ حتى 1500 هجري.">
 <title>دُنُوّ — مواسم الخير أقرب مما تظن</title>
 <style>
   /* خط ثمانية — مستضاف محليًا داخل المستودع (بدون CDN طرف-ثالث) */
@@ -84,7 +84,7 @@
   .kicker svg{width:15px;height:15px}
   .hero h1{font-size:clamp(2.1rem,6.5vw,3.7rem);font-weight:700;line-height:1.35;margin:26px 0 0;
     letter-spacing:.5px;display:inline-block}
-  .hero h1 .hl{display:block;text-align:justify;text-align-last:justify} /* توازن السطرين: محاذاة من الطرفين */
+  .hero h1 .hl{display:block} /* السطران متوازنان بالمد (ـ) في النص */
   .hero .lead{font-size:clamp(1rem,2.6vw,1.18rem);color:var(--text);max-width:560px;margin:20px auto 0;font-weight:400;
     text-shadow:0 1px 10px rgba(246,242,251,.95)}
   .today-pill{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px;
@@ -239,7 +239,7 @@
 
 <header class="hero" id="hero">
   <div class="hero-inner">
-    <h1 class="reveal"><span class="hl">مواسم الخير</span><span class="hl">أقرب مما تظن</span></h1>
+    <h1 class="reveal"><span class="hl">مـــواسم الخير</span><span class="hl">أقرب مما تظن</span></h1>
     <p class="lead reveal">تابع العدّ التنازلي لأعظم المواسم — رمضان والعيدان ويوم عرفة وبداية العام الهجري — بالتقويمين الهجري والميلادي.</p>
     <div class="today-pill reveal">
       <span class="tp-lbl">اليوم</span>
@@ -278,7 +278,7 @@
     <div class="sec-head reveal">
       <span class="sec-kicker">استكشاف</span>
       <h2>مناسبات أي سنة هجرية</h2>
-      <p>اختر أي سنة من ١٣٠٠ إلى ١٥٠٠ هجري لعرض مواسمها وتواريخها الميلادية.</p>
+      <p>اختر أي سنة من 1300 إلى 1500 هجري لعرض مواسمها وتواريخها الميلادية.</p>
       <div class="rule"></div>
     </div>
     <div class="panel reveal">
@@ -288,7 +288,7 @@
         <button class="btn" id="yearBtn" type="button">عرض</button>
       </div>
       <div class="ylist" id="ylist"></div>
-      <p class="hint">المدى المدعوم: من ١٣٠٠ إلى ١٥٠٠ هجري.</p>
+      <p class="hint">المدى المدعوم: من 1300 إلى 1500 هجري.</p>
     </div>
   </section>
 
@@ -297,7 +297,7 @@
     <div class="sec-head reveal">
       <span class="sec-kicker">أداة</span>
       <h2>محوّل التواريخ</h2>
-      <p>حوّل بين التاريخين الهجري والميلادي في الاتجاهين حتى ١٥٠٠ هجري.</p>
+      <p>حوّل بين التاريخين الهجري والميلادي في الاتجاهين حتى 1500 هجري.</p>
       <div class="rule"></div>
     </div>
     <div class="panel reveal conv-max">
@@ -337,7 +337,7 @@
         <span class="hsrc">متفق عليه · من حديث أبي هريرة رضي الله عنه</span>
       </div>
       <p>
-        الحساب مبني على <b>تقويم أم القرى</b> الرسمي، ويغطي حتى ١٥٠٠ هجري.<br>
+        الحساب مبني على <b>تقويم أم القرى</b> الرسمي، ويغطي حتى 1500 هجري.<br>
         مستند مفاهيميًا إلى كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا.<br>
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
@@ -441,10 +441,10 @@ function buildEventsUI(){
       الموافق <b>${fmtGregShort.format(nearest.greg)} م</b>${lenNote?'<br>'+lenNote:''}
     </div>
     <div class="count" id="fcount">
-      <div class="u"><b data-d>٠</b><i>يوم</i></div>
-      <div class="u"><b data-h>٠</b><i>ساعة</i></div>
-      <div class="u"><b data-min>٠</b><i>دقيقة</i></div>
-      <div class="u"><b data-sec>٠</b><i>ثانية</i></div>
+      <div class="u"><b data-d>0</b><i>يوم</i></div>
+      <div class="u"><b data-h>0</b><i>ساعة</i></div>
+      <div class="u"><b data-min>0</b><i>دقيقة</i></div>
+      <div class="u"><b data-sec>0</b><i>ثانية</i></div>
     </div>`;
   liveEls.push({type:'featured',el:document.getElementById('fcount'),target:nearest.greg});
 
@@ -462,7 +462,7 @@ function buildEventsUI(){
         <div class="evsub">الموافق ${fmtGregShort.format(o.greg)} م${sub?' · '+sub:''}</div>
       </div>
       <div class="evcount">
-        <div class="n" data-d>٠</div><div class="l">يوم متبقٍّ</div>
+        <div class="n" data-d>0</div><div class="l">يوم متبقٍّ</div>
       </div>`;
     box.appendChild(el);
     liveEls.push({type:'row',el,target:o.greg});
@@ -475,7 +475,7 @@ function tick(){
   for(const s of liveEls){
     const diff=s.target.getTime()-now;
     if(diff<=0 && diff>-DAY){
-      if(s.type==='featured'){s.el.querySelectorAll('b').forEach(b=>b.textContent='٠');}
+      if(s.type==='featured'){s.el.querySelectorAll('b').forEach(b=>b.textContent='0');}
       else{s.el.classList.add('is-today');s.el.querySelector('[data-d]').textContent='اليوم';}
       continue;
     }
@@ -496,7 +496,7 @@ function tick(){
 /* ---------- year explorer ---------- */
 function renderYear(hy){
   const list=document.getElementById('ylist');
-  if(!(hy>=1300&&hy<=1500)){list.innerHTML=`<div class="yitem"><span class="err" style="color:#d9534f">أدخل سنة بين ١٣٠٠ و ١٥٠٠.</span></div>`;return;}
+  if(!(hy>=1300&&hy<=1500)){list.innerHTML=`<div class="yitem"><span class="err" style="color:#d9534f">أدخل سنة بين 1300 و 1500.</span></div>`;return;}
   list.innerHTML='';
   for(const ev of EVENTS){
     const g=hijriToGreg(hy,ev.m,ev.d);
@@ -534,7 +534,7 @@ function runConvert(){
   const res=document.getElementById('convRes');
   if(convDir==='h2g'){
     const y=numVal('h_y'),m=+document.getElementById('h_m').value,d=+document.getElementById('h_d').value;
-    if(!(y>=1300&&y<=1500)){res.className='result';res.innerHTML='<span class="err">السنة يجب أن تكون بين ١٣٠٠ و ١٥٠٠.</span>';return;}
+    if(!(y>=1300&&y<=1500)){res.className='result';res.innerHTML='<span class="err">السنة يجب أن تكون بين 1300 و 1500.</span>';return;}
     const g=hijriToGreg(y,m,d),back=gregToHijri(g);
     if(back.d!==d){res.className='result';res.innerHTML=`<span class="err">هذا اليوم غير موجود في ${hijriMonthNames[m]} ${ar(y)} (الشهر ${ar(hijriMonthLen(y,m))} يومًا).</span>`;return;}
     res.className='result ok';
