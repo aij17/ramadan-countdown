@@ -350,6 +350,7 @@
 <script>
 "use strict";
 const DAY = 86400000;
+const MECCA_OFFSET = 3*3600000; // توقيت مكة UTC+3 (بدون توقيت صيفي) — العدّاد ينزل صفر عند منتصف ليل مكة
 
 /* ---------- icons (hand-drawn line SVGs, no emoji) ---------- */
 const S = (p,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" ${extra}>${p}</svg>`;
@@ -400,7 +401,7 @@ function gregToHijri(date){const o={};for(const p of fmtHijriNum.formatToParts(d
 function cmp(a,b){if(a.y!==b.y)return a.y-b.y;if(a.m!==b.m)return a.m-b.m;return a.d-b.d;}
 function hijriToGreg(hy,hm,hd){const t={y:hy,m:hm,d:hd};let lo=Math.floor(Date.UTC(622,0,1)/DAY),hi=Math.floor(Date.UTC(2100,0,1)/DAY);
   while(lo<hi){const mid=Math.floor((lo+hi)/2);if(cmp(gregToHijri(new Date(mid*DAY)),t)<0)lo=mid+1;else hi=mid;}return new Date(lo*DAY);}
-function todayUTC(){const n=new Date();return new Date(Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()));}
+function todayUTC(){const m=new Date(Date.now()+MECCA_OFFSET);return new Date(Date.UTC(m.getUTCFullYear(),m.getUTCMonth(),m.getUTCDate()));} // "اليوم" حسب تاريخ مكة
 function hijriMonthLen(hy,hm){const a=hijriToGreg(hy,hm,1);const nm=hm===12?1:hm+1,ny=hm===12?hy+1:hy;const b=hijriToGreg(ny,nm,1);return Math.round((b-a)/DAY);}
 
 /* ---------- events ---------- */
@@ -473,7 +474,7 @@ function buildEventsUI(){
 function tick(){
   const now=Date.now();
   for(const s of liveEls){
-    const diff=s.target.getTime()-now;
+    const diff=(s.target.getTime()-MECCA_OFFSET)-now; // العدّ إلى منتصف ليل مكة للتاريخ
     if(diff<=0 && diff>-DAY){
       if(s.type==='featured'){s.el.querySelectorAll('b').forEach(b=>b.textContent='0');}
       else{s.el.classList.add('is-today');s.el.querySelector('[data-d]').textContent='اليوم';}
