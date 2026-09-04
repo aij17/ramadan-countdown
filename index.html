@@ -3,289 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6b4fa8">
-<meta name="description" content="دُنُوّ — مواسم الخير أقرب مما تظن. عدّاد تنازلي للمناسبات الهجرية: رمضان، عيد الفطر، يوم عرفة، عيد الأضحى، وبداية السنة الهجرية، بالتاريخين الهجري (أم القرى) والميلادي مع يوم الأسبوع، ومحوّل تواريخ حتى ١٥٠٠ هجري.">
+<meta name="theme-color" content="#7b68b6">
+<meta name="description" content="دُنُوّ — مواسم الخير أقرب مما تظن. عدّاد تنازلي للمناسبات الإسلامية: رمضان، العيدان، عرفة، التروية، المولد النبوي، عاشوراء وبداية السنة الهجرية، بالتقويمين الهجري (أم القرى) والميلادي مع يوم الأسبوع، ومحوّل تواريخ حتى ١٥٠٠ هجري.">
 <title>دُنُوّ — مواسم الخير أقرب مما تظن</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/npm/@dawod/thmanyah-font-web/index.css" rel="stylesheet">
 <style>
   :root{
-    --bg:#f6f2fb; --bg-2:#efe8f8; --surface:#ffffff; --surface-2:#f7f2fd;
-    --line:#e6ddf2; --line-2:#efe8f9;
-    --primary:#6b4fa8; --primary-2:#8a6bd0; --primary-tint:#efe7fb;
-    --heading:#2a2140; --text:#4a4360; --muted:#948aa8;
-    --shadow:0 1px 2px rgba(43,33,64,.04), 0 12px 34px rgba(76,55,120,.08);
-    --shadow-sm:0 1px 2px rgba(43,33,64,.05), 0 6px 18px rgba(76,55,120,.06);
-    --radius:18px;
+    --bg:#f4f1fa; --bg-2:#ece6f6; --surface:#ffffff; --surface-2:#f7f3fd; --glass:rgba(255,255,255,.72);
+    --line:#e5ddf2; --line-2:#efe9f8;
+    --primary:#7b68b6; --primary-2:#9781cf; --primary-d:#5c4a94; --primary-tint:#ece5fa;
+    --heading:#342a52; --text:#544c6b; --muted:#948caa;
+    --shadow:0 2px 6px rgba(52,42,82,.05), 0 18px 44px rgba(76,55,120,.10);
+    --shadow-sm:0 1px 3px rgba(52,42,82,.05), 0 8px 22px rgba(76,55,120,.07);
+    --radius:20px;
+    /* hero scene */
+    --sky-1:#d9ccef; --sky-2:#c7b6e6; --sky-3:#efdce6; --mtn-1:#b9a6dd; --mtn-2:#a894d1; --mtn-3:#9781c4;
+    --mosque:#8f79c4; --moon:#fbf5ff; --win:#ffd98a; --water:#cbbbe6;
   }
   [data-theme="dark"]{
-    --bg:#161020; --bg-2:#1c1428; --surface:#211930; --surface-2:#281e3a;
-    --line:#352a49; --line-2:#2c223d;
-    --primary:#b99cf0; --primary-2:#a082e6; --primary-tint:#2a2040;
-    --heading:#f1ebfb; --text:#cbc2df; --muted:#8d82a8;
-    --shadow:0 1px 2px rgba(0,0,0,.3), 0 16px 40px rgba(0,0,0,.35);
-    --shadow-sm:0 1px 2px rgba(0,0,0,.25), 0 8px 22px rgba(0,0,0,.28);
+    --bg:#151021; --bg-2:#1c1530; --surface:#221a35; --surface-2:#291f3f; --glass:rgba(40,30,62,.66);
+    --line:#352a4d; --line-2:#2c2240;
+    --primary:#b49ef0; --primary-2:#a184e8; --primary-d:#c9b6ff; --primary-tint:#2c2146;
+    --heading:#f0eafb; --text:#cbc2e0; --muted:#8f84ab;
+    --shadow:0 2px 6px rgba(0,0,0,.3), 0 20px 46px rgba(0,0,0,.4);
+    --shadow-sm:0 1px 3px rgba(0,0,0,.25), 0 10px 24px rgba(0,0,0,.3);
+    --sky-1:#2a2145; --sky-2:#33285a; --sky-3:#4a2f52; --mtn-1:#241c3d; --mtn-2:#2c2249; --mtn-3:#352a56;
+    --mosque:#4a3b73; --moon:#efe6ff; --win:#ffcf7a; --water:#2a2145;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{
-    font-family:"Thmanyah Sans",system-ui,"Segoe UI",Tahoma,sans-serif;
-    background:var(--bg); color:var(--text); line-height:1.85; font-weight:400;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-    overflow-x:hidden;
-  }
-  h1,h2,h3,.brand-name,.display{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;color:var(--heading)}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+  body{font-family:"Thmanyah Sans",system-ui,"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--text);
+    line-height:1.85;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  h1,h2,h3,.display,.brand-name,.ename,.fname{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;color:var(--heading)}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
   ::selection{background:var(--primary-tint);color:var(--heading)}
+  a{color:inherit;text-decoration:none}
 
-  /* geometric backdrop */
-  .backdrop{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5}
-  .backdrop svg{position:absolute;color:var(--primary)}
-
-  /* Nav */
-  nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 82%, transparent);
-    backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);
-    border-bottom:1px solid transparent;transition:border-color .3s, background .3s}
-  nav.scrolled{border-bottom-color:var(--line)}
-  .nav-in{max-width:1000px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 80%,transparent);
+    backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);
+    border-bottom:1px solid transparent;transition:.3s}
+  nav.scrolled{border-bottom-color:var(--line);background:color-mix(in srgb,var(--bg) 92%,transparent)}
+  .nav-in{max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
   .brand{display:flex;align-items:center;gap:11px}
-  .brand .mark{width:34px;height:34px;color:var(--primary);flex:none}
-  .brand-name{font-size:1.5rem;font-weight:700;color:var(--heading);letter-spacing:.5px;line-height:1}
-  .brand .tag{font-size:.72rem;color:var(--muted);margin-top:2px;font-weight:400}
+  .brand .logo{width:42px;height:42px;flex:none}
+  .brand .bt{line-height:1.05}
+  .brand-name{font-size:1.5rem;font-weight:700;letter-spacing:.5px}
+  .brand .tag{font-size:.64rem;color:var(--muted);letter-spacing:3px;font-weight:500}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a{font-size:.98rem;font-weight:500;color:var(--text);position:relative;padding:6px 0;transition:.2s}
+  .nav-links a:hover{color:var(--primary)}
+  .nav-links a.active{color:var(--primary);font-weight:600}
+  .nav-links a.active::after{content:"";position:absolute;bottom:0;right:0;left:0;height:2px;background:var(--primary);border-radius:2px}
+  .nav-actions{display:flex;align-items:center;gap:10px}
   .icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);
     color:var(--primary);cursor:pointer;display:grid;place-items:center;transition:.2s}
   .icon-btn:hover{border-color:var(--primary);transform:translateY(-1px)}
   .icon-btn svg{width:19px;height:19px}
+  .pill-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);
+    color:var(--heading);padding:9px 16px;border-radius:999px;font-weight:600;font-size:.92rem;cursor:pointer;transition:.2s;font-family:inherit}
+  .pill-btn svg{width:16px;height:16px;color:var(--primary)}
+  .pill-btn:hover{border-color:var(--primary);transform:translateY(-1px)}
+  @media(max-width:900px){.nav-links{display:none}}
 
-  /* Hero */
-  .hero{padding:74px 0 40px;text-align:center;position:relative}
-  .kicker{display:inline-flex;align-items:center;gap:9px;color:var(--primary);font-weight:600;
-    font-size:.82rem;letter-spacing:2px;background:var(--primary-tint);padding:7px 16px;border-radius:999px;
-    border:1px solid color-mix(in srgb,var(--primary) 22%,transparent)}
-  .kicker svg{width:15px;height:15px}
-  .hero h1{font-size:clamp(2.1rem,6.5vw,3.7rem);font-weight:700;line-height:1.3;margin:26px 0 0;
-    letter-spacing:.5px}
-  .hero .lead{font-size:clamp(1rem,2.6vw,1.18rem);color:var(--text);max-width:560px;margin:20px auto 0;font-weight:300}
-  .today-pill{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px;
-    margin-top:32px;padding:14px 24px;background:var(--surface);border:1px solid var(--line);
-    border-radius:16px;box-shadow:var(--shadow-sm)}
-  .today-pill .tp-lbl{color:var(--muted);font-size:.82rem;font-weight:500}
-  .today-pill .tp-h{color:var(--heading);font-weight:600;font-size:1.02rem}
-  .today-pill .tp-sep{width:1px;height:16px;background:var(--line);display:inline-block}
-  .today-pill .tp-g{color:var(--text);font-size:.92rem}
+  /* HERO */
+  .hero{position:relative;border-radius:0 0 34px 34px;overflow:hidden;isolation:isolate}
+  .hero-scene{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+  .hero-scene svg{width:100%;height:100%;display:block}
+  .hero-in{max-width:1240px;margin:0 auto;padding:70px 24px 90px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;min-height:520px}
+  .hero-copy .htitle{font-size:clamp(2rem,4.4vw,3.3rem);font-weight:700;line-height:1.32;color:var(--heading);text-shadow:0 2px 20px rgba(255,255,255,.35)}
+  [data-theme="dark"] .hero-copy .htitle{text-shadow:0 2px 24px rgba(0,0,0,.4)}
+  .hero-copy .hsub{margin-top:14px;font-size:1.05rem;color:var(--text);font-weight:300}
+  /* featured glass card */
+  .featured{background:var(--glass);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);
+    border:1px solid rgba(255,255,255,.5);border-radius:26px;padding:28px 30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  [data-theme="dark"] .featured{border-color:rgba(255,255,255,.08)}
+  .featured .fdeco{position:absolute;top:-10px;left:-16px;width:150px;height:150px;color:var(--primary);opacity:.14;pointer-events:none}
+  .featured .flabel{display:inline-flex;align-items:center;gap:7px;color:var(--primary);font-weight:600;font-size:.82rem;letter-spacing:1px}
+  .featured .flabel svg{width:15px;height:15px}
+  .fhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-top:12px}
+  .featured .fname{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:700;line-height:1.2}
+  .featured .fdates{margin-top:12px;color:var(--text);font-size:.98rem;line-height:2}
+  .featured .fdates b{color:var(--heading);font-weight:600}
+  .featured .ficon{width:66px;height:66px;flex:none;color:var(--primary)}
+  .featured .fnote{display:inline-block;margin-top:2px;color:var(--muted);font-size:.85rem;background:var(--primary-tint);
+    border-radius:999px;padding:3px 12px}
+  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+  .count .u{text-align:center;background:color-mix(in srgb,var(--surface) 55%,transparent);border:1px solid var(--line-2);border-radius:15px;padding:14px 6px}
+  .count .u b{display:block;font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;color:var(--heading);line-height:1;font-variant-numeric:tabular-nums;font-family:"Thmanyah Serif Display",serif}
+  .count .u i{font-style:normal;font-size:.74rem;color:var(--muted);margin-top:7px;display:block;font-weight:500}
+  .fbtn{margin-top:22px;display:inline-flex;align-items:center;gap:10px;background:var(--primary);color:#fff;border:none;
+    border-radius:14px;padding:13px 24px;font-weight:600;font-size:1rem;cursor:pointer;font-family:inherit;transition:.2s}
+  .fbtn svg{width:17px;height:17px}
+  .fbtn:hover{background:var(--primary-2);transform:translateY(-1px)}
+  @media(max-width:860px){.hero-in{grid-template-columns:1fr;padding-top:40px;padding-bottom:60px}
+    .hero-copy{text-align:center}}
 
-  /* Section shell */
-  section{padding:52px 0}
-  .sec-head{margin-bottom:30px}
-  .sec-kicker{color:var(--primary);font-weight:600;font-size:.8rem;letter-spacing:2px;display:block;margin-bottom:8px}
-  .sec-head h2{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:600;line-height:1.35}
-  .sec-head p{color:var(--muted);margin-top:8px;font-weight:300;max-width:560px}
-  .rule{width:46px;height:3px;background:var(--primary);border-radius:3px;margin-top:16px;opacity:.85}
+  /* SECTIONS */
+  section{padding:64px 0}
+  .sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:34px}
+  .sec-head.rowed{flex-direction:row;justify-content:space-between;align-items:flex-end;text-align:right}
+  .sec-kicker{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-weight:600;font-size:.82rem;letter-spacing:2px;margin-bottom:6px}
+  .sec-kicker svg{width:15px;height:15px}
+  .sec-head h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700}
+  .sec-head p{color:var(--muted);margin-top:6px;font-weight:300}
 
-  /* Featured next event */
-  .featured{background:linear-gradient(180deg,var(--surface),var(--surface-2));
-    border:1px solid var(--line);border-radius:26px;padding:36px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-  .featured .fpattern{position:absolute;top:-30px;left:-30px;width:200px;height:200px;color:var(--primary);opacity:.06;pointer-events:none}
-  .featured .flabel{color:var(--primary);font-weight:600;font-size:.8rem;letter-spacing:2px}
-  .featured .ftitle{display:flex;align-items:center;gap:16px;margin-top:16px}
-  .featured .ficon{width:60px;height:60px;flex:none;color:var(--primary);background:var(--primary-tint);
-    border-radius:16px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--primary) 20%,transparent)}
-  .featured .ficon svg{width:34px;height:34px}
-  .featured .fname{font-size:clamp(1.7rem,5vw,2.4rem);font-weight:700;color:var(--heading);line-height:1.2}
-  .featured .fmeta{color:var(--text);margin-top:16px;font-size:1.02rem;line-height:2}
-  .featured .fmeta b{color:var(--heading);font-weight:600}
-  .featured .fmeta .day-tag{color:var(--primary);font-weight:600}
-  .featured .fnote{display:inline-block;margin-top:4px;color:var(--muted);font-size:.9rem;
-    background:var(--bg-2);border:1px solid var(--line);padding:4px 12px;border-radius:999px}
-  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
-  .count .u{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 8px;text-align:center}
-  .count .u b{display:block;font-size:clamp(1.6rem,6vw,2.4rem);font-weight:700;color:var(--heading);
-    line-height:1;font-variant-numeric:tabular-nums}
-  .count .u i{font-style:normal;font-size:.78rem;color:var(--muted);margin-top:8px;display:block;font-weight:500}
+  /* EVENTS CAROUSEL */
+  .carousel-wrap{position:relative}
+  .carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scroll-behavior:smooth;
+    scrollbar-width:none}
+  .carousel::-webkit-scrollbar{display:none}
+  .ecard{scroll-snap-align:start;flex:0 0 232px;background:var(--surface);border:1px solid var(--line);border-radius:22px;
+    overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .25s, box-shadow .25s;display:flex;flex-direction:column}
+  .ecard:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .ethumb{height:118px;position:relative;overflow:hidden;display:grid;place-items:center}
+  .ethumb .esil{position:absolute;bottom:0;left:0;width:100%;height:64px;color:#fff;opacity:.22}
+  .ethumb .eic{width:40px;height:40px;color:#fff;position:relative;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
+  .ebody{padding:16px 18px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+  .ecard .ename{font-size:1.12rem;font-weight:600}
+  .ecard .ed{font-size:.82rem;color:var(--text)}
+  .ecard .eg{font-size:.78rem;color:var(--muted)}
+  .ecard .edays{margin-top:10px}
+  .ecard .edays b{font-size:1.9rem;font-weight:700;color:var(--heading);font-family:"Thmanyah Serif Display",serif;line-height:1;font-variant-numeric:tabular-nums}
+  .ecard .edays i{font-style:normal;font-size:.78rem;color:var(--muted);display:block}
+  .ecard .edetails{margin-top:12px;color:var(--primary);font-weight:600;font-size:.86rem;cursor:pointer;border-top:1px solid var(--line-2);width:100%;padding-top:12px}
+  .ecard.is-next{outline:2px solid var(--primary);outline-offset:0}
+  .ecard.is-next .ebody{background:linear-gradient(180deg,transparent,var(--primary-tint))}
+  .cbtn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+    background:var(--surface);color:var(--primary);cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow-sm);z-index:5;transition:.2s}
+  .cbtn:hover{border-color:var(--primary);background:var(--primary);color:#fff}
+  .cbtn svg{width:20px;height:20px}
+  .cbtn.prev{left:-8px}.cbtn.next{right:-8px}
+  @media(max-width:600px){.cbtn{display:none}}
 
-  /* Events list */
-  .events{display:flex;flex-direction:column;gap:14px}
-  .ev{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm);transition:transform .25s, border-color .25s}
-  .ev:hover{transform:translateX(-4px);border-color:color-mix(in srgb,var(--primary) 40%,var(--line))}
-  .ev .evicon{width:52px;height:52px;flex:none;color:var(--primary);background:var(--primary-tint);
-    border-radius:14px;display:grid;place-items:center;border:1px solid var(--line-2)}
-  .ev .evicon svg{width:30px;height:30px}
-  .ev .evbody{flex:1;min-width:0}
-  .ev .evname{font-size:1.22rem;font-weight:600;color:var(--heading);font-family:"Thmanyah Serif Display","Thmanyah Sans",serif}
-  .ev .evdate{font-size:.9rem;color:var(--text);margin-top:3px}
-  .ev .evdate .wd{color:var(--primary);font-weight:600}
-  .ev .evdate .sep{color:var(--muted);margin:0 6px}
-  .ev .evsub{font-size:.82rem;color:var(--muted);margin-top:2px}
-  .ev .evcount{flex:none;text-align:center;min-width:96px;border-inline-start:1px solid var(--line);padding-inline-start:18px}
-  .ev .evcount .n{font-size:2rem;font-weight:700;color:var(--heading);line-height:1;font-variant-numeric:tabular-nums}
-  .ev .evcount .l{font-size:.74rem;color:var(--muted);margin-top:4px}
-  .ev .evcount .t{font-size:.72rem;color:var(--primary);margin-top:6px;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
-  .ev.is-today .evcount .n{font-size:1.15rem;color:var(--primary)}
-  @media(max-width:560px){
-    .ev{flex-wrap:wrap;gap:14px}
-    .ev .evcount{min-width:0;border-inline-start:none;padding-inline-start:0;border-top:1px solid var(--line);
-      padding-top:12px;width:100%;display:flex;align-items:baseline;justify-content:center;gap:8px;text-align:center}
-    .ev .evcount .l{margin-top:0}
-    .ev .evcount .t{margin-top:0;margin-inline-start:auto}
-  }
-
-  /* Cards / tools */
-  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    padding:26px;box-shadow:var(--shadow-sm)}
+  /* PANELS (year + converter) */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm)}
   .panel h3{font-size:1.12rem;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:10px;color:var(--heading)}
   .panel h3 svg{width:22px;height:22px;color:var(--primary)}
-  .picker{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+  .picker{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
   .picker label{font-weight:600;color:var(--heading)}
   label.fl{display:block;font-size:.82rem;color:var(--muted);margin-bottom:6px;font-weight:500}
   .row{display:flex;gap:10px}
-  input,select{width:100%;background:var(--bg);color:var(--heading);border:1px solid var(--line);
-    border-radius:12px;padding:12px 13px;font-size:1rem;font-family:inherit;transition:.15s}
+  input,select{width:100%;background:var(--bg);color:var(--heading);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:1rem;font-family:inherit;transition:.15s}
   input:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-tint)}
-  .btn{background:var(--primary);color:#fff;border:none;border-radius:12px;padding:13px 18px;font-size:1rem;
-    font-weight:600;cursor:pointer;font-family:inherit;transition:.15s;letter-spacing:.3px}
+  .btn{background:var(--primary);color:#fff;border:none;border-radius:12px;padding:13px 18px;font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s}
   .btn:hover{background:var(--primary-2);transform:translateY(-1px)}
   .btn.full{width:100%}
-  .result{margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:12px;
-    padding:15px 16px;font-size:1rem;color:var(--text)}
+  .result{margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:15px 16px;font-size:1rem;color:var(--text)}
   .result.ok{border-color:color-mix(in srgb,var(--primary) 45%,var(--line))}
   .result b{color:var(--heading);font-weight:600}
   .result .wd{color:var(--primary);font-weight:600}
   .result .err{color:#d9534f}
   [data-theme="dark"] .result .err{color:#ff8f8f}
   .seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:4px;gap:4px;margin-bottom:22px}
-  .seg-btn{flex:1;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:.95rem;
-    font-weight:600;padding:11px 8px;border-radius:9px;cursor:pointer;transition:.18s;display:flex;align-items:center;justify-content:center;gap:8px}
-  .seg-btn svg{width:17px;height:17px}
+  .seg-btn{flex:1;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:.95rem;font-weight:600;padding:11px 8px;border-radius:9px;cursor:pointer;transition:.18s}
   .seg-btn.active{background:var(--primary);color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--primary) 35%,transparent)}
   .conv-inputs{min-height:74px}
-  .conv-max{max-width:520px;margin:0 auto}
-
-  /* Year list */
-  .ylist{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-  .yitem{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
-  .yitem .yn{font-weight:600;color:var(--heading);display:flex;align-items:center;gap:9px;font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:1.05rem}
-  .yitem .yn svg{width:22px;height:22px;color:var(--primary);flex:none}
-  .yitem .yd{font-size:.86rem;color:var(--text);margin-top:8px}
+  .ylist{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:12px}
+  .yitem{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .yitem .yn{font-weight:600;color:var(--heading);display:flex;align-items:center;gap:8px;font-family:"Thmanyah Serif Display",serif;font-size:1.02rem}
+  .yitem .yn svg{width:20px;height:20px;color:var(--primary);flex:none}
+  .yitem .yd{font-size:.84rem;color:var(--text);margin-top:6px}
   .yitem .yd .wd{color:var(--primary);font-weight:600}
-  .yitem .yg{font-size:.82rem;color:var(--muted);margin-top:2px}
+  .yitem .yg{font-size:.8rem;color:var(--muted)}
   .hint{font-size:.82rem;color:var(--muted);margin-top:14px}
 
-  footer{border-top:1px solid var(--line);margin-top:30px;padding:40px 0 60px;text-align:center}
-  footer .fmark{width:40px;height:40px;color:var(--primary);margin:0 auto 14px}
-  footer .fname{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:1.5rem;color:var(--heading);font-weight:700}
+  /* FOOTER */
+  .quote{text-align:center;font-family:"Thmanyah Serif Display",serif;color:var(--primary-d);font-size:clamp(1.1rem,3vw,1.6rem);
+    font-weight:500;padding:10px 0}
+  .quote span{color:var(--primary);opacity:.6;margin:0 10px}
+  footer{border-top:1px solid var(--line);margin-top:24px;padding:48px 0 40px;text-align:center}
+  footer .logo{width:56px;height:56px;margin:0 auto 12px}
+  footer .fname{font-size:1.6rem;font-weight:700}
   footer .fslogan{color:var(--primary);font-size:.95rem;margin-top:2px;margin-bottom:16px}
-  footer p{color:var(--muted);font-size:.85rem;line-height:2;max-width:560px;margin:0 auto}
+  footer p{color:var(--muted);font-size:.85rem;line-height:2;max-width:600px;margin:0 auto}
   footer b{color:var(--text);font-weight:600}
+  .credit{margin-top:22px;display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);
+    border-radius:999px;padding:8px 8px 8px 18px;font-size:.9rem;color:var(--text);font-weight:500}
+  .credit .cmark{width:30px;height:30px;flex:none;border-radius:50%}
+  .credit b{color:var(--heading);font-weight:700}
 
-  /* reveal-on-scroll */
-  .reveal{opacity:0;transform:translateY(30px);
-    transition:opacity .8s cubic-bezier(.16,.7,.2,1), transform .8s cubic-bezier(.16,.7,.2,1)}
+  /* reveal (repeatable) */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .7s cubic-bezier(.16,.7,.2,1), transform .7s cubic-bezier(.16,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<div class="backdrop" id="backdrop"></div>
 
 <nav id="nav">
   <div class="nav-in">
     <div class="brand">
-      <span class="mark" id="brandMark"></span>
-      <div>
-        <div class="brand-name">دُنُوّ</div>
-        <div class="tag">مواسم الخير أقرب مما تظن</div>
-      </div>
+      <span class="logo" id="brandLogo"></span>
+      <div class="bt"><div class="brand-name">دُنُوّ</div><div class="tag">DUNU</div></div>
     </div>
-    <button class="icon-btn" id="themeBtn" type="button" aria-label="تبديل السمة"></button>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="active">الرئيسية</a>
+      <a href="#events">المناسبات</a>
+      <a href="#calendar">التقويم الهجري</a>
+      <a href="#about">عن دُنُوّ</a>
+    </div>
+    <div class="nav-actions">
+      <button class="pill-btn" id="calBtn" type="button"><span id="ic-cal"></span> التقويم</button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="تبديل السمة"></button>
+    </div>
   </div>
 </nav>
 
+<!-- HERO -->
+<header class="hero" id="home">
+  <div class="hero-scene" id="heroScene"></div>
+  <div class="hero-in">
+    <div class="hero-copy reveal">
+      <h1 class="htitle">مواسم الخير<br>أقرب مما تظن ..</h1>
+      <p class="hsub">تابع العدّ التنازلي لأعظم المواسم الإسلامية بالتقويمين الهجري والميلادي، ويوم وقوعها من الأسبوع.</p>
+    </div>
+    <div class="featured reveal" id="featured"></div>
+  </div>
+</header>
+
 <div class="wrap">
 
-  <!-- HERO -->
-  <header class="hero">
-    <span class="kicker reveal"><span id="kickerMark"></span> دُنُوّ · مواسم الخير</span>
-    <h1 class="reveal">مواسم الخير<br>أقرب مما تظن</h1>
-    <p class="lead reveal">تابع العدّ التنازلي لأعظم المواسم — رمضان والعيدان ويوم عرفة وبداية العام الهجري — بالتقويمين الهجري والميلادي ويوم الأسبوع.</p>
-    <div class="today-pill reveal">
-      <span class="tp-lbl">اليوم</span>
-      <span class="tp-h" id="tHijri">—</span>
-      <span class="tp-sep"></span>
-      <span class="tp-g" id="tGreg">—</span>
-    </div>
-  </header>
-
-  <!-- FEATURED -->
-  <section aria-label="المناسبة القادمة">
-    <div class="featured reveal" id="featured"></div>
-  </section>
-
-  <!-- ALL EVENTS -->
-  <section>
-    <div class="sec-head reveal">
-      <span class="sec-kicker">التقويم القادم</span>
-      <h2>المواسم القادمة على التوالي</h2>
-      <p>كل موسم بتاريخه الهجري والميلادي، ويوم وقوعه من الأسبوع، والمتبقّي عليه.</p>
-      <div class="rule"></div>
-    </div>
-    <div class="events" id="events"></div>
-  </section>
-
-  <!-- YEAR EXPLORER -->
-  <section>
-    <div class="sec-head reveal">
-      <span class="sec-kicker">استكشاف</span>
-      <h2>مناسبات أي سنة هجرية</h2>
-      <p>اختر أي سنة من ١٣٠٠ إلى ١٥٠٠ هجري لعرض مواسمها وتواريخها الميلادية.</p>
-      <div class="rule"></div>
-    </div>
-    <div class="panel reveal">
-      <div class="picker">
-        <label for="yearInput">السنة الهجرية</label>
-        <input type="number" id="yearInput" min="1300" max="1500" step="1" inputmode="numeric" style="max-width:150px">
-        <button class="btn" id="yearBtn" type="button">عرض</button>
+  <!-- EVENTS -->
+  <section id="events">
+    <div class="sec-head rowed reveal">
+      <div>
+        <span class="sec-kicker"><span id="ic-spark1"></span> مواعيد أهم المناسبات والمواسم الإسلامية</span>
+        <h2>المناسبات الإسلامية</h2>
       </div>
-      <div class="ylist" id="ylist"></div>
-      <p class="hint">المدى المدعوم: من ١٣٠٠ إلى ١٥٠٠ هجري.</p>
+      <a href="#calendar" class="pill-btn">استكشف التقويم <span id="ic-cal2"></span></a>
+    </div>
+    <div class="carousel-wrap">
+      <button class="cbtn prev" id="carPrev" type="button" aria-label="السابق"></button>
+      <button class="cbtn next" id="carNext" type="button" aria-label="التالي"></button>
+      <div class="carousel" id="carousel"></div>
     </div>
   </section>
 
-  <!-- CONVERTER -->
-  <section>
+  <!-- CALENDAR TOOLS -->
+  <section id="calendar">
     <div class="sec-head reveal">
-      <span class="sec-kicker">أداة</span>
-      <h2>محوّل التواريخ</h2>
-      <p>حوّل بين التاريخين الهجري والميلادي في الاتجاهين حتى ١٥٠٠ هجري.</p>
-      <div class="rule"></div>
+      <span class="sec-kicker"><span id="ic-spark2"></span> التقويم الهجري</span>
+      <h2>استكشف أي سنة وحوّل التواريخ</h2>
+      <p>من ١٣٠٠ إلى ١٥٠٠ هجري — حسب تقويم أم القرى الرسمي.</p>
     </div>
-    <div class="panel reveal conv-max">
-      <h3><span id="ic-conv"></span> محوّل التواريخ</h3>
-      <div class="seg" id="convSeg">
-        <button class="seg-btn active" type="button" data-dir="h2g">هجري ← ميلادي</button>
-        <button class="seg-btn" type="button" data-dir="g2h">ميلادي ← هجري</button>
+    <div class="grid2">
+      <div class="panel reveal">
+        <h3><span id="ic-year"></span> مناسبات سنة هجرية</h3>
+        <div class="picker">
+          <label for="yearInput">السنة الهجرية</label>
+          <input type="number" id="yearInput" min="1300" max="1500" step="1" inputmode="numeric" style="max-width:140px">
+          <button class="btn" id="yearBtn" type="button">عرض</button>
+        </div>
+        <div class="ylist" id="ylist"></div>
       </div>
-      <div class="conv-inputs">
-        <div id="h2gInputs">
-          <div class="row">
-            <div style="flex:1"><label class="fl">اليوم</label><select id="h_d"></select></div>
-            <div style="flex:2"><label class="fl">الشهر</label><select id="h_m"></select></div>
-            <div style="flex:1.3"><label class="fl">السنة الهجرية</label><input type="number" id="h_y" min="1300" max="1500" inputmode="numeric"></div>
+      <div class="panel reveal">
+        <h3><span id="ic-conv"></span> محوّل التواريخ</h3>
+        <div class="seg" id="convSeg">
+          <button class="seg-btn active" type="button" data-dir="h2g">هجري ← ميلادي</button>
+          <button class="seg-btn" type="button" data-dir="g2h">ميلادي ← هجري</button>
+        </div>
+        <div class="conv-inputs">
+          <div id="h2gInputs">
+            <div class="row">
+              <div style="flex:1"><label class="fl">اليوم</label><select id="h_d"></select></div>
+              <div style="flex:2"><label class="fl">الشهر</label><select id="h_m"></select></div>
+              <div style="flex:1.3"><label class="fl">السنة الهجرية</label><input type="number" id="h_y" min="1300" max="1500" inputmode="numeric"></div>
+            </div>
+          </div>
+          <div id="g2hInputs" hidden>
+            <label class="fl">اختر التاريخ الميلادي</label>
+            <input type="date" id="g_date" min="1883-01-01" max="2077-12-31">
           </div>
         </div>
-        <div id="g2hInputs" hidden>
-          <label class="fl">اختر التاريخ الميلادي</label>
-          <input type="date" id="g_date" min="1883-01-01" max="2077-12-31">
-        </div>
+        <button class="btn full" id="convBtn" type="button" style="margin-top:18px">حوّل</button>
+        <div class="result" id="convRes">أدخل تاريخًا لعرض ما يقابله.</div>
       </div>
-      <button class="btn full" id="convBtn" type="button" style="margin-top:18px">حوّل</button>
-      <div class="result" id="convRes">أدخل تاريخًا لعرض ما يقابله.</div>
     </div>
+  </section>
+
+  <!-- ABOUT / FOOTER -->
+  <section id="about" style="padding-bottom:20px">
+    <div class="quote reveal"><span>❋</span> وكلُّ يومٍ يقتربُ فيه موسمٌ من مواسم الخير <span>❋</span></div>
   </section>
 
   <footer>
     <div class="reveal">
-      <div class="fmark" id="footMark"></div>
+      <div class="logo" id="footLogo"></div>
       <div class="fname">دُنُوّ</div>
       <div class="fslogan">مواسم الخير أقرب مما تظن</div>
       <p>
@@ -293,6 +300,10 @@
         مستند مفاهيميًا إلى كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا.<br>
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
+      <div class="credit">
+        <span class="cmark" id="creditMark"></span>
+        صُنع بواسطة <b>AbuNorah17</b>
+      </div>
     </div>
   </footer>
 
@@ -300,138 +311,161 @@
 
 <script>
 "use strict";
-const DAY = 86400000;
+const DAY=86400000;
 
-/* ---------- icons (hand-drawn line SVGs, no emoji) ---------- */
-const S = (p,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" ${extra}>${p}</svg>`;
-const ICONS = {
-  // فانوس رمضان
-  ramadan: S(`<path d="M9.5 4h5"/><path d="M12 4V2.6"/><path d="M9.8 4l-1 2.6h6.4l-1-2.6"/>
-    <path d="M8 6.6h8v2.2H8z"/>
-    <path d="M8.4 8.8c-.9 1.2-1.4 2.7-1.4 4.4 0 2.2 .9 4 2.4 5.2h5.2c1.5-1.2 2.4-3 2.4-5.2 0-1.7-.5-3.2-1.4-4.4"/>
-    <path d="M12 8.8v9.6"/><path d="M9.6 11.2c-.7 1.7-.7 3.4 0 5"/><path d="M14.4 11.2c.7 1.7 .7 3.4 0 5"/>
-    <path d="M9.5 18.4h5l-.6 1.8h-3.8z"/><path d="M11 21.4h2"/>`),
-  // هلال ونجمة — عيد الفطر
-  fitr: S(`<path d="M18.6 15.4A7.2 7.2 0 1 1 13 4.2 5.8 5.8 0 0 0 18.6 15.4Z"/>
-    <path d="M18.2 4.2l.9 1.85 2.05.3-1.48 1.44.35 2.03-1.82-.96-1.83.96.35-2.03-1.48-1.44 2.04-.3z"/>`),
-  // جبل عرفات — يوم عرفة
-  arafah: S(`<path d="M3 19.5h18"/>
-    <path d="M4 19.5l4.4-8.6 2.6 4.2 2.1-3.2 4.9 7.6"/>
-    <path d="M11 15.1l1.6-2.4"/>
-    <path d="M8.4 10.9l-.9-1.6 1.9.1 .5-1.8 1 1.6 1.8-.4-.9 1.7"/>`),
-  // الكعبة — عيد الأضحى
-  adha: S(`<path d="M5.5 7.5 12 4l6.5 3.5"/>
-    <path d="M5.5 7.5v11l6.5 3.5 6.5-3.5v-11"/>
-    <path d="M5.5 7.5 12 11l6.5-3.5"/><path d="M12 11v11"/>
-    <path d="M5.9 10.2 18.1 9.4"/>
-    <path d="M10.8 18.9v2.5"/>`),
-  // تقويم بهلال — بداية السنة الهجرية
-  newyear: S(`<rect x="4" y="5.5" width="16" height="15" rx="2.6"/>
-    <path d="M4 10h16"/><path d="M8.5 3.5v3.4M15.5 3.5v3.4"/>
-    <path d="M15.8 15.2a3.1 3.1 0 1 1-2.7-3.5 2.5 2.5 0 0 0 2.7 3.5z"/>`),
-  // mark (crescent) للهوية
-  mark: S(`<path d="M19 15.2A8 8 0 1 1 12.6 3 6.4 6.4 0 0 0 19 15.2Z"/><path d="M17.5 4.4l.7 1.5 1.6.2-1.15 1.12.28 1.6-1.43-.75-1.43.75.28-1.6L14.9 6.1l1.62-.2z" stroke-width="1.1"/>`),
-  sun: S(`<circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>`),
-  moon: S(`<path d="M20 14.2A8.2 8.2 0 1 1 11 3.4 6.6 6.6 0 0 0 20 14.2Z"/>`),
-  convert: S(`<path d="M4 8h13l-3-3M20 16H7l3 3"/>`),
-  calc: S(`<rect x="5" y="3" width="14" height="18" rx="2.4"/><path d="M8 7h8M8 11h2M12 11h2M8 14.5h2M12 14.5h2M8 18h2M12 18h2"/>`),
+/* ---------- icons ---------- */
+const S=(p,e="")=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" ${e}>${p}</svg>`;
+const ICONS={
+  ramadan:S(`<path d="M9.5 4h5"/><path d="M12 4V2.6"/><path d="M9.8 4l-1 2.6h6.4l-1-2.6"/><path d="M8 6.6h8v2.2H8z"/><path d="M8.4 8.8c-.9 1.2-1.4 2.7-1.4 4.4 0 2.2 .9 4 2.4 5.2h5.2c1.5-1.2 2.4-3 2.4-5.2 0-1.7-.5-3.2-1.4-4.4"/><path d="M12 8.8v9.6"/><path d="M9.6 11.2c-.7 1.7-.7 3.4 0 5"/><path d="M14.4 11.2c.7 1.7 .7 3.4 0 5"/><path d="M9.5 18.4h5l-.6 1.8h-3.8z"/><path d="M11 21.4h2"/>`),
+  fitr:S(`<path d="M18.6 15.4A7.2 7.2 0 1 1 13 4.2 5.8 5.8 0 0 0 18.6 15.4Z"/><path d="M18.2 4.2l.9 1.85 2.05.3-1.48 1.44.35 2.03-1.82-.96-1.83.96.35-2.03-1.48-1.44 2.04-.3z"/>`),
+  tarwiyah:S(`<path d="M3 20.5h18"/><path d="M12 4 4.5 20.5"/><path d="M12 4l7.5 16.5"/><path d="M12 4v16.5"/><path d="M9 20.5l3-6 3 6"/>`),
+  arafah:S(`<path d="M3 19.5h18"/><path d="M4 19.5l4.4-8.6 2.6 4.2 2.1-3.2 4.9 7.6"/><path d="M11 15.1l1.6-2.4"/><path d="M8.4 10.9l-.9-1.6 1.9.1 .5-1.8 1 1.6 1.8-.4-.9 1.7"/>`),
+  adha:S(`<path d="M5.5 7.5 12 4l6.5 3.5"/><path d="M5.5 7.5v11l6.5 3.5 6.5-3.5v-11"/><path d="M5.5 7.5 12 11l6.5-3.5"/><path d="M12 11v11"/><path d="M5.9 10.2 18.1 9.4"/><path d="M10.8 18.9v2.5"/>`),
+  newyear:S(`<rect x="4" y="5.5" width="16" height="15" rx="2.6"/><path d="M4 10h16"/><path d="M8.5 3.5v3.4M15.5 3.5v3.4"/><path d="M15.8 15.2a3.1 3.1 0 1 1-2.7-3.5 2.5 2.5 0 0 0 2.7 3.5z"/>`),
+  ashura:S(`<path d="M20 14.2A8.2 8.2 0 1 1 11 3.4 6.6 6.6 0 0 0 20 14.2Z"/>`),
+  mawlid:S(`<path d="M3 21h18"/><path d="M5 21v-8M7 21v-8M17 21v-8M19 21v-8"/><path d="M8 21v-6a4 4 0 0 1 8 0v6"/><path d="M12 4.6c1.7 1.3 2.6 2.7 2.6 4.4H9.4C9.4 7.3 10.3 5.9 12 4.6z"/><path d="M12 4.6V3"/><path d="M11 21v-3.4a1 1 0 0 1 2 0V21"/>`),
+  mark:S(`<path d="M19 15.2A8 8 0 1 1 12.6 3 6.4 6.4 0 0 0 19 15.2Z"/><path d="M17.5 4.4l.7 1.5 1.6.2-1.15 1.12.28 1.6-1.43-.75-1.43.75.28-1.6L14.9 6.1l1.62-.2z" stroke-width="1.1"/>`),
+  sun:S(`<circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>`),
+  moon:S(`<path d="M20 14.2A8.2 8.2 0 1 1 11 3.4 6.6 6.6 0 0 0 20 14.2Z"/>`),
+  convert:S(`<path d="M4 8h13l-3-3M20 16H7l3 3"/>`),
+  calendar:S(`<rect x="4" y="5.5" width="16" height="15" rx="2.6"/><path d="M4 10h16"/><path d="M8.5 3.5v3.4M15.5 3.5v3.4"/>`),
+  chevR:S(`<path d="M15 6l-6 6 6 6"/>`),
+  chevL:S(`<path d="M9 6l6 6-6 6"/>`),
+  spark:S(`<path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z"/>`),
 };
+/* دُنُوّ logo mark: crescent embracing a mihrab window + mosque + stars */
+const LOGO=`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="var(--primary-2)"/><stop offset="1" stop-color="var(--primary-d)"/></linearGradient></defs>
+  <path d="M44 10a24 24 0 1 0 9 19 18.5 18.5 0 1 1-9-19z" fill="url(#lg)"/>
+  <path d="M30 24c0-3.2 3-5.6 6.4-5.6S43 20.8 43 24v14H30z" fill="url(#lg)" opacity=".9"/>
+  <path d="M36.4 15.5c1.1 0 2 .5 2 .5s-.9.5-.9 1.9v2.3h-2.2v-2.3c0-1.4-.9-1.9-.9-1.9s.9-.5 2-.5z" fill="url(#lg)"/>
+  <circle cx="49" cy="15" r="1.5" fill="url(#lg)"/><circle cx="53.5" cy="20" r="1" fill="url(#lg)"/><circle cx="46" cy="10.5" r="1" fill="url(#lg)"/>
+</svg>`;
+const CREDIT_MARK=`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><defs>
+  <linearGradient id="cm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4fa3"/><stop offset=".5" stop-color="#8a2be2"/><stop offset="1" stop-color="#ffb648"/></linearGradient></defs>
+  <rect width="64" height="64" rx="32" fill="url(#cm)"/>
+  <path d="M18 42c2-13 8-19 10-19s2 8 4 8 4-14 8-14 5 8 6 15" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* ---------- hero scene ---------- */
+const HERO_SCENE=`<svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--sky-1)"/><stop offset="55%" stop-color="var(--sky-2)"/><stop offset="100%" stop-color="var(--sky-3)"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--moon)" stop-opacity=".55"/><stop offset="100%" stop-color="var(--moon)" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1440" height="560" fill="url(#sky)"/>
+  <circle cx="1040" cy="150" r="120" fill="url(#glow)"/>
+  <path d="M1092 96a70 70 0 1 0 0 108 56 56 0 1 1 0-108z" fill="var(--moon)"/>
+  <path d="M0 300 L160 250 L320 300 L470 235 L640 300 L820 245 L1000 300 L1200 250 L1440 300 V560 H0 Z" fill="var(--mtn-1)" opacity=".55"/>
+  <path d="M0 350 L200 300 L400 360 L620 300 L860 365 L1080 305 L1300 360 L1440 330 V560 H0 Z" fill="var(--mtn-2)" opacity=".7"/>
+  <g fill="var(--mosque)">
+    <rect x="640" y="330" width="220" height="150"/>
+    <path d="M750 250c34 22 52 52 52 84H698c0-32 18-62 52-84z"/>
+    <path d="M750 250v-16"/><circle cx="750" cy="228" r="6"/>
+    <rect x="600" y="300" width="26" height="180"/><path d="M613 288c9 0 15 7 15 16h-30c0-9 6-16 15-16z"/>
+    <rect x="874" y="300" width="26" height="180"/><path d="M887 288c9 0 15 7 15 16h-30c0-9 6-16 15-16z"/>
+    <path d="M690 480v-70a60 60 0 0 1 120 0v70z" opacity=".85"/>
+  </g>
+  <g fill="var(--win)" opacity=".9"><circle cx="720" cy="380" r="4"/><circle cx="750" cy="380" r="4"/><circle cx="780" cy="380" r="4"/><circle cx="735" cy="420" r="3.5"/><circle cx="765" cy="420" r="3.5"/></g>
+  <path d="M0 420 L240 380 L520 430 L820 385 L1120 435 L1440 390 V560 H0 Z" fill="var(--mtn-3)" opacity=".9"/>
+  <rect x="0" y="500" width="1440" height="60" fill="var(--water)" opacity=".5"/>
+</svg>`;
 
 /* ---------- formatters ---------- */
-const fmtHijriNum = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'});
-const fmtHijriShort = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'});
-const fmtGregShort = new Intl.DateTimeFormat('ar-SA',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'});
-const fmtWeekday = new Intl.DateTimeFormat('ar-SA',{weekday:'long',timeZone:'UTC'});
-const hijriMonthNames = ["","محرّم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
+const fmtHijriNum=new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'});
+const fmtHijriShort=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'});
+const fmtGregShort=new Intl.DateTimeFormat('ar-SA',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'});
+const fmtWeekday=new Intl.DateTimeFormat('ar-SA',{weekday:'long',timeZone:'UTC'});
+const hijriMonthNames=["","محرّم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
 function ar(n){return Number(n).toLocaleString('ar-SA',{useGrouping:false});}
 function pad(n){return String(n).padStart(2,'0');}
 function weekdayAr(d){return fmtWeekday.format(d);}
 
-/* ---------- core conversion ---------- */
+/* ---------- conversion ---------- */
 function gregToHijri(date){const o={};for(const p of fmtHijriNum.formatToParts(date))if(p.type!=='literal')o[p.type]=parseInt(p.value,10);return{y:o.year,m:o.month,d:o.day};}
 function cmp(a,b){if(a.y!==b.y)return a.y-b.y;if(a.m!==b.m)return a.m-b.m;return a.d-b.d;}
 function hijriToGreg(hy,hm,hd){const t={y:hy,m:hm,d:hd};let lo=Math.floor(Date.UTC(622,0,1)/DAY),hi=Math.floor(Date.UTC(2100,0,1)/DAY);
   while(lo<hi){const mid=Math.floor((lo+hi)/2);if(cmp(gregToHijri(new Date(mid*DAY)),t)<0)lo=mid+1;else hi=mid;}return new Date(lo*DAY);}
 function todayUTC(){const n=new Date();return new Date(Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()));}
-function hijriMonthLen(hy,hm){const a=hijriToGreg(hy,hm,1);const nm=hm===12?1:hm+1,ny=hm===12?hy+1:hy;const b=hijriToGreg(ny,nm,1);return Math.round((b-a)/DAY);}
+function hijriMonthLen(hy,hm){const nm=hm===12?1:hm+1,ny=hm===12?hy+1:hy;return Math.round((hijriToGreg(ny,nm,1)-hijriToGreg(hy,hm,1))/DAY);}
 
 /* ---------- events ---------- */
 const EVENTS=[
-  {key:'ramadan', name:'رمضان',              m:9,  d:1, showLen:true},
-  {key:'fitr',    name:'عيد الفطر',          m:10, d:1},
-  {key:'arafah',  name:'يوم عرفة',           m:12, d:9},
-  {key:'adha',    name:'عيد الأضحى',         m:12, d:10},
-  {key:'newyear', name:'بداية السنة الهجرية',m:1,  d:1},
+  {key:'ramadan', name:'رمضان',               m:9,  d:1, showLen:true, g:['#8f79c4','#b9a0e0']},
+  {key:'fitr',    name:'عيد الفطر',            m:10, d:1,              g:['#a07fce','#c9a7e8']},
+  {key:'arafah',  name:'يوم عرفة',             m:12, d:9,              g:['#7c66b3','#a184d0']},
+  {key:'adha',    name:'عيد الأضحى',           m:12, d:10,             g:['#9678c8','#bfa0e6']},
+  {key:'newyear', name:'بداية السنة الهجرية',  m:1,  d:1,              g:['#836fbb','#a88fd8']},
 ];
 function nextOccurrence(ev,todayH){let y=todayH.y;if(cmp({y:todayH.y,m:ev.m,d:ev.d},todayH)<0)y=todayH.y+1;return{hy:y,greg:hijriToGreg(y,ev.m,ev.d)};}
 
-/* ---------- today ---------- */
-function renderToday(){const u=todayUTC();
-  document.getElementById('tHijri').textContent=`${weekdayAr(u)} ${fmtHijriShort.format(u)}`;
-  document.getElementById('tGreg').textContent=`${fmtGregShort.format(u)} م`;}
+/* thumbnail mini mosque silhouette */
+const THUMB_SIL=`<svg class="esil" viewBox="0 0 232 64" preserveAspectRatio="xMidYMax slice" fill="currentColor"><path d="M0 64 L30 44 L60 60 L92 40 L120 34 C120 34 122 22 130 22 C138 22 140 34 140 34 L172 46 L200 38 L232 56 V64 Z"/></svg>`;
 
-/* ---------- featured + list ---------- */
 let liveEls=[];
-function buildEventsUI(){
+function buildUI(){
   const todayH=gregToHijri(todayUTC());
-  const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)}));
-  occ.sort((a,b)=>a.greg-b.greg);
+  const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)})).sort((a,b)=>a.greg-b.greg);
   const nearest=occ[0];
   liveEls=[];
 
   // featured
-  const lenNote = nearest.ev.showLen ? `<span class="fnote">عدد أيام الشهر: ${ar(hijriMonthLen(nearest.hy,nearest.ev.m))} يومًا</span>` : '';
+  const lenNote=nearest.ev.showLen?`<span class="fnote">عدد أيام الشهر: ${ar(hijriMonthLen(nearest.hy,nearest.ev.m))} يومًا</span>`:'';
   document.getElementById('featured').innerHTML=`
-    <span class="fpattern">${ICONS[nearest.ev.key]}</span>
-    <div class="flabel">المناسبة القادمة</div>
-    <div class="ftitle">
+    <span class="fdeco">${ICONS[nearest.ev.key]}</span>
+    <div class="flabel">${ICONS.spark} المناسبة القادمة</div>
+    <div class="fhead">
+      <div>
+        <div class="fname">${nearest.ev.name}</div>
+        <div class="fdates"><span class="wd" style="color:var(--primary);font-weight:600">${weekdayAr(nearest.greg)}</span> · <b>${fmtHijriShort.format(nearest.greg)}</b><br>الموافق <b>${fmtGregShort.format(nearest.greg)} م</b>${lenNote?'<br>'+lenNote:''}</div>
+      </div>
       <span class="ficon">${ICONS[nearest.ev.key]}</span>
-      <span class="fname">${nearest.ev.name}</span>
-    </div>
-    <div class="fmeta">
-      <span class="day-tag">${weekdayAr(nearest.greg)}</span> · <b>${fmtHijriShort.format(nearest.greg)}</b><br>
-      الموافق <b>${fmtGregShort.format(nearest.greg)} م</b>${lenNote?'<br>'+lenNote:''}
     </div>
     <div class="count" id="fcount">
       <div class="u"><b data-d>٠</b><i>يوم</i></div>
       <div class="u"><b data-h>٠</b><i>ساعة</i></div>
       <div class="u"><b data-min>٠</b><i>دقيقة</i></div>
       <div class="u"><b data-sec>٠</b><i>ثانية</i></div>
-    </div>`;
+    </div>
+    <button class="fbtn" id="fbtn" type="button">عرض التفاصيل ${ICONS.chevR}</button>`;
   liveEls.push({type:'featured',el:document.getElementById('fcount'),target:nearest.greg});
+  document.getElementById('fbtn').addEventListener('click',()=>document.getElementById('events').scrollIntoView({behavior:'smooth'}));
 
-  // list
-  const box=document.getElementById('events');box.innerHTML='';
-  occ.forEach((o,i)=>{
-    const sub=o.ev.showLen?`الشهر ${ar(hijriMonthLen(o.hy,o.ev.m))} يومًا`:'';
-    const el=document.createElement('div');
-    el.className='ev reveal';el.style.transitionDelay=(i*70)+'ms';
+  // carousel
+  const car=document.getElementById('carousel');car.innerHTML='';
+  occ.forEach(o=>{
+    const isNext=o===nearest;
+    const grad=`linear-gradient(140deg,${o.ev.g[0]},${o.ev.g[1]})`;
+    const el=document.createElement('article');
+    el.className='ecard'+(isNext?' is-next':'');
     el.innerHTML=`
-      <span class="evicon">${ICONS[o.ev.key]}</span>
-      <div class="evbody">
-        <div class="evname">${o.ev.name}</div>
-        <div class="evdate"><span class="wd">${weekdayAr(o.greg)}</span><span class="sep">·</span>${fmtHijriShort.format(o.greg)}</div>
-        <div class="evsub">الموافق ${fmtGregShort.format(o.greg)} م${sub?' · '+sub:''}</div>
-      </div>
-      <div class="evcount">
-        <div class="n" data-d>٠</div><div class="l">يوم متبقٍّ</div>
-        <div class="t" data-t>٠٠:٠٠:٠٠</div>
+      <div class="ethumb" style="background:${grad}">${THUMB_SIL}<span class="eic">${ICONS[o.ev.key]}</span></div>
+      <div class="ebody">
+        <div class="ename">${o.ev.name}</div>
+        <div class="ed">${fmtHijriShort.format(o.greg)}</div>
+        <div class="eg">${fmtGregShort.format(o.greg)} م</div>
+        <div class="edays"><b data-d>٠</b><i>يوم متبقٍّ</i></div>
+        <div class="edetails">تفاصيل</div>
       </div>`;
-    box.appendChild(el);
-    liveEls.push({type:'row',el,target:o.greg});
-    observeReveal(el);
+    car.appendChild(el);
+    el.querySelector('.edetails').addEventListener('click',()=>openDetails(o));
+    liveEls.push({type:'card',el,target:o.greg});
+    observeReveal(el,true);
   });
   tick();
+}
+function openDetails(o){
+  setConvDir('h2g');
+  document.getElementById('h_y').value=o.hy;document.getElementById('h_m').value=o.ev.m;document.getElementById('h_d').value=o.ev.d;
+  runConvert();
+  document.getElementById('calendar').scrollIntoView({behavior:'smooth'});
 }
 function tick(){
   const now=Date.now();
   for(const s of liveEls){
     const diff=s.target.getTime()-now;
-    if(diff<=0 && diff>-DAY){
-      if(s.type==='featured'){s.el.querySelectorAll('b').forEach(b=>b.textContent='٠');}
-      else{s.el.classList.add('is-today');s.el.querySelector('[data-d]').textContent='اليوم';s.el.querySelector('[data-t]').textContent='';}
-      continue;
-    }
+    const isToday=diff<=0&&diff>-DAY;
     const ts=Math.max(0,Math.floor(diff/1000));
     const d=Math.floor(ts/86400),h=Math.floor((ts%86400)/3600),m=Math.floor((ts%3600)/60),sec=ts%60;
     if(s.type==='featured'){
@@ -440,9 +474,7 @@ function tick(){
       s.el.querySelector('[data-min]').textContent=ar(m);
       s.el.querySelector('[data-sec]').textContent=ar(sec);
     }else{
-      s.el.classList.remove('is-today');
-      s.el.querySelector('[data-d]').textContent=ar(d);
-      s.el.querySelector('[data-t]').textContent=`${ar(pad(h))}:${ar(pad(m))}:${ar(pad(sec))}`;
+      s.el.querySelector('[data-d]').textContent=isToday?'اليوم':ar(d);
     }
   }
 }
@@ -450,20 +482,19 @@ function tick(){
 /* ---------- year explorer ---------- */
 function renderYear(hy){
   const list=document.getElementById('ylist');
-  if(!(hy>=1300&&hy<=1500)){list.innerHTML=`<div class="yitem"><span class="err" style="color:#d9534f">أدخل سنة بين ١٣٠٠ و ١٥٠٠.</span></div>`;return;}
+  if(!(hy>=1300&&hy<=1500)){list.innerHTML=`<div class="yitem"><span style="color:#d9534f">أدخل سنة بين ١٣٠٠ و ١٥٠٠.</span></div>`;return;}
   list.innerHTML='';
   for(const ev of EVENTS){
     const g=hijriToGreg(hy,ev.m,ev.d);
-    const sub=ev.showLen?` · الشهر ${ar(hijriMonthLen(hy,ev.m))} يومًا`:'';
     const el=document.createElement('div');el.className='yitem';
     el.innerHTML=`<div class="yn">${ICONS[ev.key]} ${ev.name}</div>
       <div class="yd"><span class="wd">${weekdayAr(g)}</span> · ${ar(ev.d)} ${hijriMonthNames[ev.m]} ${ar(hy)} هـ</div>
-      <div class="yg">الموافق ${fmtGregShort.format(g)} م${sub}</div>`;
+      <div class="yg">الموافق ${fmtGregShort.format(g)} م</div>`;
     list.appendChild(el);
   }
 }
 
-/* ---------- converters ---------- */
+/* ---------- converter ---------- */
 function fillInputs(){
   const md=document.getElementById('h_d'),mm=document.getElementById('h_m');
   for(let i=1;i<=30;i++){const o=document.createElement('option');o.value=i;o.textContent=ar(i);md.appendChild(o);}
@@ -472,14 +503,11 @@ function fillInputs(){
   const n=new Date();document.getElementById('g_date').value=`${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
 }
 let convDir='h2g';
-function setConvDir(dir){
-  convDir=dir;
+function setConvDir(dir){convDir=dir;
   document.querySelectorAll('#convSeg .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.dir===dir));
-  document.getElementById('h2gInputs').hidden = dir!=='h2g';
-  document.getElementById('g2hInputs').hidden = dir!=='g2h';
-  const res=document.getElementById('convRes');
-  res.className='result';res.textContent='أدخل تاريخًا لعرض ما يقابله.';
-}
+  document.getElementById('h2gInputs').hidden=dir!=='h2g';
+  document.getElementById('g2hInputs').hidden=dir!=='g2h';
+  const res=document.getElementById('convRes');res.className='result';res.textContent='أدخل تاريخًا لعرض ما يقابله.';}
 function runConvert(){
   const res=document.getElementById('convRes');
   if(convDir==='h2g'){
@@ -498,19 +526,17 @@ function runConvert(){
   }
 }
 
-/* ---------- reveal on scroll ---------- */
+/* ---------- reveal (repeatable) ---------- */
 let revealObs;
 function observeReveal(el){if(revealObs)revealObs.observe(el);else el.classList.add('in');}
 function initReveal(){
   const els=[...document.querySelectorAll('.reveal')];
   if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}
   revealObs=new IntersectionObserver((entries)=>{
-    for(const en of entries){if(en.isIntersecting){en.target.classList.add('in');revealObs.unobserve(en.target);}}
-  },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    for(const en of entries) en.target.classList.toggle('in',en.isIntersecting); // toggle => يعيد الحركة كل مرة
+  },{threshold:0.14,rootMargin:'0px 0px -6% 0px'});
   els.forEach(e=>revealObs.observe(e));
-  // guarantee the first screenful animates in on load (never stays hidden)
-  setTimeout(()=>{const vh=window.innerHeight||800;els.forEach(el=>{const r=el.getBoundingClientRect();
-    if(r.top<vh*0.96&&r.bottom>0){el.classList.add('in');revealObs.unobserve(el);}});},80);
+  setTimeout(()=>{const vh=window.innerHeight||800;els.forEach(el=>{const r=el.getBoundingClientRect();if(r.top<vh*0.96&&r.bottom>0)el.classList.add('in');});},80);
 }
 
 /* ---------- theme ---------- */
@@ -520,35 +546,49 @@ function applyTheme(t){document.documentElement.setAttribute('data-theme',t);
 function initTheme(){let t='light';try{const s=localStorage.getItem('theme');if(s)t=s;
   else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';}catch(e){}applyTheme(t);}
 
-/* ---------- backdrop pattern ---------- */
-function initBackdrop(){
-  const star=`<svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".6"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z"/></svg>`;
-  const b=document.getElementById('backdrop');
-  const spots=[['6%','8%',1],['86%','12%',.7],['12%','60%',.6],['90%','72%',.9],['50%','40%',.5]];
-  b.innerHTML=spots.map(([l,t,s])=>`<span style="left:${l};top:${t};transform:scale(${s})">${star}</span>`).join('');
+/* ---------- nav scrollspy ---------- */
+function initScrollSpy(){
+  const links=[...document.querySelectorAll('#navLinks a')];
+  const map=links.map(a=>({a,sec:document.querySelector(a.getAttribute('href'))})).filter(x=>x.sec);
+  const spy=new IntersectionObserver((ents)=>{
+    ents.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.remove('active'));
+      const m=map.find(x=>x.sec===en.target);if(m)m.a.classList.add('active');}});
+  },{rootMargin:'-45% 0px -50% 0px'});
+  map.forEach(x=>spy.observe(x.sec));
 }
 
 /* ---------- init ---------- */
 function init(){
   initTheme();
-  document.getElementById('brandMark').innerHTML=ICONS.mark;
-  document.getElementById('kickerMark').innerHTML=ICONS.mark;
-  document.getElementById('footMark').innerHTML=ICONS.mark;
+  document.getElementById('brandLogo').innerHTML=LOGO;
+  document.getElementById('footLogo').innerHTML=LOGO;
+  document.getElementById('creditMark').innerHTML=CREDIT_MARK;
+  document.getElementById('heroScene').innerHTML=HERO_SCENE;
+  document.getElementById('ic-cal').innerHTML=ICONS.calendar;
+  document.getElementById('ic-cal2').innerHTML=ICONS.calendar;
+  document.getElementById('ic-year').innerHTML=ICONS.calendar;
   document.getElementById('ic-conv').innerHTML=ICONS.convert;
-  initBackdrop();
-  renderToday();
-  buildEventsUI();
+  document.getElementById('ic-spark1').innerHTML=ICONS.spark;
+  document.getElementById('ic-spark2').innerHTML=ICONS.spark;
+  document.getElementById('carPrev').innerHTML=ICONS.chevR;
+  document.getElementById('carNext').innerHTML=ICONS.chevL;
+
+  buildUI();
   const th=gregToHijri(todayUTC());
-  document.getElementById('yearInput').value=th.y;
-  renderYear(th.y);
+  document.getElementById('yearInput').value=th.y;renderYear(th.y);
   fillInputs();
   initReveal();
+  initScrollSpy();
 
   document.getElementById('themeBtn').addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+  document.getElementById('calBtn').addEventListener('click',()=>document.getElementById('calendar').scrollIntoView({behavior:'smooth'}));
   document.getElementById('yearBtn').addEventListener('click',()=>renderYear(+document.getElementById('yearInput').value));
   document.getElementById('yearInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('yearBtn').click();});
   document.querySelectorAll('#convSeg .seg-btn').forEach(b=>b.addEventListener('click',()=>setConvDir(b.dataset.dir)));
   document.getElementById('convBtn').addEventListener('click',runConvert);
+  const car=document.getElementById('carousel');
+  document.getElementById('carNext').addEventListener('click',()=>car.scrollBy({left:-260,behavior:'smooth'}));
+  document.getElementById('carPrev').addEventListener('click',()=>car.scrollBy({left:260,behavior:'smooth'}));
 
   const nav=document.getElementById('nav');
   const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>10);onScroll();
@@ -556,7 +596,7 @@ function init(){
 
   setInterval(tick,1000);
   let lastDay=todayUTC().getTime();
-  setInterval(()=>{const t=todayUTC().getTime();if(t!==lastDay){lastDay=t;renderToday();buildEventsUI();}},60000);
+  setInterval(()=>{const t=todayUTC().getTime();if(t!==lastDay){lastDay=t;buildUI();}},60000);
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
