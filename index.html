@@ -265,9 +265,9 @@
   <!-- ALL EVENTS -->
   <section>
     <div class="sec-head reveal">
-      <span class="sec-kicker">التقويم الهجري</span>
-      <h2>مناسبات السنة على الترتيب</h2>
-      <p>من بداية العام الهجري إلى نهايته — كل موسم بتاريخه الهجري والميلادي، ويوم وقوعه، والمتبقّي عليه.</p>
+      <span class="sec-kicker">التقويم القادم</span>
+      <h2>المواسم القادمة على التوالي</h2>
+      <p>كل موسم بتاريخه الهجري والميلادي، ويوم وقوعه من الأسبوع، والمتبقّي عليه.</p>
       <div class="rule"></div>
     </div>
     <div class="events" id="events"></div>
@@ -422,8 +422,9 @@ function renderToday(){const u=todayUTC();
 let liveEls=[];
 function buildEventsUI(){
   const todayH=gregToHijri(todayUTC());
-  const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)})); // القائمة بترتيب السنة الهجرية
+  const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)}));
   const nearest=occ.reduce((a,b)=>b.greg<a.greg?b:a); // المناسبة القادمة = الأقرب زمنيًا
+  const listOcc=[...occ].sort((a,b)=>a.greg-b.greg); // قائمة "المواسم القادمة" = الأقرب أولًا
   liveEls=[];
 
   // featured
@@ -449,7 +450,7 @@ function buildEventsUI(){
 
   // list
   const box=document.getElementById('events');box.innerHTML='';
-  occ.forEach((o,i)=>{
+  listOcc.forEach((o,i)=>{
     const sub=o.ev.showLen?`الشهر ${ar(hijriMonthLen(o.hy,o.ev.m))} يومًا`:'';
     const el=document.createElement('div');
     el.className='ev reveal';el.style.transitionDelay=(i*70)+'ms';
