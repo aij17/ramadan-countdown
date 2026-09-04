@@ -50,12 +50,17 @@
   .icon-btn svg{width:19px;height:19px}
 
   /* Hero */
-  .hero{position:relative;text-align:center;overflow:hidden;border-radius:0 0 32px 32px;isolation:isolate}
-  .hero-bg{position:absolute;inset:0;z-index:-2;background:url('assets/mosque.jpg') center 62%/cover no-repeat;
-    filter:grayscale(1) brightness(1.16) contrast(1.02)}
+  .hero{position:relative;text-align:center;overflow:hidden;border-radius:0 0 34px 34px;isolation:isolate}
+  .hero-bg{position:absolute;left:0;right:0;top:-16%;height:134%;z-index:-2;will-change:transform}
+  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center 56%;
+    filter:grayscale(1) brightness(1.15) contrast(1.03);opacity:0;animation:heroFade 26s infinite;transform:scale(1.06)}
+  .hero-slide:nth-child(1){animation-delay:0s}
+  .hero-slide:nth-child(2){animation-delay:13s}
+  @keyframes heroFade{0%{opacity:0;transform:scale(1.10)}4%{opacity:1}44%{opacity:1}50%{opacity:0;transform:scale(1.06)}100%{opacity:0}}
   .hero-overlay{position:absolute;inset:0;z-index:-1;
-    background:linear-gradient(180deg, rgba(240,236,251,.80) 0%, rgba(214,201,241,.66) 52%, rgba(246,242,251,.97) 100%)}
-  .hero-inner{max-width:1000px;margin:0 auto;padding:78px 22px 58px}
+    background:linear-gradient(180deg, rgba(241,237,251,.82) 0%, rgba(214,201,241,.62) 52%, rgba(246,242,251,.98) 100%)}
+  .hero-inner{max-width:1000px;margin:0 auto;padding:82px 22px 62px}
+  @media(prefers-reduced-motion:reduce){.hero-slide{animation:none;transform:none}.hero-slide:nth-child(1){opacity:1}}
   .kicker{display:inline-flex;align-items:center;gap:9px;color:var(--primary);font-weight:600;
     font-size:.82rem;letter-spacing:2px;background:var(--primary-tint);padding:7px 16px;border-radius:999px;
     border:1px solid color-mix(in srgb,var(--primary) 22%,transparent)}
@@ -175,16 +180,17 @@
   footer b{color:var(--text);font-weight:600}
   .credit{margin-top:22px;display:inline-flex;align-items:center;gap:11px;background:var(--surface);
     border:1px solid var(--line);border-radius:999px;padding:8px 20px 8px 9px;font-size:.92rem;color:var(--text);font-weight:500}
-  .credit .cmark{width:32px;height:32px;flex:none}
+  .credit .cmark{width:38px;height:38px;flex:none;object-fit:contain;border-radius:9px}
   .credit b{color:var(--heading);font-weight:700;letter-spacing:.3px}
   .imgcredit{margin-top:16px;font-size:.72rem;color:var(--muted);opacity:.85}
   .imgcredit a{color:var(--primary);text-decoration:none}
 
-  /* reveal-on-scroll */
-  .reveal{opacity:0;transform:translateY(30px);
-    transition:opacity .8s cubic-bezier(.16,.7,.2,1), transform .8s cubic-bezier(.16,.7,.2,1)}
-  .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  /* reveal-on-scroll — أقوى وأوضح + اتجاهي (عكسي عند السحب لأعلى) */
+  .reveal{opacity:0;transform:translateY(56px) scale(.965);filter:blur(7px);
+    transition:opacity .9s cubic-bezier(.18,.86,.28,1), transform 1s cubic-bezier(.18,.86,.28,1), filter .9s ease}
+  .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  body[data-sd="up"] .reveal:not(.in){transform:translateY(-56px) scale(.965)}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -194,19 +200,19 @@
   <div class="nav-in">
     <div class="brand">
       <span class="mark" id="brandMark"></span>
-      <div>
-        <div class="brand-name">دُنُوّ</div>
-        <div class="tag">مواسم الخير أقرب مما تظن</div>
-      </div>
+      <div class="brand-name">دُنُوّ</div>
     </div>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg" id="heroBg">
+    <div class="hero-slide" style="background-image:url('assets/mosque.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('assets/mosque2.jpg')"></div>
+  </div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
-    <span class="kicker reveal"><span id="kickerMark"></span> دُنُوّ · مواسم الخير</span>
+    <span class="kicker reveal"><span id="kickerMark"></span> عدّاد المواسم الإسلامية</span>
     <h1 class="reveal">مواسم الخير<br>أقرب مما تظن</h1>
     <p class="lead reveal">تابع العدّ التنازلي لأعظم المواسم — رمضان والعيدان ويوم عرفة وبداية العام الهجري — بالتقويمين الهجري والميلادي ويوم الأسبوع.</p>
     <div class="today-pill reveal">
@@ -278,8 +284,11 @@
           </div>
         </div>
         <div id="g2hInputs" hidden>
-          <label class="fl">اختر التاريخ الميلادي</label>
-          <input type="date" id="g_date" min="1883-01-01" max="2077-12-31">
+          <div class="row">
+            <div style="flex:1"><label class="fl">اليوم</label><select id="g_d"></select></div>
+            <div style="flex:2"><label class="fl">الشهر</label><select id="g_m"></select></div>
+            <div style="flex:1.3"><label class="fl">السنة الميلادية</label><input type="text" id="g_y" inputmode="numeric" maxlength="4"></div>
+          </div>
         </div>
       </div>
       <button class="btn full" id="convBtn" type="button" style="margin-top:18px">حوّل</button>
@@ -291,14 +300,12 @@
     <div class="reveal">
       <div class="fmark" id="footMark"></div>
       <div class="fname">دُنُوّ</div>
-      <div class="fslogan">مواسم الخير أقرب مما تظن</div>
       <p>
         الحساب مبني على <b>تقويم أم القرى</b> الرسمي، ويغطي حتى ١٥٠٠ هجري.<br>
         مستند مفاهيميًا إلى كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا.<br>
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
-      <div class="credit"><span class="cmark" id="creditMark"></span> تم عمله بواسطة <b>AbuNorah17</b></div>
-      <div class="imgcredit">صورة المسجد النبوي — <a href="https://commons.wikimedia.org/wiki/File:Wide_shot_of_the_Green_Dome_at_The_Prophet%27s_Mosque_(Al_Masjid-e-Nabawi).jpg" target="_blank" rel="noopener">ويكيميديا كومنز</a> · رخصة CC0 (ملك عام)</div>
+      <div class="credit"><img class="cmark" src="assets/logo.png" alt="شعار AbuNorah17"> © 2026 <b>AbuNorah17</b> · جميع الحقوق محفوظة</div>
     </div>
   </footer>
 
@@ -342,12 +349,18 @@ const ICONS = {
   convert: S(`<path d="M4 8h13l-3-3M20 16H7l3 3"/>`),
   calc: S(`<rect x="5" y="3" width="14" height="18" rx="2.4"/><path d="M8 7h8M8 11h2M12 11h2M8 14.5h2M12 14.5h2M8 18h2M12 18h2"/>`),
 };
-/* شعار AbuNorah17 — تقريب للشعار الملوّن المرسل */
-const CREDIT_MARK=`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none">
-  <defs><linearGradient id="cm" x1="6" y1="52" x2="56" y2="12" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#ff3ea5"/><stop offset=".5" stop-color="#8a2be2"/><stop offset="1" stop-color="#ffc23f"/></linearGradient></defs>
-  <path d="M13 47C7 30 20 19 26 30c4 7-2 15-6 9-4-6 6-17 15-8l9 13c6-11 6-23 8-30"
-    stroke="url(#cm)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+/* شعار دُنُوّ: هلال يحتضن محرابًا بداخله مسجد — بدون نجوم */
+const LOGO=`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="lav" x1="8" y1="6" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="var(--primary-2)"/><stop offset="1" stop-color="var(--primary)"/></linearGradient></defs>
+  <path d="M41 6a26 26 0 1 0 0 52 20.6 20.6 0 1 1 0-52z" fill="url(#lav)"/>
+  <path d="M32 50V30a8.7 8.7 0 0 1 17.4 0v20" stroke="url(#lav)" stroke-width="3.3" stroke-linecap="round"/>
+  <path d="M29.5 50.5h22.4" stroke="url(#lav)" stroke-width="3.3" stroke-linecap="round"/>
+  <path d="M40.7 31.6c2.1 1.5 3.2 3.2 3.2 5.3h-6.4c0-2.1 1.1-3.8 3.2-5.3z" fill="url(#lav)"/>
+  <rect x="39.2" y="36.4" width="3" height="13.6" rx="1" fill="url(#lav)"/>
+  <path d="M40.7 30.4V28" stroke="url(#lav)" stroke-width="2" stroke-linecap="round"/>
+</svg>`;
+const gregMonthNames=["","يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 
 /* ---------- formatters ---------- */
 const fmtHijriNum = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'});
@@ -484,7 +497,11 @@ function fillInputs(){
   for(let i=1;i<=30;i++){const o=document.createElement('option');o.value=i;o.textContent=ar(i);md.appendChild(o);}
   for(let i=1;i<=12;i++){const o=document.createElement('option');o.value=i;o.textContent=hijriMonthNames[i];mm.appendChild(o);}
   const th=gregToHijri(todayUTC());document.getElementById('h_y').value=th.y;mm.value=th.m;md.value=th.d;
-  const n=new Date();document.getElementById('g_date').value=`${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
+  // نفس شكل الهجري للميلادي: يوم/شهر/سنة
+  const gd=document.getElementById('g_d'),gm=document.getElementById('g_m');
+  for(let i=1;i<=31;i++){const o=document.createElement('option');o.value=i;o.textContent=ar(i);gd.appendChild(o);}
+  for(let i=1;i<=12;i++){const o=document.createElement('option');o.value=i;o.textContent=gregMonthNames[i];gm.appendChild(o);}
+  const n=new Date();document.getElementById('g_y').value=n.getFullYear();gm.value=n.getMonth()+1;gd.value=n.getDate();
 }
 let convDir='h2g';
 function setConvDir(dir){
@@ -505,11 +522,12 @@ function runConvert(){
     res.className='result ok';
     res.innerHTML=`${ar(d)} ${hijriMonthNames[m]} ${ar(y)} هـ يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtGregShort.format(g)} م</b>`;
   }else{
-    const v=document.getElementById('g_date').value;
-    if(!v){res.className='result';res.innerHTML='<span class="err">اختر تاريخًا أولًا.</span>';return;}
-    const [Y,M,D]=v.split('-').map(Number),g=new Date(Date.UTC(Y,M-1,D));
+    const Y=numVal('g_y'),M=+document.getElementById('g_m').value,D=+document.getElementById('g_d').value;
+    if(!(Y>=1883&&Y<=2077)){res.className='result';res.innerHTML='<span class="err">السنة الميلادية يجب أن تكون بين 1883 و 2077.</span>';return;}
+    const g=new Date(Date.UTC(Y,M-1,D));
+    if(g.getUTCMonth()!==M-1||g.getUTCDate()!==D){res.className='result';res.innerHTML=`<span class="err">هذا اليوم غير موجود في ${gregMonthNames[M]} ${ar(Y)}.</span>`;return;}
     res.className='result ok';
-    res.innerHTML=`${fmtGregShort.format(g)} م يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtHijriShort.format(g)}</b>`;
+    res.innerHTML=`${ar(D)} ${gregMonthNames[M]} ${ar(Y)} م يوافق:<br><b><span class="wd">${weekdayAr(g)}</span>، ${fmtHijriShort.format(g)}</b>`;
   }
 }
 
@@ -538,10 +556,9 @@ function initBackdrop(){
 
 /* ---------- init ---------- */
 function init(){
-  document.getElementById('brandMark').innerHTML=ICONS.mark;
-  document.getElementById('kickerMark').innerHTML=ICONS.mark;
-  document.getElementById('footMark').innerHTML=ICONS.mark;
-  document.getElementById('creditMark').innerHTML=CREDIT_MARK;
+  document.getElementById('brandMark').innerHTML=LOGO;
+  document.getElementById('kickerMark').innerHTML=LOGO;
+  document.getElementById('footMark').innerHTML=LOGO;
   document.getElementById('ic-conv').innerHTML=ICONS.convert;
   initBackdrop();
   renderToday();
@@ -558,7 +575,17 @@ function init(){
   document.getElementById('convBtn').addEventListener('click',runConvert);
 
   const nav=document.getElementById('nav');
-  const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>10);onScroll();
+  const heroBg=document.getElementById('heroBg');
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lastY=window.scrollY, ticking=false;
+  function onScroll(){
+    const y=window.scrollY;
+    nav.classList.toggle('scrolled',y>10);
+    if(Math.abs(y-lastY)>4){document.body.dataset.sd=(y>lastY)?'down':'up';lastY=y;} // اتجاه السحب لعكس الأنميشن
+    if(heroBg&&!reduce&&!ticking){ticking=true;requestAnimationFrame(()=>{heroBg.style.transform='translateY('+(y*0.32)+'px)';ticking=false;});} // بارالاكس الصورة
+  }
+  document.body.dataset.sd='down';
+  onScroll();
   window.addEventListener('scroll',onScroll,{passive:true});
 
   setInterval(tick,1000);
