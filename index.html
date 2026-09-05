@@ -162,14 +162,22 @@
   .panel h3 svg{width:22px;height:22px;color:var(--primary)}
   .picker{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
   .picker label{font-weight:600;color:var(--heading)}
+  /* مُنقّح السنة الهجرية بأسهم زيادة/نقص */
+  .ystep{display:inline-flex;align-items:stretch;gap:8px}
+  .ystep input{max-width:104px;text-align:center}
+  .ystep-b{width:46px;height:50px;flex:none;border:1px solid var(--line);background:var(--bg);color:var(--primary);
+    border-radius:12px;cursor:pointer;display:grid;place-items:center;transition:.15s;font-family:inherit;padding:0}
+  .ystep-b:hover{border-color:var(--primary);background:var(--primary-tint)}
+  .ystep-b:active{transform:scale(.93)}
+  .ystep-b svg{width:14px;height:10px}
   label.fl{display:block;font-size:.82rem;color:var(--muted);margin-bottom:6px;font-weight:500}
   .row{display:flex;gap:10px}
   input,select{width:100%;background:var(--bg);color:var(--heading);border:1px solid var(--line);
     border-radius:12px;padding:0 13px;font-size:1rem;height:50px;line-height:50px;font-family:inherit;transition:.15s;box-sizing:border-box}
   /* إلغاء مظهر القائمة الأصلي (يقصّ الرقم في أندرويد) + سهم مخصّص على اليسار */
-  select{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-left:38px;text-align:right;text-overflow:ellipsis;
+  select{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-left:30px;padding-right:12px;text-align:right;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%237c6bb0' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:left 14px center;background-size:12px}
+    background-repeat:no-repeat;background-position:left 11px center;background-size:11px}
   input:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-tint)}
   .btn{background:var(--primary);color:#fff;border:none;border-radius:12px;padding:13px 18px;font-size:1rem;
     font-weight:600;cursor:pointer;font-family:inherit;transition:.15s;letter-spacing:.3px}
@@ -292,7 +300,11 @@
     <div class="panel reveal">
       <div class="picker">
         <label for="yearInput">السنة الهجرية</label>
-        <input type="text" id="yearInput" inputmode="numeric" maxlength="4" style="max-width:150px">
+        <div class="ystep">
+          <button type="button" class="ystep-b" id="yearUp" aria-label="سنة أكثر"><svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6.5 6 1.5 11 6.5"/></svg></button>
+          <input type="text" id="yearInput" inputmode="numeric" maxlength="4">
+          <button type="button" class="ystep-b" id="yearDown" aria-label="سنة أقل"><svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button>
+        </div>
         <button class="btn" id="yearBtn" type="button">عرض</button>
       </div>
       <div class="ylist" id="ylist"></div>
@@ -317,14 +329,14 @@
       <div class="conv-inputs">
         <div id="h2gInputs">
           <div class="row">
-            <div style="flex:1"><label class="fl">اليوم</label><select id="h_d"></select></div>
+            <div style="flex:1.25"><label class="fl">اليوم</label><select id="h_d"></select></div>
             <div style="flex:2"><label class="fl">الشهر</label><select id="h_m"></select></div>
             <div style="flex:1.3"><label class="fl">السنة الهجرية</label><input type="text" id="h_y" inputmode="numeric" maxlength="4"></div>
           </div>
         </div>
         <div id="g2hInputs" hidden>
           <div class="row">
-            <div style="flex:1"><label class="fl">اليوم</label><select id="g_d"></select></div>
+            <div style="flex:1.25"><label class="fl">اليوم</label><select id="g_d"></select></div>
             <div style="flex:2"><label class="fl">الشهر</label><select id="g_m"></select></div>
             <div style="flex:1.3"><label class="fl">السنة الميلادية</label><input type="text" id="g_y" inputmode="numeric" maxlength="4"></div>
           </div>
@@ -588,6 +600,9 @@ function init(){
 
   document.getElementById('yearBtn').addEventListener('click',()=>renderYear(numVal('yearInput')));
   document.getElementById('yearInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('yearBtn').click();});
+  function stepYear(delta){const inp=document.getElementById('yearInput');let v=parseInt(normDigits(inp.value),10);if(isNaN(v))v=1448;v=Math.min(1500,Math.max(1300,v+delta));inp.value=v;renderYear(v);}
+  document.getElementById('yearUp').addEventListener('click',()=>stepYear(1));
+  document.getElementById('yearDown').addEventListener('click',()=>stepYear(-1));
   document.querySelectorAll('#convSeg .seg-btn').forEach(b=>b.addEventListener('click',()=>setConvDir(b.dataset.dir)));
   document.getElementById('convBtn').addEventListener('click',runConvert);
 
