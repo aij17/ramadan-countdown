@@ -319,9 +319,9 @@
           </g>
           <circle r="23" fill="var(--sun,#ffb54d)"></circle>
         </g>
-        <g class="cbody" id="moon">
-          <circle r="26" fill="var(--moon-dark,#cfc7e0)"></circle>
-          <path id="moonLit" fill="var(--moon,#fdfbef)" d="M0 -26 A26 26 0 0 1 0 26 A26 26 0 0 1 0 -26 Z"></path>
+        <g class="cbody" id="moon" transform="scale(-1 1)">
+          <circle r="26" fill="var(--moon,#fdfbef)"></circle>
+          <path id="moonShadow" fill="var(--moon-dark,#cfc7e0)" d=""></path>
         </g>
       </svg>
     </div>
@@ -662,10 +662,10 @@ function initReveal(){
 }
 
 /* ---------- السماء الحيّة (وقت مكة + طور القمر الهجري) ---------- */
-function moonLitPath(R,phase){
-  // phase 0..1 (0=محاق، .5=بدر) — يرسم الجزء المضيء من القرص
+function moonShadowPath(R,phase){
+  // phase 0..1 (0=محاق، .5=بدر) — يرسم الجزء المُظلم (يُرسم فوق قرص مضيء)
   const c=Math.cos(2*Math.PI*phase), rx=Math.abs(c*R), waxing=phase<0.5;
-  const limbSweep=waxing?1:0;                       // الحافة: نصف دائرة يمنى للمتزايد، يسرى للمتناقص
+  const limbSweep=waxing?1:0;                       // حافة الظل
   const termSweep=waxing?(c>0?1:0):(c>0?0:1);       // الفاصل الضوئي
   return `M0 ${-R} A ${R} ${R} 0 0 ${limbSweep} 0 ${R} A ${rx.toFixed(2)} ${R} 0 0 ${termSweep} 0 ${-R} Z`;
 }
@@ -702,7 +702,7 @@ function updateSky(){
     document.getElementById('moon').classList.add('show');
     document.getElementById('sun').classList.remove('show');
     const d=gregToHijri(todayUTC()).d, phase=(((d-1)/29.53)%1+1)%1;
-    document.getElementById('moonLit').setAttribute('d',moonLitPath(26,phase));
+    document.getElementById('moonShadow').setAttribute('d',moonShadowPath(26,phase));
   }
   cy=Math.max(14,Math.min(74,cy));
   document.getElementById('heroFixed').classList.toggle('is-night',!day);
