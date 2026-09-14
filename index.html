@@ -224,6 +224,14 @@
   .ntable td.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
   .ntable-wrap{overflow-x:auto}
   @media(max-width:520px){.ntable .col-dur{display:none} .ntable th,.ntable td{padding:9px 6px;font-size:.86rem}}
+  /* عناقيد النجوم داخل الأيقونات */
+  .starmini{display:flex;flex-wrap:wrap;gap:2px 3px;align-items:center;justify-content:center;color:var(--primary)}
+  .featured .ficon .starmini{max-width:44px}
+  .featured .ficon .starmini svg{width:17px;height:17px}
+  .featured .ficon .starmini:has(svg:only-child) svg{width:30px;height:30px}
+  .ev .evicon .starmini{max-width:36px}
+  .ev .evicon .starmini svg{width:13px;height:13px}
+  .ev .evicon .starmini:has(svg:only-child) svg{width:24px;height:24px}
 
   /* Events list */
   .events{display:flex;flex-direction:column;gap:14px}
@@ -444,11 +452,11 @@
   <section>
     <div class="sec-head reveal">
       <span class="sec-kicker">جدول البسام</span>
-      <h2>نجوم السنة كاملة</h2>
-      <p>الـ19 نجمًا بأسمائها وعدد نجومها ومدّتها وتاريخ دخولها الميلادي — والنجم الحالي مميّز.</p>
+      <h2>نجوم السنة على التوالي</h2>
+      <p>الـ19 نجمًا بالترتيب من النجم الحالي — كل نجم بعدد نجومه ومدّته وتاريخ دخوله، والمتبقّي على دخوله.</p>
       <div class="rule"></div>
     </div>
-    <div class="panel reveal"><div id="nujumTable"></div></div>
+    <div class="events" id="nujumList"></div>
   </section>
 
   <!-- CONVERTER -->
@@ -598,39 +606,55 @@ function nujumNow(){
   const next=cands.find(c=>c.date>t)||cands[0];
   return {cur,next,remain:Math.round((next.date-t)/DAY)};
 }
+function nextEntryOf(star,t){const Y=new Date(t).getUTCFullYear();for(let dy=0;dy<=2;dy++){const dt=Date.UTC(Y+dy,star.m-1,star.d);if(dt>t)return dt;}return Date.UTC(Y+2,star.m-1,star.d);}
 function buildNujumUI(){
   const box=document.getElementById('starNow'); if(!box) return;
-  const {cur,next,remain}=nujumNow(); const g=new Date(next.date);
-  box.innerHTML=`<div class="starcard">
-    <div class="sc-head">
-      <div class="sc-ico ${cur.s.stars===1?'n1':''}">${starCluster(cur.s.stars)}</div>
-      <div>
-        <div class="sc-lbl">النجم الحالي</div>
-        <div class="sc-name">${cur.s.name}</div>
-        <div class="sc-sub">عدد النجوم: ${ar(cur.s.stars)} · مدّته ${ar(cur.s.dur)} يومًا</div>
-      </div>
+  const {cur,next}=nujumNow();
+  const entered=new Date(cur.date), g=new Date(next.date);
+  // بطاقة النجم الحالي بنفس تصميم "المناسبة القادمة" + عدّاد حي حتى النجم القادم
+  box.innerHTML=`<div class="featured">
+    <div class="flabel">النجم الحالي · حساب البسّام (نجد)</div>
+    <div class="ftitle">
+      <div class="ficon"><span class="starmini">${starCluster(cur.s.stars)}</span></div>
+      <div class="fname">${cur.s.name}</div>
     </div>
-    <div class="sc-next">
-      <div class="sc-remain"><b>${ar(remain)}</b><span>يومًا حتى النجم القادم</span></div>
-      <div class="sc-nextinfo">النجم القادم: <b>${next.s.name}</b> (${ar(next.s.stars)} ${next.s.stars>2?'نجوم':'نجم'})<br>
-        يدخل <span class="wd">${weekdayAr(g)}</span> · <b>${fmtGregShort.format(g)} م</b> · ${fmtHijriShort.format(g)}</div>
+    <div class="fmeta">
+      دخل <span class="day-tag">${weekdayAr(entered)}</span> · <b>${fmtHijriShort.format(entered)}</b><br>
+      الموافق <b>${fmtGregShort.format(entered)} م</b> · عدد النجوم <b>${ar(cur.s.stars)}</b> · مدّته <b>${ar(cur.s.dur)}</b> يومًا
     </div>
+    <div class="count" id="starcount">
+      <div class="u"><b data-d>0</b><i>يـــــوم</i></div>
+      <div class="u"><b data-h>0</b><i>ساعة</i></div>
+      <div class="u"><b data-min>0</b><i>دقيقة</i></div>
+      <div class="u"><b data-sec>0</b><i>ثانية</i></div>
+    </div>
+    <div class="ftz">⏱ المتبقّي حتى دخول النجم القادم: ${next.s.name}</div>
   </div>`;
-  const tb=document.getElementById('nujumTable'); if(!tb) return;
-  let rows='';
-  NUJUM.forEach((s,i)=>{
-    const g2=new Date(Date.UTC(2000,s.m-1,s.d)); // للعرض: اليوم/الشهر فقط
-    const dd=new Intl.DateTimeFormat('ar-SA-u-nu-latn',{day:'numeric',month:'long',timeZone:'UTC'}).format(g2);
-    rows+=`<tr class="${i===cur.i?'now':''}">
-      <td class="rk">${ar(i+1)}</td>
-      <td class="nm">${s.name}</td>
-      <td><span class="stars-cell">${starCluster(s.stars)}</span></td>
-      <td class="num col-dur">${ar(s.dur)}</td>
-      <td class="num">${dd}</td></tr>`;
+  liveEls.push({type:'featured',el:document.getElementById('starcount'),target:g});
+
+  // قائمة النجوم على التوالي (نفس تصميم "المواسم القادمة") — كل نجم لحاله
+  const list=document.getElementById('nujumList'); if(!list) return;
+  const t=todayUTC().getTime();
+  const others=NUJUM.map((s,i)=>({s,i,date:nextEntryOf(s,t)})).filter(o=>o.i!==cur.i).sort((a,b)=>a.date-b.date);
+  const ordered=[{s:cur.s,i:cur.i,current:true,date:cur.date},...others];
+  list.innerHTML='';
+  ordered.forEach((o,idx)=>{
+    const dt=new Date(o.date);
+    const el=document.createElement('div');
+    el.className='ev reveal'+(o.current?' is-today':'');
+    el.style.transitionDelay=(idx*60)+'ms';
+    const dateLine=(o.current?'دخل ':'يدخل ')+`<span class="wd">${weekdayAr(dt)}</span><span class="sep">·</span>${fmtGregShort.format(dt)} م`;
+    const sub=`${fmtHijriShort.format(dt)} · ${ar(o.s.stars)} ${o.s.stars>2?'نجوم':'نجم'} · المدّة ${ar(o.s.dur)} يومًا`;
+    const cnt=o.current
+      ? `<div class="evcount"><div class="n" data-d>الآن</div><div class="l">النجم الحالي</div></div>`
+      : `<div class="evcount"><div class="n" data-d>0</div><div class="l">يوم على دخوله</div></div>`;
+    el.innerHTML=`<span class="evicon"><span class="starmini">${starCluster(o.s.stars)}</span></span>
+      <div class="evbody"><div class="evname">${o.s.name}</div>
+        <div class="evdate">${dateLine}</div><div class="evsub">${sub}</div></div>${cnt}`;
+    list.appendChild(el); observeReveal(el);
+    if(!o.current) liveEls.push({type:'row',el,target:dt});
   });
-  tb.innerHTML=`<div class="ntable-wrap"><table class="ntable">
-    <thead><tr><th>#</th><th>النجم</th><th>النجوم</th><th class="col-dur">المدّة</th><th>يوم الدخول</th></tr></thead>
-    <tbody>${rows}</tbody></table></div>`;
+  tick();
 }
 
 /* ---------- today ---------- */
