@@ -89,7 +89,9 @@
   #celestial{position:absolute;left:var(--cx,82%);top:var(--cy,20%);width:clamp(62px,11.5vw,112px);height:clamp(62px,11.5vw,112px);
     transform:translate(-50%,-50%);transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
   #celestial>.cbody{position:absolute;inset:0}
-  #celestial #moon{width:100%;height:100%;overflow:visible}
+  #celestial #moon{width:100%;height:100%;overflow:visible;
+    filter:drop-shadow(0 0 5px color-mix(in srgb,var(--halo,#e6e0ff) 80%,transparent)) drop-shadow(0 0 12px color-mix(in srgb,var(--halo,#e6e0ff) 40%,transparent));
+    transition:transform 1.4s var(--ease)}
   .cbody{display:none}.cbody.show{display:block}
   /* الشمس = كرة متوهّجة بتوهّج واقعي (glow) بدون خطوط — تظهر فقط عند إضافة .show */
   #sun.show{display:grid;place-items:center}
@@ -104,10 +106,8 @@
     background:radial-gradient(circle at 40% 36%,#fff7dc 0%,#ffe08a 46%,var(--sun,#ffb64d) 100%);
     box-shadow:0 0 12px 2px color-mix(in srgb,var(--sun,#ffb64d) 55%,transparent)}
   @keyframes sunGlow{0%,100%{opacity:.78;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
-  .moon-halo{transform-box:fill-box;transform-origin:center;animation:moonPulse 6s ease-in-out infinite}
-  @keyframes moonPulse{0%,100%{opacity:.7}50%{opacity:1}}
-  @media(prefers-reduced-motion:reduce){#sun::before,.moon-halo{animation:none}#stars i{animation:none}
-    #celestial,#skyWash,#stars{transition:none}}
+  @media(prefers-reduced-motion:reduce){#sun::before{animation:none}#stars i{animation:none}
+    #celestial,#skyWash,#stars,#celestial #moon{transition:none}}
   .hero{position:relative;min-height:96vh;display:flex;flex-direction:column;justify-content:center;text-align:center;border-radius:0 0 34px 34px}
   .hero-inner{max-width:1000px;margin:0 auto;padding:72px 22px}
   .hero-scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:var(--primary);opacity:.7;
@@ -325,17 +325,8 @@
     <div id="celestial">
       <div class="cbody" id="sun"><span></span></div>
       <svg class="cbody" id="moon" viewBox="-42 -42 84 84">
-        <defs>
-          <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="var(--halo,rgba(226,222,255,.85))"></stop>
-            <stop offset="60%" stop-color="rgba(214,206,244,.14)"></stop>
-            <stop offset="100%" stop-color="rgba(214,206,244,0)"></stop>
-          </radialGradient>
-        </defs>
-        <circle class="moon-halo" r="38" fill="url(#moonGlow)"></circle>
         <g transform="scale(-1 1)">
-          <circle r="26" fill="var(--moon,#fdfbef)"></circle>
-          <path id="moonShadow" fill="var(--moon-dark,#cfc7e0)" d=""></path>
+          <path id="moonLit" fill-rule="evenodd" fill="var(--moon,#fdfbef)" d=""></path>
         </g>
       </svg>
     </div>
@@ -561,7 +552,7 @@ function buildEventsUI(){
       الموافق <b>${fmtGregShort.format(nearest.greg)} م</b>${lenNote?'<br>'+lenNote:''}
     </div>
     <div class="count" id="fcount">
-      <div class="u"><b data-d>0</b><i>يـــوم</i></div>
+      <div class="u"><b data-d>0</b><i>يـــــوم</i></div>
       <div class="u"><b data-h>0</b><i>ساعة</i></div>
       <div class="u"><b data-min>0</b><i>دقيقة</i></div>
       <div class="u"><b data-sec>0</b><i>ثانية</i></div>
@@ -693,6 +684,11 @@ function moonShadowPath(R,phase){
   const termSweep=waxing?(c>0?1:0):(c>0?0:1);       // الفاصل الضوئي
   return `M0 ${-R} A ${R} ${R} 0 0 ${limbSweep} 0 ${R} A ${rx.toFixed(2)} ${R} 0 0 ${termSweep} 0 ${-R} Z`;
 }
+// هلال واقعي: القرص كامل ناقص الظل (fill-rule=evenodd) — الجزء غير المضيء شفّاف
+function moonLitPath(R,phase){
+  const circle=`M ${R} 0 A ${R} ${R} 0 1 1 ${-R} 0 A ${R} ${R} 0 1 1 ${R} 0 Z`;
+  return circle+' '+moonShadowPath(R,phase);
+}
 /* لوحة سماء متصلة عبر اليوم (تُدرَّج بين اللحظات لانتقال سلس واحترافي) — بتوقيت مكة */
 const SKY_KF=[
   {h:0,   top:'#171240', mid:'#2c2560', op:.86, stars:1,   sun:'#ffd36a'},
@@ -743,7 +739,10 @@ function updateSky(){
     document.getElementById('moon').classList.add('show');
     document.getElementById('sun').classList.remove('show');
     const d=gregToHijri(todayUTC()).d, phase=(((d-1)/29.53)%1+1)%1;
-    document.getElementById('moonShadow').setAttribute('d',moonShadowPath(26,phase));
+    document.getElementById('moonLit').setAttribute('d',moonLitPath(26,phase));
+    // يكبر حجم الهلال مع تقدّم الشهر (حسب نسبة الإضاءة): رفيع أول الشهر → بدر منتصفه
+    const illum=(1-Math.cos(2*Math.PI*phase))/2, ms=(0.72+0.42*illum).toFixed(3);
+    document.getElementById('moon').style.transform='scale('+ms+')';
   }
   cy=Math.max(12,Math.min(46,cy));
   document.getElementById('heroFixed').classList.toggle('is-night',!day);
