@@ -517,10 +517,20 @@ function renderToday(){const u=todayUTC();
 
 /* ---------- featured + list ---------- */
 let liveEls=[];
+/* اختيار صورة الخلفية حسب المناسبة القادمة (بجودة عالية من صور واس) */
+let heroSlides=[], heroIdx=0, currentNearestKey='ramadan';
+// 0=المسجد النبوي · 1=الكعبة ليلاً · 2=الكعبة نهارًا (بالإحرام)
+const HERO_FOR_EVENT={ramadan:0, fitr:0, newyear:1, arafah:2, adha:2};
+function setHeroForEvent(key){
+  if(!heroSlides.length) return;
+  const idx=HERO_FOR_EVENT[key]??0; heroIdx=idx;
+  heroSlides.forEach((s,i)=>s.classList.toggle('on',i===idx));
+}
 function buildEventsUI(){
   const todayH=gregToHijri(todayUTC());
   const occ=EVENTS.map(ev=>({ev,...nextOccurrence(ev,todayH)}));
   const nearest=occ.reduce((a,b)=>b.greg<a.greg?b:a); // المناسبة القادمة = الأقرب زمنيًا
+  currentNearestKey=nearest.ev.key; setHeroForEvent(currentNearestKey); // صورة الخلفية تدلّ على المناسبة القادمة
   const listOcc=[...occ].sort((a,b)=>a.greg-b.greg); // قائمة "المواسم القادمة" = الأقرب أولًا
   liveEls=[];
 
@@ -738,12 +748,12 @@ function init(){
   document.getElementById('convBtn').addEventListener('click',runConvert);
 
   const nav=document.getElementById('nav');
-  const slides=[...document.querySelectorAll('.hero-slide')];
+  heroSlides=[...document.querySelectorAll('.hero-slide')];
+  setHeroForEvent(currentNearestKey); // ابدأ بالصورة المناسبة للمناسبة القادمة
   const reduceM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   // تبديل الصور الثابتة بتلاشٍ ناعم (الصور تبقى مكانها والصفحة تتحرك عادي فوقها)
-  let hi=0;
-  if(slides.length>1 && !reduceM){
-    setInterval(()=>{slides[hi].classList.remove('on');hi=(hi+1)%slides.length;slides[hi].classList.add('on');},6500);
+  if(heroSlides.length>1 && !reduceM){
+    setInterval(()=>{heroSlides[heroIdx].classList.remove('on');heroIdx=(heroIdx+1)%heroSlides.length;heroSlides[heroIdx].classList.add('on');},6500);
   }
   let lastY=window.scrollY;
   function onScroll(){
