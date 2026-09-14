@@ -86,18 +86,29 @@
   #stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
     box-shadow:0 0 4px 1px rgba(255,255,255,.75);animation:twinkle 4.2s ease-in-out infinite}
   @keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
-  #celestial{position:absolute;left:var(--cx,82%);top:var(--cy,20%);width:clamp(58px,11vw,104px);height:clamp(58px,11vw,104px);
-    transform:translate(-50%,-50%);filter:drop-shadow(0 4px 14px rgba(70,50,120,.25));
-    transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
-  #celestial svg{width:100%;height:100%;overflow:visible;display:block}
+  #celestial{position:absolute;left:var(--cx,82%);top:var(--cy,20%);width:clamp(62px,11.5vw,112px);height:clamp(62px,11.5vw,112px);
+    transform:translate(-50%,-50%);transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
+  #celestial>.cbody{position:absolute;inset:0}
+  #celestial #moon{width:100%;height:100%;overflow:visible;display:block}
   .cbody{display:none}.cbody.show{display:block}
-  .sun-ring{transform-box:fill-box;transform-origin:center;animation:spin 48s linear infinite}
+  /* الشمس الواقعية: نواة حارّة + توهّج جوّي + أشعة god-rays ناعمة دوّارة */
+  #sun{border-radius:50%}
+  .sun-core{position:absolute;inset:27%;border-radius:50%;z-index:3;
+    background:radial-gradient(circle at 40% 34%, #fffdf4 0%, #ffe89a 42%, var(--sun,#ffb64d) 100%);
+    box-shadow:0 0 16px 2px color-mix(in srgb,var(--sun,#ffb64d) 65%,transparent), inset 0 -3px 8px rgba(214,120,40,.35), inset 0 3px 7px rgba(255,255,255,.55)}
+  .sun-bloom{position:absolute;inset:-42%;border-radius:50%;z-index:1;
+    background:radial-gradient(circle, rgba(255,247,216,.92) 0%, color-mix(in srgb,var(--sun,#ffcf6a) 55%,transparent) 24%, rgba(255,170,70,.12) 46%, transparent 68%);
+    animation:sunPulse 5s ease-in-out infinite}
+  .sun-rays{position:absolute;inset:-58%;border-radius:50%;z-index:2;opacity:.72;filter:blur(1.1px);
+    background:repeating-conic-gradient(from 0deg, color-mix(in srgb,var(--sun,#ffce6a) 62%,transparent) 0deg 2.2deg, transparent 2.2deg 15deg);
+    -webkit-mask:radial-gradient(circle, transparent 23%, #000 34%, transparent 66%);
+    mask:radial-gradient(circle, transparent 23%, #000 34%, transparent 66%);
+    animation:spin 64s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .sun-corona{transform-box:fill-box;transform-origin:center;animation:sunPulse 4.5s ease-in-out infinite}
-  @keyframes sunPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
+  @keyframes sunPulse{0%,100%{opacity:.72;transform:scale(1)}50%{opacity:1;transform:scale(1.09)}}
   .moon-halo{transform-box:fill-box;transform-origin:center;animation:moonPulse 6s ease-in-out infinite}
   @keyframes moonPulse{0%,100%{opacity:.7}50%{opacity:1}}
-  @media(prefers-reduced-motion:reduce){.sun-ring,.sun-corona,.moon-halo{animation:none}#stars i{animation:none}
+  @media(prefers-reduced-motion:reduce){.sun-rays,.sun-bloom,.moon-halo{animation:none}#stars i{animation:none}
     #celestial,#skyWash,#stars{transition:none}}
   .hero{position:relative;min-height:96vh;display:flex;flex-direction:column;justify-content:center;text-align:center;border-radius:0 0 34px 34px}
   .hero-inner{max-width:1000px;margin:0 auto;padding:72px 22px}
@@ -313,37 +324,24 @@
     <div id="skyWash"></div>
     <div id="stars"></div>
     <div id="celestial">
-      <svg viewBox="-60 -60 120 120">
+      <div class="cbody" id="sun">
+        <div class="sun-rays"></div>
+        <div class="sun-bloom"></div>
+        <div class="sun-core"></div>
+      </div>
+      <svg class="cbody" id="moon" viewBox="-42 -42 84 84">
         <defs>
-          <radialGradient id="sunCore" cx="42%" cy="38%" r="65%">
-            <stop offset="0" stop-color="#fff8e0"></stop>
-            <stop offset="52%" stop-color="#ffd166"></stop>
-            <stop offset="100%" stop-color="#ff9e42"></stop>
-          </radialGradient>
-          <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="rgba(255,203,92,.55)"></stop>
-            <stop offset="55%" stop-color="rgba(255,178,71,.20)"></stop>
-            <stop offset="100%" stop-color="rgba(255,178,71,0)"></stop>
-          </radialGradient>
           <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0" stop-color="var(--halo,rgba(226,222,255,.85))"></stop>
             <stop offset="60%" stop-color="rgba(214,206,244,.14)"></stop>
             <stop offset="100%" stop-color="rgba(214,206,244,0)"></stop>
           </radialGradient>
         </defs>
-        <g class="cbody" id="sun">
-          <circle class="sun-corona" r="50" fill="url(#sunGlow)"></circle>
-          <circle class="sun-ring" r="33" fill="none" stroke="url(#sunCore)" stroke-width="1.4" stroke-opacity=".5" stroke-linecap="round" stroke-dasharray="2.5 8"></circle>
-          <circle r="23" fill="url(#sunCore)"></circle>
-          <circle r="23" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.1"></circle>
-        </g>
-        <g class="cbody" id="moon">
-          <circle class="moon-halo" r="40" fill="url(#moonGlow)"></circle>
-          <g transform="scale(-1 1)">
-            <circle r="26" fill="var(--moon,#fdfbef)"></circle>
-            <path id="moonShadow" fill="var(--moon-dark,#cfc7e0)" d=""></path>
-            <circle r="26" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1"></circle>
-          </g>
+        <circle class="moon-halo" r="40" fill="url(#moonGlow)"></circle>
+        <g transform="scale(-1 1)">
+          <circle r="26" fill="var(--moon,#fdfbef)"></circle>
+          <path id="moonShadow" fill="var(--moon-dark,#cfc7e0)" d=""></path>
+          <circle r="26" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1"></circle>
         </g>
       </svg>
     </div>
