@@ -91,21 +91,23 @@
   #celestial>.cbody{position:absolute;inset:0}
   #celestial #moon{width:100%;height:100%;overflow:visible;display:block}
   .cbody{display:none}.cbody.show{display:block}
-  /* قوس السماء + نقطة متوهّجة (بأسلوب مؤشّر نُسك) */
-  #skyArc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-  #arcBg{stroke:color-mix(in srgb,var(--primary) 20%,transparent);stroke-width:1.4}
-  #arcFg{stroke:var(--arcfg,#ffb64d);stroke-width:2.4;stroke-linecap:round;
-    transition:stroke-dasharray 1.4s var(--ease),stroke 1s ease}
-  /* الشمس = نقطة نظيفة متوهّجة (مثل مؤشّر نُسك) */
+  /* الشمس = كرة متوهّجة بتوهّج واقعي (glow) بدون خطوط */
   #sun{display:grid;place-items:center}
-  #sun span{width:44%;height:44%;border-radius:50%;
-    background:radial-gradient(circle at 42% 38%,#fff4cf,var(--sun,#ffb64d) 74%);
-    animation:dotPulse 4.5s ease-in-out infinite}
-  @keyframes dotPulse{0%,100%{box-shadow:0 0 0 4px color-mix(in srgb,var(--sun,#ffb64d) 14%,transparent),0 0 15px 4px color-mix(in srgb,var(--sun,#ffb64d) 42%,transparent)}50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--sun,#ffb64d) 18%,transparent),0 0 22px 6px color-mix(in srgb,var(--sun,#ffb64d) 54%,transparent)}}
+  #sun::before{content:"";position:absolute;inset:-32%;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,
+      color-mix(in srgb,var(--sun,#ffb64d) 60%,transparent) 0%,
+      color-mix(in srgb,var(--sun,#ffb64d) 30%,transparent) 30%,
+      color-mix(in srgb,var(--sun,#ffb64d) 10%,transparent) 50%,
+      transparent 70%);
+    animation:sunGlow 4.6s ease-in-out infinite}
+  #sun span{position:relative;width:42%;height:42%;border-radius:50%;
+    background:radial-gradient(circle at 40% 36%,#fff7dc 0%,#ffe08a 46%,var(--sun,#ffb64d) 100%);
+    box-shadow:0 0 12px 2px color-mix(in srgb,var(--sun,#ffb64d) 55%,transparent)}
+  @keyframes sunGlow{0%,100%{opacity:.78;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
   .moon-halo{transform-box:fill-box;transform-origin:center;animation:moonPulse 6s ease-in-out infinite}
   @keyframes moonPulse{0%,100%{opacity:.7}50%{opacity:1}}
-  @media(prefers-reduced-motion:reduce){#sun,.moon-halo{animation:none}#stars i{animation:none}
-    #celestial,#skyWash,#stars,#arcFg{transition:none}}
+  @media(prefers-reduced-motion:reduce){#sun::before,.moon-halo{animation:none}#stars i{animation:none}
+    #celestial,#skyWash,#stars{transition:none}}
   .hero{position:relative;min-height:96vh;display:flex;flex-direction:column;justify-content:center;text-align:center;border-radius:0 0 34px 34px}
   .hero-inner{max-width:1000px;margin:0 auto;padding:72px 22px}
   .hero-scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:var(--primary);opacity:.7;
@@ -319,10 +321,6 @@
   <div id="sky" aria-hidden="true">
     <div id="skyWash"></div>
     <div id="stars"></div>
-    <svg id="skyArc" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <path id="arcBg" fill="none" vector-effect="non-scaling-stroke"></path>
-      <path id="arcFg" fill="none" vector-effect="non-scaling-stroke" pathLength="100"></path>
-    </svg>
     <div id="celestial">
       <div class="cbody" id="sun"><span></span></div>
       <svg class="cbody" id="moon" viewBox="-42 -42 84 84">
@@ -710,21 +708,19 @@ function buildStars(n){
     html+=`<i style="left:${x}%;top:${y}%;transform:scale(${s});animation-delay:${d}s"></i>`;}
   box.innerHTML=html;
 }
-// مسار القوس (يطابق معادلة موضع النقطة) — dir=true للشمس يمين→يسار، false للقمر يسار→يمين
-function arcPathStr(dir){let d='';for(let i=0;i<=44;i++){const p=i/44;const x=dir?(88-p*76):(12+p*76);const y=42-Math.sin(p*Math.PI)*28;d+=(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2);}return d;}
 function updateSky(){
   const el=document.getElementById('celestial'); if(!el) return;
   const now=new Date(Date.now()+MECCA_OFFSET), h=now.getUTCHours()+now.getUTCMinutes()/60;
   const sunrise=5.5, sunset=18.5, day=(h>=sunrise&&h<sunset);
   const rs=document.documentElement.style;
-  let cx,cy,prog;
+  let cx,cy;
   if(day){
-    const p=(h-sunrise)/(sunset-sunrise); prog=p;
+    const p=(h-sunrise)/(sunset-sunrise);
     cx=88-p*76; cy=42-Math.sin(p*Math.PI)*28; // الشمس تشرق يمينًا وتغرب يسارًا (نطاق سماء علوي)
     document.getElementById('sun').classList.add('show');
     document.getElementById('moon').classList.remove('show');
   }else{
-    const nh=h<sunrise?h+24:h, np=(nh-sunset)/((sunrise+24)-sunset); prog=np;
+    const nh=h<sunrise?h+24:h, np=(nh-sunset)/((sunrise+24)-sunset);
     cx=12+np*76; cy=42-Math.sin(np*Math.PI)*28; // القمر عكس الشمس: يشرق يسارًا ويغرب يمينًا
     document.getElementById('moon').classList.add('show');
     document.getElementById('sun').classList.remove('show');
@@ -734,10 +730,6 @@ function updateSky(){
   cy=Math.max(12,Math.min(46,cy));
   document.getElementById('heroFixed').classList.toggle('is-night',!day);
   const m=skyMood(h,day);
-  // القوس: خلفية باهتة كاملة + مسار ملوّن يمتلئ حتى موضع النقطة
-  const arcBg=document.getElementById('arcBg'), arcFg=document.getElementById('arcFg');
-  if(arcBg){arcBg.setAttribute('d',arcPathStr(true)); arcFg.setAttribute('d',arcPathStr(day)); arcFg.setAttribute('stroke-dasharray',(Math.max(0,Math.min(1,prog))*100).toFixed(1)+' 100');}
-  rs.setProperty('--arcfg', day?m.sun:m.moon);
   rs.setProperty('--cx',cx.toFixed(1)+'%'); rs.setProperty('--cy',cy.toFixed(1)+'%');
   rs.setProperty('--sky-1',m.s1); rs.setProperty('--sky-2',m.s2);
   rs.setProperty('--sky-op',m.op); rs.setProperty('--star-op',m.stars);
