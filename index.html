@@ -188,6 +188,43 @@
   .featured .ftz{margin-top:16px;text-align:center;color:var(--primary);font-size:.82rem;font-weight:600;
     background:var(--primary-tint);border-radius:999px;padding:7px 14px;display:inline-block}
 
+  /* نجوم السنة — بطاقة النجم الحالي */
+  .starcard{background:linear-gradient(180deg,var(--surface),var(--surface-2));border:1px solid var(--line);
+    border-radius:24px;padding:30px;box-shadow:var(--e4);position:relative;overflow:hidden}
+  .starcard::before{content:"";position:absolute;top:-40%;right:-8%;width:52%;height:120%;pointer-events:none;
+    background:radial-gradient(ellipse at center,color-mix(in srgb,var(--primary) 20%,transparent),transparent 68%);opacity:.5;filter:blur(10px)}
+  .starcard>*{position:relative;z-index:1}
+  .sc-head{display:flex;align-items:center;gap:18px}
+  .sc-ico{flex:none;min-width:78px;height:78px;padding:0 12px;border-radius:20px;background:radial-gradient(circle at 30% 25%,#fff,var(--primary-tint));
+    border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);box-shadow:var(--e2);
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:3px}
+  .sc-ico svg{width:20px;height:20px;color:var(--primary)}
+  .sc-ico.n1 svg{width:30px;height:30px}
+  .sc-lbl{color:var(--primary);font-weight:600;font-size:.8rem;letter-spacing:1px}
+  .sc-name{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:700;color:var(--heading);line-height:1.2;margin-top:2px}
+  .sc-sub{color:var(--muted);font-size:.9rem;margin-top:4px}
+  .sc-next{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+  .sc-remain{flex:none;text-align:center;background:var(--primary-tint);border-radius:16px;padding:12px 20px;min-width:110px}
+  .sc-remain b{display:block;font-size:2rem;font-weight:700;color:var(--primary);line-height:1;font-variant-numeric:tabular-nums;direction:ltr}
+  .sc-remain span{font-size:.72rem;color:var(--muted);margin-top:5px;display:block}
+  .sc-nextinfo{flex:1;min-width:200px;color:var(--text);font-size:1rem;line-height:1.9}
+  .sc-nextinfo b{color:var(--heading);font-weight:600}
+  .sc-nextinfo .wd{color:var(--primary);font-weight:600}
+  /* جدول النجوم */
+  .ntable{width:100%;border-collapse:collapse;font-size:.92rem}
+  .ntable th,.ntable td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--line-2)}
+  .ntable th{color:var(--muted);font-weight:600;font-size:.78rem;letter-spacing:.3px;position:sticky;top:0}
+  .ntable td.nm{font-weight:600;color:var(--heading);text-align:right;white-space:nowrap}
+  .ntable .stars-cell{display:inline-flex;gap:2px;color:var(--primary)}
+  .ntable .stars-cell svg{width:13px;height:13px}
+  .ntable tr.now{background:var(--primary-tint)}
+  .ntable tr.now td{color:var(--heading)}
+  .ntable tr.now td.nm{color:var(--primary)}
+  .ntable .rk{color:var(--muted);font-variant-numeric:tabular-nums}
+  .ntable td.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+  .ntable-wrap{overflow-x:auto}
+  @media(max-width:520px){.ntable .col-dur{display:none} .ntable th,.ntable td{padding:9px 6px;font-size:.86rem}}
+
   /* Events list */
   .events{display:flex;flex-direction:column;gap:14px}
   .ev{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
@@ -358,6 +395,17 @@
 <div class="solid">
   <div class="wrap">
 
+  <!-- نجم السنة الحالي (حساب البسام) -->
+  <section>
+    <div class="sec-head reveal">
+      <span class="sec-kicker">حساب النجوم — نجد</span>
+      <h2>نجم السنة الحالي</h2>
+      <p>منازل السنة كما رتّبها ابن بسّام في نجد — أيّ نجمٍ نحن فيه الآن، وكم بقي على النجم القادم.</p>
+      <div class="rule"></div>
+    </div>
+    <div id="starNow" class="reveal"></div>
+  </section>
+
   <!-- ALL EVENTS -->
   <section>
     <div class="sec-head reveal">
@@ -390,6 +438,17 @@
       <div class="ylist" id="ylist"></div>
       <p class="hint">المدى المدعوم: من 1300 إلى 1500 هجري.</p>
     </div>
+  </section>
+
+  <!-- جدول نجوم السنة (البسام) -->
+  <section>
+    <div class="sec-head reveal">
+      <span class="sec-kicker">جدول البسام</span>
+      <h2>نجوم السنة كاملة</h2>
+      <p>الـ19 نجمًا بأسمائها وعدد نجومها ومدّتها وتاريخ دخولها الميلادي — والنجم الحالي مميّز.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="panel reveal"><div id="nujumTable"></div></div>
   </section>
 
   <!-- CONVERTER -->
@@ -513,6 +572,66 @@ const EVENTS=[
   {key:'adha',    name:'عيد الأضحى',         m:12, d:10},
 ];
 function nextOccurrence(ev,todayH){let y=todayH.y;if(cmp({y:todayH.y,m:ev.m,d:ev.d},todayH)<0)y=todayH.y+1;return{hy:y,greg:hijriToGreg(y,ev.m,ev.d)};}
+
+/* ---------- نجوم السنة (حساب البسّام — نجد) ---------- */
+// m/d = تاريخ دخول النجم الميلادي الثابت · stars = عدد النجوم · dur = مدّته بالأيام
+const NUJUM=[
+  {name:'سهيل',stars:4,dur:52,m:8,d:19},   {name:'الوسم',stars:4,dur:52,m:10,d:10},
+  {name:'المربانية',stars:3,dur:40,m:12,d:1},{name:'شباط أول',stars:1,dur:13,m:1,d:10},
+  {name:'شباط ثاني',stars:1,dur:13,m:1,d:23},{name:'العقرب الأولى',stars:1,dur:13,m:2,d:5},
+  {name:'العقرب الثانية',stars:1,dur:13,m:2,d:18},{name:'العقرب الثالثة',stars:1,dur:13,m:3,d:2},
+  {name:'الحميم الأول',stars:1,dur:13,m:3,d:16},{name:'الحميم الثاني',stars:1,dur:13,m:3,d:29},
+  {name:'الذراع الأول',stars:1,dur:13,m:4,d:11},{name:'الذراع الثاني',stars:1,dur:13,m:4,d:24},
+  {name:'الشريطين',stars:1,dur:13,m:5,d:7},   {name:'البطين',stars:1,dur:13,m:5,d:20},
+  {name:'الثريا',stars:1,dur:13,m:6,d:2},     {name:'التويبع',stars:1,dur:13,m:6,d:15},
+  {name:'الجوزاء',stars:1,dur:26,m:6,d:28},   {name:'المرزم',stars:1,dur:13,m:7,d:24},
+  {name:'الكليبين',stars:1,dur:13,m:8,d:6}
+];
+const STAR_ICON='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2l2.94 6.26 6.86.9-5.05 4.72 1.3 6.82L12 17.9 5.99 21.7l1.3-6.82L2.24 9.36l6.86-.9z"/></svg>';
+function starCluster(n){let s='';for(let i=0;i<n;i++)s+=STAR_ICON;return s;}
+function nujumNow(){
+  const today=todayUTC(), t=today.getTime(), Y=today.getUTCFullYear();
+  const cands=[];
+  for(let dy=-1;dy<=1;dy++) NUJUM.forEach((s,i)=>cands.push({i,s,date:Date.UTC(Y+dy,s.m-1,s.d)}));
+  cands.sort((a,b)=>a.date-b.date);
+  let cur=cands[0]; for(const c of cands){ if(c.date<=t) cur=c; else break; }
+  const next=cands.find(c=>c.date>t)||cands[0];
+  return {cur,next,remain:Math.round((next.date-t)/DAY)};
+}
+function buildNujumUI(){
+  const box=document.getElementById('starNow'); if(!box) return;
+  const {cur,next,remain}=nujumNow(); const g=new Date(next.date);
+  box.innerHTML=`<div class="starcard">
+    <div class="sc-head">
+      <div class="sc-ico ${cur.s.stars===1?'n1':''}">${starCluster(cur.s.stars)}</div>
+      <div>
+        <div class="sc-lbl">النجم الحالي</div>
+        <div class="sc-name">${cur.s.name}</div>
+        <div class="sc-sub">عدد النجوم: ${ar(cur.s.stars)} · مدّته ${ar(cur.s.dur)} يومًا</div>
+      </div>
+    </div>
+    <div class="sc-next">
+      <div class="sc-remain"><b>${ar(remain)}</b><span>يومًا حتى النجم القادم</span></div>
+      <div class="sc-nextinfo">النجم القادم: <b>${next.s.name}</b> (${ar(next.s.stars)} ${next.s.stars>2?'نجوم':'نجم'})<br>
+        يدخل <span class="wd">${weekdayAr(g)}</span> · <b>${fmtGregShort.format(g)} م</b> · ${fmtHijriShort.format(g)}</div>
+    </div>
+  </div>`;
+  const tb=document.getElementById('nujumTable'); if(!tb) return;
+  let rows='';
+  NUJUM.forEach((s,i)=>{
+    const g2=new Date(Date.UTC(2000,s.m-1,s.d)); // للعرض: اليوم/الشهر فقط
+    const dd=new Intl.DateTimeFormat('ar-SA-u-nu-latn',{day:'numeric',month:'long',timeZone:'UTC'}).format(g2);
+    rows+=`<tr class="${i===cur.i?'now':''}">
+      <td class="rk">${ar(i+1)}</td>
+      <td class="nm">${s.name}</td>
+      <td><span class="stars-cell">${starCluster(s.stars)}</span></td>
+      <td class="num col-dur">${ar(s.dur)}</td>
+      <td class="num">${dd}</td></tr>`;
+  });
+  tb.innerHTML=`<div class="ntable-wrap"><table class="ntable">
+    <thead><tr><th>#</th><th>النجم</th><th>النجوم</th><th class="col-dur">المدّة</th><th>يوم الدخول</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
 
 /* ---------- today ---------- */
 function renderToday(){const u=todayUTC();
@@ -761,6 +880,7 @@ function init(){
   document.getElementById('heroCue').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   renderToday();
   buildEventsUI();
+  buildNujumUI();
   const th=gregToHijri(todayUTC());
   document.getElementById('yearInput').value=th.y;
   renderYear(th.y);
@@ -799,7 +919,7 @@ function init(){
   updateSky();
   setInterval(updateSky,60000); // تحديث السماء كل دقيقة (حركة الشمس/القمر والمزاج)
   let lastDay=todayUTC().getTime();
-  setInterval(()=>{const t=todayUTC().getTime();if(t!==lastDay){lastDay=t;renderToday();buildEventsUI();updateSky();}},60000);
+  setInterval(()=>{const t=todayUTC().getTime();if(t!==lastDay){lastDay=t;renderToday();buildEventsUI();buildNujumUI();updateSky();}},60000);
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
