@@ -53,7 +53,7 @@
 
   /* Nav */
   nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 82%, transparent);
-    backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid transparent;transition:border-color .3s, background .3s}
   nav.scrolled{border-bottom-color:var(--line);box-shadow:var(--e1)}
   .nav-in{max-width:1000px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
@@ -83,9 +83,11 @@
   #skyWash{position:absolute;inset:0;opacity:.4;transition:opacity 2.5s ease;
     background:linear-gradient(180deg,#2c2560 0%,#39306c 20%,transparent 46%)}
   #stars{position:absolute;inset:0;opacity:var(--star-op,0);transition:opacity 2.4s ease}
-  #stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
-    box-shadow:0 0 4px 1px rgba(255,255,255,.75);animation:twinkle 4.2s ease-in-out infinite}
-  @keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+  #stars i{position:absolute;width:2.5px;height:2.5px;border-radius:50%;background:#fff;opacity:.55;
+    animation:twinkle 4.2s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.32}50%{opacity:.95}}
+  /* أوقف وميض النجوم نهارًا (غير مرئية) لتقليل الرسم المستمر */
+  #heroFixed:not(.is-night) #stars i{animation:none}
   #celestial{position:absolute;left:var(--cx,82%);top:var(--cy,20%);width:clamp(62px,11.5vw,112px);height:clamp(62px,11.5vw,112px);
     transform:translate(-50%,-50%);transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
   #celestial>.cbody{position:absolute;inset:0}
@@ -139,7 +141,7 @@
     text-shadow:0 1px 10px rgba(246,242,251,.95)}
   .today-pill{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px;
     margin-top:32px;padding:14px 24px;background:linear-gradient(180deg,#fff,var(--surface-2));border:1px solid var(--line);
-    border-radius:18px;box-shadow:var(--e3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+    border-radius:18px;box-shadow:var(--e3)}
   .today-pill .tp-lbl{color:var(--muted);font-size:.82rem;font-weight:500}
   .today-pill .tp-h{color:var(--heading);font-weight:600;font-size:1.02rem}
   .today-pill .tp-sep{width:1px;height:16px;background:var(--line);display:inline-block}
@@ -188,42 +190,6 @@
   .featured .ftz{margin-top:16px;text-align:center;color:var(--primary);font-size:.82rem;font-weight:600;
     background:var(--primary-tint);border-radius:999px;padding:7px 14px;display:inline-block}
 
-  /* نجوم السنة — بطاقة النجم الحالي */
-  .starcard{background:linear-gradient(180deg,var(--surface),var(--surface-2));border:1px solid var(--line);
-    border-radius:24px;padding:30px;box-shadow:var(--e4);position:relative;overflow:hidden}
-  .starcard::before{content:"";position:absolute;top:-40%;right:-8%;width:52%;height:120%;pointer-events:none;
-    background:radial-gradient(ellipse at center,color-mix(in srgb,var(--primary) 20%,transparent),transparent 68%);opacity:.5;filter:blur(10px)}
-  .starcard>*{position:relative;z-index:1}
-  .sc-head{display:flex;align-items:center;gap:18px}
-  .sc-ico{flex:none;min-width:78px;height:78px;padding:0 12px;border-radius:20px;background:radial-gradient(circle at 30% 25%,#fff,var(--primary-tint));
-    border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);box-shadow:var(--e2);
-    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:3px}
-  .sc-ico svg{width:20px;height:20px;color:var(--primary)}
-  .sc-ico.n1 svg{width:30px;height:30px}
-  .sc-lbl{color:var(--primary);font-weight:600;font-size:.8rem;letter-spacing:1px}
-  .sc-name{font-family:"Thmanyah Serif Display","Thmanyah Sans",serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:700;color:var(--heading);line-height:1.2;margin-top:2px}
-  .sc-sub{color:var(--muted);font-size:.9rem;margin-top:4px}
-  .sc-next{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
-  .sc-remain{flex:none;text-align:center;background:var(--primary-tint);border-radius:16px;padding:12px 20px;min-width:110px}
-  .sc-remain b{display:block;font-size:2rem;font-weight:700;color:var(--primary);line-height:1;font-variant-numeric:tabular-nums;direction:ltr}
-  .sc-remain span{font-size:.72rem;color:var(--muted);margin-top:5px;display:block}
-  .sc-nextinfo{flex:1;min-width:200px;color:var(--text);font-size:1rem;line-height:1.9}
-  .sc-nextinfo b{color:var(--heading);font-weight:600}
-  .sc-nextinfo .wd{color:var(--primary);font-weight:600}
-  /* جدول النجوم */
-  .ntable{width:100%;border-collapse:collapse;font-size:.92rem}
-  .ntable th,.ntable td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--line-2)}
-  .ntable th{color:var(--muted);font-weight:600;font-size:.78rem;letter-spacing:.3px;position:sticky;top:0}
-  .ntable td.nm{font-weight:600;color:var(--heading);text-align:right;white-space:nowrap}
-  .ntable .stars-cell{display:inline-flex;gap:2px;color:var(--primary)}
-  .ntable .stars-cell svg{width:13px;height:13px}
-  .ntable tr.now{background:var(--primary-tint)}
-  .ntable tr.now td{color:var(--heading)}
-  .ntable tr.now td.nm{color:var(--primary)}
-  .ntable .rk{color:var(--muted);font-variant-numeric:tabular-nums}
-  .ntable td.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
-  .ntable-wrap{overflow-x:auto}
-  @media(max-width:520px){.ntable .col-dur{display:none} .ntable th,.ntable td{padding:9px 6px;font-size:.86rem}}
   /* عناقيد النجوم داخل الأيقونات */
   .starmini{display:flex;flex-wrap:wrap;gap:2px 3px;align-items:center;justify-content:center;color:var(--primary)}
   .featured .ficon .starmini{max-width:44px}
@@ -326,6 +292,7 @@
   .credit{margin-top:22px;display:inline-flex;align-items:center;gap:11px;background:var(--surface);
     border:1px solid var(--line);border-radius:999px;padding:8px 20px 8px 9px;font-size:.92rem;color:var(--text);font-weight:500}
   .credit .cmark{width:38px;height:38px;flex:none;object-fit:contain;border-radius:9px}
+  .credit-sub{margin-top:12px;color:var(--muted);font-size:.84rem;line-height:1.7}
   .credit b{color:var(--heading);font-weight:700;letter-spacing:.3px}
   .imgcredit{margin-top:16px;font-size:.72rem;color:var(--muted);opacity:.85}
   .imgcredit a{color:var(--primary);text-decoration:none}
@@ -509,6 +476,7 @@
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
       <div class="credit"><img class="cmark" src="assets/logo.png" alt="شعار AbuNorah17"> © 2026 <b>AbuNorah17</b> · جميع الحقوق محفوظة</div>
+      <div class="credit-sub">الحساب النجمي للفلكي الشهير الشيخ سليمان إبراهيم البسام رحمه الله</div>
     </div>
   </footer>
   </div><!-- /.wrap -->
@@ -725,25 +693,27 @@ function buildEventsUI(){
   });
   tick();
 }
+// كتابة نصّ فقط عند التغيّر (تجنّب رسم DOM بلا داعٍ كل ثانية)
+function setTxt(el,v){if(el&&el._v!==v){el._v=v;el.textContent=v;}}
 function tick(){
   const now=Date.now();
   for(const s of liveEls){
+    // خزّن مراجع العناصر مرة واحدة بدل querySelector كل ثانية
+    if(s.dEl===undefined){s.dEl=s.el.querySelector('[data-d]');
+      if(s.type==='featured'){s.hEl=s.el.querySelector('[data-h]');s.minEl=s.el.querySelector('[data-min]');s.secEl=s.el.querySelector('[data-sec]');}}
     const diff=(s.target.getTime()-MECCA_OFFSET)-now; // العدّ إلى منتصف ليل مكة للتاريخ
     if(diff<=0 && diff>-DAY){
-      if(s.type==='featured'){s.el.querySelectorAll('b').forEach(b=>b.textContent='0');}
-      else{s.el.classList.add('is-today');s.el.querySelector('[data-d]').textContent='اليوم';}
+      if(s.type==='featured'){setTxt(s.dEl,'0');setTxt(s.hEl,'0');setTxt(s.minEl,'0');setTxt(s.secEl,'0');}
+      else{s.el.classList.add('is-today');setTxt(s.dEl,'اليوم');}
       continue;
     }
     const ts=Math.max(0,Math.floor(diff/1000));
     const d=Math.floor(ts/86400),h=Math.floor((ts%86400)/3600),m=Math.floor((ts%3600)/60),sec=ts%60;
     if(s.type==='featured'){
-      s.el.querySelector('[data-d]').textContent=ar(d);
-      s.el.querySelector('[data-h]').textContent=ar(h);
-      s.el.querySelector('[data-min]').textContent=ar(m);
-      s.el.querySelector('[data-sec]').textContent=ar(sec);
+      setTxt(s.dEl,ar(d));setTxt(s.hEl,ar(h));setTxt(s.minEl,ar(m));setTxt(s.secEl,ar(sec));
     }else{
       s.el.classList.remove('is-today');
-      s.el.querySelector('[data-d]').textContent=ar(d);
+      setTxt(s.dEl,ar(d));
     }
   }
 }
@@ -910,7 +880,7 @@ function init(){
   renderYear(th.y);
   fillInputs();
   initReveal();
-  buildStars(46);
+  buildStars(30);
   updateSky();
 
   document.getElementById('yearBtn').addEventListener('click',()=>renderYear(numVal('yearInput')));
