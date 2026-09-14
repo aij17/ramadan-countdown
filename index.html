@@ -505,6 +505,7 @@
       </div>
       <p>
         الحساب مبني على <b>تقويم أم القرى</b> الرسمي، ويغطي حتى 1500 هجري.<br>
+        مستند على كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا.<br>
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
       <div class="credit"><img class="cmark" src="assets/logo.png" alt="شعار AbuNorah17"> © 2026 <b>AbuNorah17</b> · جميع الحقوق محفوظة</div>
@@ -810,8 +811,8 @@ function initReveal(){
   const els=[...document.querySelectorAll('.reveal')];
   if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}
   revealObs=new IntersectionObserver((entries)=>{
-    for(const en of entries) en.target.classList.toggle('in',en.isIntersecting); // toggle => تعيد الحركة كل مرة تسحب
-  },{threshold:0.12,rootMargin:'0px 0px -6% 0px'});
+    for(const en of entries) if(en.isIntersecting){en.target.classList.add('in');revealObs.unobserve(en.target);} // إظهار مرة واحدة (يمنع الاهتزاز عند التمرير)
+  },{threshold:0.08,rootMargin:'0px 0px -4% 0px'});
   els.forEach(e=>revealObs.observe(e));
   // إظهار أول شاشة فورًا عند التحميل
   setTimeout(()=>{const vh=window.innerHeight||800;els.forEach(el=>{const r=el.getBoundingClientRect();
