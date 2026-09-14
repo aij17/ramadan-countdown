@@ -93,19 +93,20 @@
   .cbody{display:none}.cbody.show{display:block}
   /* الشمس الواقعية: نواة حارّة + توهّج جوّي + أشعة god-rays ناعمة دوّارة */
   #sun{border-radius:50%}
-  .sun-core{position:absolute;inset:27%;border-radius:50%;z-index:3;
-    background:radial-gradient(circle at 40% 34%, #fffdf4 0%, #ffe89a 42%, var(--sun,#ffb64d) 100%);
-    box-shadow:0 0 16px 2px color-mix(in srgb,var(--sun,#ffb64d) 65%,transparent), inset 0 -3px 8px rgba(214,120,40,.35), inset 0 3px 7px rgba(255,255,255,.55)}
-  .sun-bloom{position:absolute;inset:-42%;border-radius:50%;z-index:1;
-    background:radial-gradient(circle, rgba(255,247,216,.92) 0%, color-mix(in srgb,var(--sun,#ffcf6a) 55%,transparent) 24%, rgba(255,170,70,.12) 46%, transparent 68%);
+  .sun-core{position:absolute;inset:32%;border-radius:50%;z-index:3;
+    background:radial-gradient(circle at 38% 32%, #fffef8 0%, #fff0bf 30%, #ffd873 60%, var(--sun,#ffb64d) 100%);
+    box-shadow:0 0 18px 3px color-mix(in srgb,var(--sun,#ffb64d) 60%,transparent), inset 0 -4px 9px rgba(210,116,36,.32), inset 0 4px 8px rgba(255,255,255,.6)}
+  .sun-bloom{position:absolute;inset:-30%;border-radius:50%;z-index:1;
+    background:radial-gradient(circle, rgba(255,249,224,.95) 0%, color-mix(in srgb,var(--sun,#ffcf6a) 50%,transparent) 30%, rgba(255,178,80,.14) 52%, transparent 70%);
     animation:sunPulse 5s ease-in-out infinite}
-  .sun-rays{position:absolute;inset:-58%;border-radius:50%;z-index:2;opacity:.72;filter:blur(1.1px);
-    background:repeating-conic-gradient(from 0deg, color-mix(in srgb,var(--sun,#ffce6a) 62%,transparent) 0deg 2.2deg, transparent 2.2deg 15deg);
-    -webkit-mask:radial-gradient(circle, transparent 23%, #000 34%, transparent 66%);
-    mask:radial-gradient(circle, transparent 23%, #000 34%, transparent 66%);
-    animation:spin 64s linear infinite}
+  /* أشعة ناعمة عريضة قليلة (crepuscular) بدل الإبر */
+  .sun-rays{position:absolute;inset:-52%;border-radius:50%;z-index:2;opacity:.5;filter:blur(3px);
+    background:repeating-conic-gradient(from 0deg, color-mix(in srgb,var(--sun,#ffce6a) 55%,transparent) 0deg 5deg, transparent 5deg 30deg);
+    -webkit-mask:radial-gradient(circle, transparent 30%, #000 42%, transparent 70%);
+    mask:radial-gradient(circle, transparent 30%, #000 42%, transparent 70%);
+    animation:spin 90s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes sunPulse{0%,100%{opacity:.72;transform:scale(1)}50%{opacity:1;transform:scale(1.09)}}
+  @keyframes sunPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:.95;transform:scale(1.07)}}
   .moon-halo{transform-box:fill-box;transform-origin:center;animation:moonPulse 6s ease-in-out infinite}
   @keyframes moonPulse{0%,100%{opacity:.7}50%{opacity:1}}
   @media(prefers-reduced-motion:reduce){.sun-rays,.sun-bloom,.moon-halo{animation:none}#stars i{animation:none}
