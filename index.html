@@ -91,9 +91,13 @@
     transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
   #celestial svg{width:100%;height:100%;overflow:visible;display:block}
   .cbody{display:none}.cbody.show{display:block}
-  #sunRays{transform-box:fill-box;transform-origin:center;animation:spin 100s linear infinite}
+  #sunRays{transform-box:fill-box;transform-origin:center;animation:spin 120s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  @media(prefers-reduced-motion:reduce){#sunRays{animation:none}#stars i{animation:none}
+  .sun-corona{transform-box:fill-box;transform-origin:center;animation:sunPulse 4.5s ease-in-out infinite}
+  @keyframes sunPulse{0%,100%{opacity:.72;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+  .moon-halo{transform-box:fill-box;transform-origin:center;animation:moonPulse 6s ease-in-out infinite}
+  @keyframes moonPulse{0%,100%{opacity:.7}50%{opacity:1}}
+  @media(prefers-reduced-motion:reduce){#sunRays,.sun-corona,.moon-halo{animation:none}#stars i{animation:none}
     #celestial,#skyWash,#stars{transition:none}}
   .hero{position:relative;min-height:96vh;display:flex;flex-direction:column;justify-content:center;text-align:center;border-radius:0 0 34px 34px}
   .hero-inner{max-width:1000px;margin:0 auto;padding:72px 22px}
@@ -310,19 +314,43 @@
     <div id="stars"></div>
     <div id="celestial">
       <svg viewBox="-60 -60 120 120">
-        <circle class="chalo" r="42" fill="var(--halo,rgba(255,255,255,.5))" opacity="var(--halo-op,.6)" style="filter:blur(9px)"></circle>
+        <defs>
+          <radialGradient id="sunCore" cx="42%" cy="38%" r="65%">
+            <stop offset="0" stop-color="#fff8e0"></stop>
+            <stop offset="52%" stop-color="#ffd166"></stop>
+            <stop offset="100%" stop-color="#ff9e42"></stop>
+          </radialGradient>
+          <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="rgba(255,203,92,.55)"></stop>
+            <stop offset="55%" stop-color="rgba(255,178,71,.20)"></stop>
+            <stop offset="100%" stop-color="rgba(255,178,71,0)"></stop>
+          </radialGradient>
+          <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="var(--halo,rgba(226,222,255,.85))"></stop>
+            <stop offset="60%" stop-color="rgba(214,206,244,.14)"></stop>
+            <stop offset="100%" stop-color="rgba(214,206,244,0)"></stop>
+          </radialGradient>
+        </defs>
         <g class="cbody" id="sun">
-          <g id="sunRays" stroke="var(--sun,#ffb54d)" stroke-width="3" stroke-linecap="round">
-            <line x1="30" y1="0" x2="42" y2="0"></line><line x1="21.2" y1="21.2" x2="29.7" y2="29.7"></line>
-            <line x1="0" y1="30" x2="0" y2="42"></line><line x1="-21.2" y1="21.2" x2="-29.7" y2="29.7"></line>
-            <line x1="-30" y1="0" x2="-42" y2="0"></line><line x1="-21.2" y1="-21.2" x2="-29.7" y2="-29.7"></line>
-            <line x1="0" y1="-30" x2="0" y2="-42"></line><line x1="21.2" y1="-21.2" x2="29.7" y2="-29.7"></line>
+          <circle class="sun-corona" r="46" fill="url(#sunGlow)"></circle>
+          <g id="sunRays" stroke="url(#sunCore)" stroke-width="3.4" stroke-linecap="round" opacity=".92">
+            <line x1="26" y1="0" x2="37" y2="0"></line><line x1="22.52" y1="13" x2="32.04" y2="18.5"></line>
+            <line x1="13" y1="22.52" x2="18.5" y2="32.04"></line><line x1="0" y1="26" x2="0" y2="37"></line>
+            <line x1="-13" y1="22.52" x2="-18.5" y2="32.04"></line><line x1="-22.52" y1="13" x2="-32.04" y2="18.5"></line>
+            <line x1="-26" y1="0" x2="-37" y2="0"></line><line x1="-22.52" y1="-13" x2="-32.04" y2="-18.5"></line>
+            <line x1="-13" y1="-22.52" x2="-18.5" y2="-32.04"></line><line x1="0" y1="-26" x2="0" y2="-37"></line>
+            <line x1="13" y1="-22.52" x2="18.5" y2="-32.04"></line><line x1="22.52" y1="-13" x2="32.04" y2="-18.5"></line>
           </g>
-          <circle r="23" fill="var(--sun,#ffb54d)"></circle>
+          <circle r="21" fill="url(#sunCore)"></circle>
+          <circle r="21" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1"></circle>
         </g>
-        <g class="cbody" id="moon" transform="scale(-1 1)">
-          <circle r="26" fill="var(--moon,#fdfbef)"></circle>
-          <path id="moonShadow" fill="var(--moon-dark,#cfc7e0)" d=""></path>
+        <g class="cbody" id="moon">
+          <circle class="moon-halo" r="40" fill="url(#moonGlow)"></circle>
+          <g transform="scale(-1 1)">
+            <circle r="26" fill="var(--moon,#fdfbef)"></circle>
+            <path id="moonShadow" fill="var(--moon-dark,#cfc7e0)" d=""></path>
+            <circle r="26" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1"></circle>
+          </g>
         </g>
       </svg>
     </div>
@@ -682,12 +710,12 @@ function moonShadowPath(R,phase){
 }
 function skyMood(h,day){
   // ألوان لطيفة تحافظ على وضوح النص (وميض علوي فقط)
-  if(!day && (h>=19||h<4))   return {s1:'rgba(38,32,84,.62)', s2:'rgba(86,74,150,.34)', op:.72, stars:1,  sun:'#ffb54d', moon:'#fdfbef', moonDark:'#b7add0', halo:'rgba(226,222,255,.85)', haloOp:.55};
-  if(h>=4 && h<6.5)          return {s1:'rgba(120,86,168,.5)', s2:'rgba(240,158,170,.34)',op:.58, stars:.28,sun:'#ff9a5a', moon:'#fdf3ea', moonDark:'#c9b9d6', halo:'rgba(255,190,175,.8)',  haloOp:.55};
-  if(h>=6.5 && h<10.5)       return {s1:'rgba(150,175,225,.34)',s2:'rgba(214,206,240,.22)',op:.34,stars:0, sun:'#ffc24d', moon:'#fdfbef', moonDark:'#cfc7e0', halo:'rgba(255,220,150,.7)', haloOp:.5};
-  if(h>=10.5 && h<15)        return {s1:'rgba(176,198,238,.26)',s2:'rgba(224,218,245,.16)',op:.22,stars:0, sun:'#ffd35e', moon:'#fdfbef', moonDark:'#cfc7e0', halo:'rgba(255,228,150,.75)',haloOp:.55};
-  if(h>=15 && h<17)          return {s1:'rgba(240,196,150,.34)',s2:'rgba(232,206,224,.2)', op:.34,stars:0, sun:'#ffb347', moon:'#fdfbef', moonDark:'#cfc7e0', halo:'rgba(255,206,140,.75)',haloOp:.55};
-  /* المغرب 17–19 */          return {s1:'rgba(232,120,110,.5)', s2:'rgba(246,176,138,.34)',op:.58, stars:.16,sun:'#ff7a45', moon:'#fdf1e6', moonDark:'#c6b6d2', halo:'rgba(255,160,120,.82)',haloOp:.6};
+  if(!day && (h>=19||h<4))   return {s1:'rgba(38,32,84,.62)', s2:'rgba(86,74,150,.34)', op:.72, stars:1,  sun:'#ffb54d', moon:'#fdfbef', moonDark:'#463a72', halo:'rgba(226,222,255,.9)', haloOp:.6};
+  if(h>=4 && h<6.5)          return {s1:'rgba(120,86,168,.5)', s2:'rgba(240,158,170,.34)',op:.58, stars:.28,sun:'#ff9a5a', moon:'#fdf3ea', moonDark:'#5c4c86', halo:'rgba(255,190,175,.8)',  haloOp:.55};
+  if(h>=6.5 && h<10.5)       return {s1:'rgba(150,175,225,.34)',s2:'rgba(214,206,240,.22)',op:.34,stars:0, sun:'#ffc24d', moon:'#fdfbef', moonDark:'#5c4c86', halo:'rgba(255,220,150,.7)', haloOp:.5};
+  if(h>=10.5 && h<15)        return {s1:'rgba(176,198,238,.26)',s2:'rgba(224,218,245,.16)',op:.22,stars:0, sun:'#ffd35e', moon:'#fdfbef', moonDark:'#5c4c86', halo:'rgba(255,228,150,.75)',haloOp:.55};
+  if(h>=15 && h<17)          return {s1:'rgba(240,196,150,.34)',s2:'rgba(232,206,224,.2)', op:.34,stars:0, sun:'#ffb347', moon:'#fdfbef', moonDark:'#5c4c86', halo:'rgba(255,206,140,.75)',haloOp:.55};
+  /* المغرب 17–19 */          return {s1:'rgba(232,120,110,.5)', s2:'rgba(246,176,138,.34)',op:.58, stars:.16,sun:'#ff7a45', moon:'#fdf1e6', moonDark:'#514281', halo:'rgba(255,160,120,.82)',haloOp:.6};
 }
 function buildStars(n){
   const box=document.getElementById('stars'); if(!box||box.childElementCount) return;
@@ -704,18 +732,18 @@ function updateSky(){
   let cx,cy;
   if(day){
     const p=(h-sunrise)/(sunset-sunrise);
-    cx=88-p*76; cy=80-Math.sin(p*Math.PI)*64;
+    cx=88-p*76; cy=42-Math.sin(p*Math.PI)*28; // الشمس تشرق يمينًا وتغرب يسارًا (نطاق سماء علوي)
     document.getElementById('sun').classList.add('show');
     document.getElementById('moon').classList.remove('show');
   }else{
     const nh=h<sunrise?h+24:h, np=(nh-sunset)/((sunrise+24)-sunset);
-    cx=88-np*76; cy=82-Math.sin(np*Math.PI)*66;
+    cx=12+np*76; cy=44-Math.sin(np*Math.PI)*30; // القمر عكس الشمس: يشرق يسارًا ويغرب يمينًا
     document.getElementById('moon').classList.add('show');
     document.getElementById('sun').classList.remove('show');
     const d=gregToHijri(todayUTC()).d, phase=(((d-1)/29.53)%1+1)%1;
     document.getElementById('moonShadow').setAttribute('d',moonShadowPath(26,phase));
   }
-  cy=Math.max(14,Math.min(74,cy));
+  cy=Math.max(12,Math.min(46,cy));
   document.getElementById('heroFixed').classList.toggle('is-night',!day);
   const m=skyMood(h,day);
   rs.setProperty('--cx',cx.toFixed(1)+'%'); rs.setProperty('--cy',cy.toFixed(1)+'%');
