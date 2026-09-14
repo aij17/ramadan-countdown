@@ -175,15 +175,16 @@
     background:var(--bg-2);border:1px solid var(--line);padding:4px 12px;border-radius:999px}
   .count{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
   .count .u{position:relative;background:linear-gradient(180deg,#fff,var(--surface-2));
-    border:1px solid var(--line);border-radius:18px;padding:18px 8px 15px;text-align:center;
+    border:1px solid var(--line);border-radius:18px;padding:16px 8px;min-height:96px;text-align:center;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
     box-shadow:var(--e2);overflow:hidden;transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
   .count .u::after{content:"";position:absolute;inset:0 0 auto 0;height:44%;background:var(--grad-sheen);opacity:.7;pointer-events:none}
   .count .u:hover{transform:translateY(-3px);box-shadow:var(--e3)}
-  .count .u b{position:relative;display:block;font-size:clamp(1.5rem,5.4vw,2.3rem);font-weight:700;line-height:1.08;
+  .count .u b{position:relative;font-size:clamp(1.5rem,5.4vw,2.3rem);font-weight:700;line-height:1;
     font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:var(--primary);
     direction:ltr;unicode-bidi:isolate}
-  .count .u i{position:relative;font-style:normal;font-size:.76rem;color:var(--muted);margin-top:9px;display:block;font-weight:500;letter-spacing:.3px}
-  @media(max-width:400px){.count{gap:8px}.count .u{padding:14px 4px 12px}.count .u i{font-size:.7rem}}
+  .count .u i{position:relative;font-style:normal;font-size:.78rem;color:var(--muted);font-weight:500}
+  @media(max-width:400px){.count{gap:8px}.count .u{padding:12px 4px;min-height:84px}.count .u i{font-size:.72rem}}
   .featured .ftz{margin-top:16px;text-align:center;color:var(--primary);font-size:.82rem;font-weight:600;
     background:var(--primary-tint);border-radius:999px;padding:7px 14px;display:inline-block}
 
@@ -560,7 +561,7 @@ function buildEventsUI(){
       الموافق <b>${fmtGregShort.format(nearest.greg)} م</b>${lenNote?'<br>'+lenNote:''}
     </div>
     <div class="count" id="fcount">
-      <div class="u"><b data-d>0</b><i>يوم</i></div>
+      <div class="u"><b data-d>0</b><i>يـــوم</i></div>
       <div class="u"><b data-h>0</b><i>ساعة</i></div>
       <div class="u"><b data-min>0</b><i>دقيقة</i></div>
       <div class="u"><b data-sec>0</b><i>ثانية</i></div>
