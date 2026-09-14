@@ -166,10 +166,11 @@
     box-shadow:var(--e2);overflow:hidden;transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
   .count .u::after{content:"";position:absolute;inset:0 0 auto 0;height:44%;background:var(--grad-sheen);opacity:.7;pointer-events:none}
   .count .u:hover{transform:translateY(-3px);box-shadow:var(--e3)}
-  .count .u b{position:relative;display:block;font-size:clamp(1.7rem,6vw,2.5rem);font-weight:700;line-height:1;
-    font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
-    background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--primary)}
+  .count .u b{position:relative;display:block;font-size:clamp(1.5rem,5.4vw,2.3rem);font-weight:700;line-height:1.08;
+    font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:var(--primary);
+    direction:ltr;unicode-bidi:isolate}
   .count .u i{position:relative;font-style:normal;font-size:.76rem;color:var(--muted);margin-top:9px;display:block;font-weight:500;letter-spacing:.3px}
+  @media(max-width:400px){.count{gap:8px}.count .u{padding:14px 4px 12px}.count .u i{font-size:.7rem}}
   .featured .ftz{margin-top:16px;text-align:center;color:var(--primary);font-size:.82rem;font-weight:600;
     background:var(--primary-tint);border-radius:999px;padding:7px 14px;display:inline-block}
 
