@@ -784,9 +784,9 @@ function initReveal(){
     for(const en of entries) if(en.isIntersecting){en.target.classList.add('in');revealObs.unobserve(en.target);} // إظهار مرة واحدة (يمنع الاهتزاز عند التمرير)
   },{threshold:0.08,rootMargin:'0px 0px -4% 0px'});
   els.forEach(e=>revealObs.observe(e));
-  // إظهار أول شاشة فورًا عند التحميل
-  setTimeout(()=>{const vh=window.innerHeight||800;els.forEach(el=>{const r=el.getBoundingClientRect();
-    if(r.top<vh*0.96&&r.bottom>0)el.classList.add('in');});},80);
+  // إظهار عناصر أوّل شاشة فورًا (إعادة استعلام لتشمل الصفوف المبنيّة بعد الإنشاء) — يمنع بقاءها مخفية
+  setTimeout(()=>{const vh=window.innerHeight||800;document.querySelectorAll('.reveal:not(.in)').forEach(el=>{const r=el.getBoundingClientRect();
+    if(r.top<vh*0.98&&r.bottom>0){el.classList.add('in');if(revealObs)revealObs.unobserve(el);}});},120);
 }
 
 /* ---------- السماء الحيّة (وقت مكة + طور القمر الهجري) ---------- */
@@ -873,13 +873,13 @@ function init(){
   document.getElementById('ic-conv').innerHTML=ICONS.convert;
   document.getElementById('heroCue').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   renderToday();
+  initReveal();   // أنشئ مراقب الظهور أولًا حتى تُراقَب صفوف القوائم المبنيّة بعده (فتظهر بحركة متدرّجة)
   buildEventsUI();
   buildNujumUI();
   const th=gregToHijri(todayUTC());
   document.getElementById('yearInput').value=th.y;
   renderYear(th.y);
   fillInputs();
-  initReveal();
   buildStars(30);
   updateSky();
 
