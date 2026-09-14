@@ -91,8 +91,8 @@
   #celestial>.cbody{position:absolute;inset:0}
   #celestial #moon{width:100%;height:100%;overflow:visible}
   .cbody{display:none}.cbody.show{display:block}
-  /* الشمس = كرة متوهّجة بتوهّج واقعي (glow) بدون خطوط */
-  #sun{display:grid;place-items:center}
+  /* الشمس = كرة متوهّجة بتوهّج واقعي (glow) بدون خطوط — تظهر فقط عند إضافة .show */
+  #sun.show{display:grid;place-items:center}
   #sun::before{content:"";position:absolute;inset:-32%;border-radius:50%;pointer-events:none;
     background:radial-gradient(circle,
       color-mix(in srgb,var(--sun,#ffb64d) 60%,transparent) 0%,
