@@ -80,8 +80,8 @@
   #heroFixed.is-night .hero-slide.night{filter:grayscale(1) brightness(.95) contrast(1.05)}
   /* السماء الحيّة — تتبع وقت مكة وطور القمر الهجري */
   #sky{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-  #skyWash{position:absolute;inset:0;opacity:var(--sky-op,.4);transition:opacity 2s ease,background 2s ease;
-    background:linear-gradient(180deg,var(--sky-1,transparent) 0%,var(--sky-2,transparent) 30%,transparent 62%)}
+  #skyWash{position:absolute;inset:0;opacity:.4;transition:opacity 2.5s ease;
+    background:linear-gradient(180deg,#2c2560 0%,#39306c 20%,transparent 46%)}
   #stars{position:absolute;inset:0;opacity:var(--star-op,0);transition:opacity 2.4s ease}
   #stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
     box-shadow:0 0 4px 1px rgba(255,255,255,.75);animation:twinkle 4.2s ease-in-out infinite}
@@ -89,7 +89,7 @@
   #celestial{position:absolute;left:var(--cx,82%);top:var(--cy,20%);width:clamp(62px,11.5vw,112px);height:clamp(62px,11.5vw,112px);
     transform:translate(-50%,-50%);transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
   #celestial>.cbody{position:absolute;inset:0}
-  #celestial #moon{width:100%;height:100%;overflow:visible;display:block}
+  #celestial #moon{width:100%;height:100%;overflow:visible}
   .cbody{display:none}.cbody.show{display:block}
   /* الشمس = كرة متوهّجة بتوهّج واقعي (glow) بدون خطوط */
   #sun{display:grid;place-items:center}
@@ -692,14 +692,31 @@ function moonShadowPath(R,phase){
   const termSweep=waxing?(c>0?1:0):(c>0?0:1);       // الفاصل الضوئي
   return `M0 ${-R} A ${R} ${R} 0 0 ${limbSweep} 0 ${R} A ${rx.toFixed(2)} ${R} 0 0 ${termSweep} 0 ${-R} Z`;
 }
-function skyMood(h,day){
-  // ألوان لطيفة تحافظ على وضوح النص (وميض علوي فقط)
-  if(!day && (h>=19||h<4))   return {s1:'rgba(38,32,84,.62)', s2:'rgba(86,74,150,.34)', op:.72, stars:1,  sun:'#ffb54d', moon:'#fdfbef', moonDark:'#463a72', halo:'rgba(226,222,255,.9)', haloOp:.6};
-  if(h>=4 && h<6.5)          return {s1:'rgba(120,86,168,.5)', s2:'rgba(240,158,170,.34)',op:.58, stars:.28,sun:'#ff9a5a', moon:'#fdf3ea', moonDark:'#5c4c86', halo:'rgba(255,190,175,.8)',  haloOp:.55};
-  if(h>=6.5 && h<10.5)       return {s1:'rgba(150,175,225,.34)',s2:'rgba(214,206,240,.22)',op:.34,stars:0, sun:'#ffc24d', moon:'#fdfbef', moonDark:'#5c4c86', halo:'rgba(255,220,150,.7)', haloOp:.5};
-  if(h>=10.5 && h<15)        return {s1:'rgba(176,198,238,.26)',s2:'rgba(224,218,245,.16)',op:.22,stars:0, sun:'#ffd35e', moon:'#fdfbef', moonDark:'#5c4c86', halo:'rgba(255,228,150,.75)',haloOp:.55};
-  if(h>=15 && h<17)          return {s1:'rgba(240,196,150,.34)',s2:'rgba(232,206,224,.2)', op:.34,stars:0, sun:'#ffb347', moon:'#fdfbef', moonDark:'#5c4c86', halo:'rgba(255,206,140,.75)',haloOp:.55};
-  /* المغرب 17–19 */          return {s1:'rgba(232,120,110,.5)', s2:'rgba(246,176,138,.34)',op:.58, stars:.16,sun:'#ff7a45', moon:'#fdf1e6', moonDark:'#514281', halo:'rgba(255,160,120,.82)',haloOp:.6};
+/* لوحة سماء متصلة عبر اليوم (تُدرَّج بين اللحظات لانتقال سلس واحترافي) — بتوقيت مكة */
+const SKY_KF=[
+  {h:0,   top:'#171240', mid:'#2c2560', op:.86, stars:1,   sun:'#ffd36a'},
+  {h:4.2, top:'#1f1a4e', mid:'#39306c', op:.84, stars:.92, sun:'#ffce6a'},
+  {h:5.5, top:'#5b4a92', mid:'#b06a8e', op:.68, stars:.4,  sun:'#ff9a5a'}, // الفجر
+  {h:6.6, top:'#e98a5e', mid:'#f4b98c', op:.52, stars:0,   sun:'#ff9440'}, // الشروق
+  {h:9,   top:'#a7c1ea', mid:'#d8d2ef', op:.34, stars:0,   sun:'#ffc24d'}, // الضحى
+  {h:12,  top:'#bad0f4', mid:'#e0e3f7', op:.24, stars:0,   sun:'#ffd85f'}, // الظهر
+  {h:15,  top:'#e7ccae', mid:'#eed7e2', op:.32, stars:0,   sun:'#ffb347'}, // العصر
+  {h:17.4,top:'#f0a06e', mid:'#eaa2ba', op:.46, stars:0, sun:'#ff8a46'},
+  {h:18.5,top:'#d4567c', mid:'#e98a58', op:.6,  stars:.12, sun:'#ff653b'}, // المغرب
+  {h:19.6,top:'#493a80', mid:'#795a94', op:.72, stars:.5,  sun:'#ff7a45'}, // الشفق
+  {h:21,  top:'#1f1a4e', mid:'#39306c', op:.84, stars:1,   sun:'#ffce6a'}, // الليل
+  {h:24,  top:'#171240', mid:'#2c2560', op:.86, stars:1,   sun:'#ffd36a'}
+];
+function _lerp(a,b,t){return a+(b-a)*t;}
+function _hex(h){h=h.trim().replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function _mix(c1,c2,t){const a=_hex(c1),b=_hex(c2);return `rgb(${Math.round(_lerp(a[0],b[0],t))},${Math.round(_lerp(a[1],b[1],t))},${Math.round(_lerp(a[2],b[2],t))})`;}
+function skyAt(h){
+  let a=SKY_KF[0],b=SKY_KF[1];
+  for(let i=0;i<SKY_KF.length-1;i++){ if(h>=SKY_KF[i].h && h<=SKY_KF[i+1].h){a=SKY_KF[i];b=SKY_KF[i+1];break;} }
+  const t=(h-a.h)/((b.h-a.h)||1);
+  const top=_mix(a.top,b.top,t), mid=_mix(a.mid,b.mid,t);
+  return {grad:`linear-gradient(180deg, ${top} 0%, ${mid} 20%, transparent 46%)`,
+    op:_lerp(a.op,b.op,t), stars:_lerp(a.stars,b.stars,t), sun:_mix(a.sun,b.sun,t)};
 }
 function buildStars(n){
   const box=document.getElementById('stars'); if(!box||box.childElementCount) return;
@@ -729,12 +746,13 @@ function updateSky(){
   }
   cy=Math.max(12,Math.min(46,cy));
   document.getElementById('heroFixed').classList.toggle('is-night',!day);
-  const m=skyMood(h,day);
+  const sky=skyAt(h);
+  const wash=document.getElementById('skyWash');
+  if(wash){wash.style.backgroundImage=sky.grad; wash.style.opacity=sky.op.toFixed(3);}
+  rs.setProperty('--star-op',sky.stars.toFixed(2));
+  rs.setProperty('--sun',sky.sun);
+  rs.setProperty('--moon','#fdfbef'); rs.setProperty('--moon-dark','#463a72'); rs.setProperty('--halo','rgba(226,222,255,.9)');
   rs.setProperty('--cx',cx.toFixed(1)+'%'); rs.setProperty('--cy',cy.toFixed(1)+'%');
-  rs.setProperty('--sky-1',m.s1); rs.setProperty('--sky-2',m.s2);
-  rs.setProperty('--sky-op',m.op); rs.setProperty('--star-op',m.stars);
-  rs.setProperty('--sun',m.sun); rs.setProperty('--moon',m.moon);
-  rs.setProperty('--moon-dark',m.moonDark); rs.setProperty('--halo',m.halo); rs.setProperty('--halo-op',m.haloOp);
 }
 
 /* ---------- init ---------- */
