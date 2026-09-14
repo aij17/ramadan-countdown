@@ -75,6 +75,26 @@
   .hero-overlay{position:absolute;inset:0;
     background:radial-gradient(ellipse 66% 58% at 50% 52%, rgba(245,241,252,.74), rgba(245,241,252,0) 72%),
       linear-gradient(180deg, rgba(241,237,251,.80) 0%, rgba(223,212,246,.66) 50%, rgba(246,242,251,.99) 100%)}
+  /* تعتيم لطيف للصور ليلاً لتتناغم مع السماء */
+  #heroFixed.is-night .hero-slide{filter:grayscale(1) brightness(.82) contrast(1.08)}
+  #heroFixed.is-night .hero-slide.night{filter:grayscale(1) brightness(.95) contrast(1.05)}
+  /* السماء الحيّة — تتبع وقت مكة وطور القمر الهجري */
+  #sky{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  #skyWash{position:absolute;inset:0;opacity:var(--sky-op,.4);transition:opacity 2s ease,background 2s ease;
+    background:linear-gradient(180deg,var(--sky-1,transparent) 0%,var(--sky-2,transparent) 30%,transparent 62%)}
+  #stars{position:absolute;inset:0;opacity:var(--star-op,0);transition:opacity 2.4s ease}
+  #stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
+    box-shadow:0 0 4px 1px rgba(255,255,255,.75);animation:twinkle 4.2s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+  #celestial{position:absolute;left:var(--cx,82%);top:var(--cy,20%);width:clamp(58px,11vw,104px);height:clamp(58px,11vw,104px);
+    transform:translate(-50%,-50%);filter:drop-shadow(0 4px 14px rgba(70,50,120,.25));
+    transition:left 1.4s var(--ease),top 1.4s var(--ease),opacity 1.6s ease}
+  #celestial svg{width:100%;height:100%;overflow:visible;display:block}
+  .cbody{display:none}.cbody.show{display:block}
+  #sunRays{transform-box:fill-box;transform-origin:center;animation:spin 100s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){#sunRays{animation:none}#stars i{animation:none}
+    #celestial,#skyWash,#stars{transition:none}}
   .hero{position:relative;min-height:96vh;display:flex;flex-direction:column;justify-content:center;text-align:center;border-radius:0 0 34px 34px}
   .hero-inner{max-width:1000px;margin:0 auto;padding:72px 22px}
   .hero-scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:var(--primary);opacity:.7;
@@ -284,6 +304,28 @@
   <div class="hero-slide night" style="background-image:url('assets/was4.jpg')"></div>
   <div class="hero-slide" style="background-image:url('assets/was7.jpg')"></div>
   <div class="hero-overlay"></div>
+  <div id="sky" aria-hidden="true">
+    <div id="skyWash"></div>
+    <div id="stars"></div>
+    <div id="celestial">
+      <svg viewBox="-60 -60 120 120">
+        <circle class="chalo" r="42" fill="var(--halo,rgba(255,255,255,.5))" opacity="var(--halo-op,.6)" style="filter:blur(9px)"></circle>
+        <g class="cbody" id="sun">
+          <g id="sunRays" stroke="var(--sun,#ffb54d)" stroke-width="3" stroke-linecap="round">
+            <line x1="30" y1="0" x2="42" y2="0"></line><line x1="21.2" y1="21.2" x2="29.7" y2="29.7"></line>
+            <line x1="0" y1="30" x2="0" y2="42"></line><line x1="-21.2" y1="21.2" x2="-29.7" y2="29.7"></line>
+            <line x1="-30" y1="0" x2="-42" y2="0"></line><line x1="-21.2" y1="-21.2" x2="-29.7" y2="-29.7"></line>
+            <line x1="0" y1="-30" x2="0" y2="-42"></line><line x1="21.2" y1="-21.2" x2="29.7" y2="-29.7"></line>
+          </g>
+          <circle r="23" fill="var(--sun,#ffb54d)"></circle>
+        </g>
+        <g class="cbody" id="moon">
+          <circle r="26" fill="var(--moon-dark,#cfc7e0)"></circle>
+          <path id="moonLit" fill="var(--moon,#fdfbef)" d="M0 -26 A26 26 0 0 1 0 26 A26 26 0 0 1 0 -26 Z"></path>
+        </g>
+      </svg>
+    </div>
+  </div>
 </div>
 
 <header class="hero" id="hero">
@@ -619,6 +661,59 @@ function initReveal(){
     if(r.top<vh*0.96&&r.bottom>0)el.classList.add('in');});},80);
 }
 
+/* ---------- السماء الحيّة (وقت مكة + طور القمر الهجري) ---------- */
+function moonLitPath(R,phase){
+  // phase 0..1 (0=محاق، .5=بدر) — يرسم الجزء المضيء من القرص
+  const c=Math.cos(2*Math.PI*phase), rx=Math.abs(c*R), waxing=phase<0.5;
+  const limbSweep=waxing?1:0;                       // الحافة: نصف دائرة يمنى للمتزايد، يسرى للمتناقص
+  const termSweep=waxing?(c>0?1:0):(c>0?0:1);       // الفاصل الضوئي
+  return `M0 ${-R} A ${R} ${R} 0 0 ${limbSweep} 0 ${R} A ${rx.toFixed(2)} ${R} 0 0 ${termSweep} 0 ${-R} Z`;
+}
+function skyMood(h,day){
+  // ألوان لطيفة تحافظ على وضوح النص (وميض علوي فقط)
+  if(!day && (h>=19||h<4))   return {s1:'rgba(38,32,84,.62)', s2:'rgba(86,74,150,.34)', op:.72, stars:1,  sun:'#ffb54d', moon:'#fdfbef', moonDark:'#b7add0', halo:'rgba(226,222,255,.85)', haloOp:.55};
+  if(h>=4 && h<6.5)          return {s1:'rgba(120,86,168,.5)', s2:'rgba(240,158,170,.34)',op:.58, stars:.28,sun:'#ff9a5a', moon:'#fdf3ea', moonDark:'#c9b9d6', halo:'rgba(255,190,175,.8)',  haloOp:.55};
+  if(h>=6.5 && h<10.5)       return {s1:'rgba(150,175,225,.34)',s2:'rgba(214,206,240,.22)',op:.34,stars:0, sun:'#ffc24d', moon:'#fdfbef', moonDark:'#cfc7e0', halo:'rgba(255,220,150,.7)', haloOp:.5};
+  if(h>=10.5 && h<15)        return {s1:'rgba(176,198,238,.26)',s2:'rgba(224,218,245,.16)',op:.22,stars:0, sun:'#ffd35e', moon:'#fdfbef', moonDark:'#cfc7e0', halo:'rgba(255,228,150,.75)',haloOp:.55};
+  if(h>=15 && h<17)          return {s1:'rgba(240,196,150,.34)',s2:'rgba(232,206,224,.2)', op:.34,stars:0, sun:'#ffb347', moon:'#fdfbef', moonDark:'#cfc7e0', halo:'rgba(255,206,140,.75)',haloOp:.55};
+  /* المغرب 17–19 */          return {s1:'rgba(232,120,110,.5)', s2:'rgba(246,176,138,.34)',op:.58, stars:.16,sun:'#ff7a45', moon:'#fdf1e6', moonDark:'#c6b6d2', halo:'rgba(255,160,120,.82)',haloOp:.6};
+}
+function buildStars(n){
+  const box=document.getElementById('stars'); if(!box||box.childElementCount) return;
+  let html='';
+  for(let i=0;i<n;i++){const x=(Math.random()*100).toFixed(2),y=(Math.random()*52).toFixed(2),d=(Math.random()*4).toFixed(2),s=(Math.random()*1.4+.6).toFixed(2);
+    html+=`<i style="left:${x}%;top:${y}%;transform:scale(${s});animation-delay:${d}s"></i>`;}
+  box.innerHTML=html;
+}
+function updateSky(){
+  const el=document.getElementById('celestial'); if(!el) return;
+  const now=new Date(Date.now()+MECCA_OFFSET), h=now.getUTCHours()+now.getUTCMinutes()/60;
+  const sunrise=5.5, sunset=18.5, day=(h>=sunrise&&h<sunset);
+  const rs=document.documentElement.style;
+  let cx,cy;
+  if(day){
+    const p=(h-sunrise)/(sunset-sunrise);
+    cx=88-p*76; cy=80-Math.sin(p*Math.PI)*64;
+    document.getElementById('sun').classList.add('show');
+    document.getElementById('moon').classList.remove('show');
+  }else{
+    const nh=h<sunrise?h+24:h, np=(nh-sunset)/((sunrise+24)-sunset);
+    cx=88-np*76; cy=82-Math.sin(np*Math.PI)*66;
+    document.getElementById('moon').classList.add('show');
+    document.getElementById('sun').classList.remove('show');
+    const d=gregToHijri(todayUTC()).d, phase=(((d-1)/29.53)%1+1)%1;
+    document.getElementById('moonLit').setAttribute('d',moonLitPath(26,phase));
+  }
+  cy=Math.max(14,Math.min(74,cy));
+  document.getElementById('heroFixed').classList.toggle('is-night',!day);
+  const m=skyMood(h,day);
+  rs.setProperty('--cx',cx.toFixed(1)+'%'); rs.setProperty('--cy',cy.toFixed(1)+'%');
+  rs.setProperty('--sky-1',m.s1); rs.setProperty('--sky-2',m.s2);
+  rs.setProperty('--sky-op',m.op); rs.setProperty('--star-op',m.stars);
+  rs.setProperty('--sun',m.sun); rs.setProperty('--moon',m.moon);
+  rs.setProperty('--moon-dark',m.moonDark); rs.setProperty('--halo',m.halo); rs.setProperty('--halo-op',m.haloOp);
+}
+
 /* ---------- init ---------- */
 function init(){
   document.getElementById('ic-conv').innerHTML=ICONS.convert;
@@ -630,6 +725,8 @@ function init(){
   renderYear(th.y);
   fillInputs();
   initReveal();
+  buildStars(46);
+  updateSky();
 
   document.getElementById('yearBtn').addEventListener('click',()=>renderYear(numVal('yearInput')));
   document.getElementById('yearInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('yearBtn').click();});
@@ -658,8 +755,10 @@ function init(){
   window.addEventListener('scroll',onScroll,{passive:true});
 
   setInterval(tick,1000);
+  updateSky();
+  setInterval(updateSky,60000); // تحديث السماء كل دقيقة (حركة الشمس/القمر والمزاج)
   let lastDay=todayUTC().getTime();
-  setInterval(()=>{const t=todayUTC().getTime();if(t!==lastDay){lastDay=t;renderToday();buildEventsUI();}},60000);
+  setInterval(()=>{const t=todayUTC().getTime();if(t!==lastDay){lastDay=t;renderToday();buildEventsUI();updateSky();}},60000);
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
