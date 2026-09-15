@@ -825,6 +825,7 @@ function initReveal(){
 }
 
 /* ---------- السماء الحيّة (وقت مكة + طور القمر الهجري) ---------- */
+const MOON_TILT=-32; // درجة ميلان الهلال ليطابق مظهره الطبيعي في السماء
 function moonShadowPath(R,phase){
   // phase 0..1 (0=محاق، .5=بدر) — يرسم الجزء المُظلم (يُرسم فوق قرص مضيء)
   const c=Math.cos(2*Math.PI*phase), rx=Math.abs(c*R), waxing=phase<0.5;
@@ -886,11 +887,15 @@ function updateSky(){
     cx=12+np*76; cy=42-Math.sin(np*Math.PI)*28; // القمر عكس الشمس: يشرق يسارًا ويغرب يمينًا
     document.getElementById('moon').classList.add('show');
     document.getElementById('sun').classList.remove('show');
-    const d=gregToHijri(todayUTC()).d, phase=(((d-1)/29.53)%1+1)%1;
+    const H=gregToHijri(todayUTC()), d=H.d, mlen=hijriMonthLen(H.y,H.m)||29;
+    // طور مبسّط يطابق الحسّ الشعبي: هلال رفيع أول الشهر → يكتمل بدرًا يوم ١٤ → يتناقص حتى آخر الشهر
+    let phase = d<=14 ? (d-1)/26 : 0.5 + (d-14)/((mlen-14)*2);
+    phase = Math.max(0.045, Math.min(0.955, phase)); // يبقى هلالًا رفيعًا مرئيًا طرفَي الشهر
     document.getElementById('moonLit').setAttribute('d',moonLitPath(26,phase));
-    // يكبر حجم الهلال مع تقدّم الشهر (حسب نسبة الإضاءة): رفيع أول الشهر → بدر منتصفه
-    const illum=(1-Math.cos(2*Math.PI*phase))/2, ms=(0.72+0.42*illum).toFixed(3);
-    document.getElementById('moon').style.transform='scale('+ms+')';
+    // الحجم يكبر مع الإضاءة: أصغر ما يكون هلالًا رفيعًا → أكبر ما يكون بدرًا يوم ١٤
+    const illum=(1-Math.cos(2*Math.PI*phase))/2, ms=(0.62+0.52*illum).toFixed(3);
+    // إمالة القمر ليبدو كالواقع (قرون الهلال مائلة) بدل الوقوف العمودي
+    document.getElementById('moon').style.transform='rotate('+MOON_TILT+'deg) scale('+ms+')';
   }
   cy=Math.max(12,Math.min(46,cy));
   document.getElementById('heroFixed').classList.toggle('is-night',!day);
