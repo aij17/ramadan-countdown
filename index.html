@@ -306,8 +306,9 @@
 
   /* reveal-on-scroll — أقوى وأوضح + اتجاهي (عكسي عند السحب لأعلى) */
   /* حركة ظهور خفيفة (opacity+إزاحة فقط، بلا blur) — تتبع اتجاه السحب */
-  /* الظهور دائمًا من الأسفل (يصعد) في الاتجاهين — نزولًا وصعودًا */
+  /* اتجاهي: نزولًا يصعد من الأسفل (+)، وصعودًا ينزل من الأعلى (−) — الإزاحة تُحدَّد من موضع العنصر */
   .reveal{opacity:0;transform:translateY(48px);transition:opacity .5s ease, transform .55s cubic-bezier(.22,.61,.36,1)}
+  .reveal.from-top{transform:translateY(-48px)}
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}html{scroll-behavior:auto}}
   /* دمج حركة الظهور مع لمسات المرور */
@@ -791,9 +792,15 @@ function observeReveal(el){if(revealObs)revealObs.observe(el);else el.classList.
 function initReveal(){
   const els=[...document.querySelectorAll('.reveal')];
   if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}
-  // هامش متماثل أعلى/أسفل: العنصر يُعاد ضبطه عند خروجه من أي حافة ويُعاد إظهاره (يصعد من الأسفل) عند دخوله المنطقة الوسطى — فتظهر الحركة في الاتجاهين
+  // اتجاهي: عند الخروج نحسب جهته من موضعه — إن كان فوق منتصف النافذة فهو خارج/عائد من الأعلى (from-top ⇒ ينزل)، وإلا من الأسفل (يصعد). يتكرّر في الاتجاهين.
   revealObs=new IntersectionObserver((entries)=>{
-    for(const en of entries) en.target.classList.toggle('in',en.isIntersecting);
+    for(const en of entries){
+      if(en.isIntersecting){en.target.classList.add('in');}
+      else{
+        en.target.classList.toggle('from-top',en.boundingClientRect.top < (window.innerHeight||800)/2);
+        en.target.classList.remove('in');
+      }
+    }
   },{threshold:0,rootMargin:'-10% 0px -10% 0px'});
   els.forEach(e=>revealObs.observe(e));
   // إظهار عناصر أوّل شاشة فورًا (إعادة استعلام لتشمل الصفوف المبنيّة بعد الإنشاء) — يمنع بقاءها مخفية
