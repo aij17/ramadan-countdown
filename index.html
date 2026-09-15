@@ -825,7 +825,7 @@ function initReveal(){
 }
 
 /* ---------- السماء الحيّة (وقت مكة + طور القمر الهجري) ---------- */
-const MOON_TILT=-32; // درجة ميلان الهلال ليطابق مظهره الطبيعي في السماء
+const MOON_TILT=32; // ميلان الهلال للأعلى (القرون نحو الأعلى) كما يظهر في السماء
 function moonShadowPath(R,phase){
   // phase 0..1 (0=محاق، .5=بدر) — يرسم الجزء المُظلم (يُرسم فوق قرص مضيء)
   const c=Math.cos(2*Math.PI*phase), rx=Math.abs(c*R), waxing=phase<0.5;
