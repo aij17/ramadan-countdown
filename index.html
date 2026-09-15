@@ -623,7 +623,7 @@ function buildNujumUI(){
     const dt=new Date(o.date);
     const el=document.createElement('div');
     el.className='ev reveal'+(o.current?' is-today':'');
-    el.style.transitionDelay=(idx*60)+'ms';
+    /* قائمة النجوم طويلة وتظهر صفًا صفًا مع السحب — بلا تأخير لكل صف حتى يظهر كلٌّ في وقته فورًا */
     const dateLine=(o.current?'دخل ':'يدخل ')+`<span class="wd">${weekdayAr(dt)}</span><span class="sep">·</span>${fmtGregShort.format(dt)} م`;
     const sub=`${fmtHijriShort.format(dt)} · ${ar(o.s.stars)} ${o.s.stars>2?'نجوم':'نجم'} · المدّة ${ar(o.s.dur)} يومًا`;
     const cnt=o.current
@@ -689,7 +689,7 @@ function buildEventsUI(){
   listOcc.forEach((o,i)=>{
     const sub=o.ev.showLen?`الشهر ${ar(hijriMonthLen(o.hy,o.ev.m))} يومًا`:'';
     const el=document.createElement('div');
-    el.className='ev reveal';el.style.transitionDelay=(i*70)+'ms';
+    el.className='ev reveal';el.style.transitionDelay=Math.min(i,6)*45+'ms';
     el.innerHTML=`
       <span class="evicon">${ICONS[o.ev.key]}</span>
       <div class="evbody">
