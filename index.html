@@ -173,6 +173,9 @@
   .featured .fmeta{color:var(--text);margin-top:16px;font-size:1.02rem;line-height:2}
   .featured .fmeta b{color:var(--heading);font-weight:600}
   .featured .fmeta .day-tag{color:var(--primary);font-weight:600}
+  .featured .fdesc{margin-top:16px;color:var(--text);font-size:.98rem;line-height:1.95;
+    background:var(--primary-tint);border-inline-start:3px solid var(--primary);
+    border-radius:4px 14px 14px 4px;padding:13px 16px}
   .featured .fnote{display:inline-block;margin-top:4px;color:var(--muted);font-size:.9rem;
     background:var(--bg-2);border:1px solid var(--line);padding:4px 12px;border-radius:999px}
   .count{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
@@ -214,6 +217,8 @@
   .ev .evdate .wd{color:var(--primary);font-weight:600}
   .ev .evdate .sep{color:var(--muted);margin:0 6px}
   .ev .evsub{font-size:.82rem;color:var(--muted);margin-top:2px}
+  .ev .evdesc{font-size:.86rem;line-height:1.75;color:var(--text);margin-top:9px;
+    border-inline-start:2px solid color-mix(in srgb,var(--primary) 45%,var(--line));padding-inline-start:11px}
   .ev .evcount{flex:none;text-align:center;min-width:96px;border-inline-start:1px solid var(--line);padding-inline-start:18px}
   .ev .evcount .n{font-size:2rem;font-weight:700;color:var(--heading);line-height:1;font-variant-numeric:tabular-nums}
   .ev .evcount .l{font-size:.74rem;color:var(--muted);margin-top:4px}
@@ -565,16 +570,25 @@ function nextOccurrence(ev,todayH){let y=todayH.y;if(cmp({y:todayH.y,m:ev.m,d:ev
 /* ---------- نجوم السنة (حساب البسّام — نجد) ---------- */
 // m/d = تاريخ دخول النجم الميلادي الثابت · stars = عدد النجوم · dur = مدّته بالأيام
 const NUJUM=[
-  {name:'سهيل',stars:4,dur:52,m:8,d:19},   {name:'الوسم',stars:4,dur:52,m:10,d:10},
-  {name:'المربعانية',stars:3,dur:40,m:12,d:1},{name:'شباط أول',stars:1,dur:13,m:1,d:10},
-  {name:'شباط ثاني',stars:1,dur:13,m:1,d:23},{name:'العقرب الأولى',stars:1,dur:13,m:2,d:5},
-  {name:'العقرب الثانية',stars:1,dur:13,m:2,d:18},{name:'العقرب الثالثة',stars:1,dur:13,m:3,d:2},
-  {name:'الحميم الأول',stars:1,dur:13,m:3,d:16},{name:'الحميم الثاني',stars:1,dur:13,m:3,d:29},
-  {name:'الذراع الأول',stars:1,dur:13,m:4,d:11},{name:'الذراع الثاني',stars:1,dur:13,m:4,d:24},
-  {name:'الشريطين',stars:1,dur:13,m:5,d:7},   {name:'البطين',stars:1,dur:13,m:5,d:20},
-  {name:'الثريا',stars:1,dur:13,m:6,d:2},     {name:'التويبع',stars:1,dur:13,m:6,d:15},
-  {name:'الجوزاء',stars:1,dur:26,m:6,d:28},   {name:'المرزم',stars:1,dur:13,m:7,d:24},
-  {name:'الكليبين',stars:1,dur:13,m:8,d:6}
+  {name:'سهيل',stars:4,dur:52,m:8,d:19,desc:'انكسار حدّة حرّ الصيف؛ تبرد الليالي تدريجيًا ويطول الظلّ، ومبشّرٌ ببدء المواسم الزراعية وانخفاض حرارة المياه.'},
+  {name:'الوسم',stars:4,dur:52,m:10,d:10,desc:'أفضل مواسم المطر؛ يَسِم الأرض بالخضرة، وفيه ينبت الفقع (الكمأة) وتزدهر المراعي البرّية.'},
+  {name:'المربعانية',stars:3,dur:40,m:12,d:1,desc:'أشدّ أيام الشتاء بردًا (٤٠ يومًا)؛ صقيعٌ ورياحٌ باردة جافّة، ويتوقّف نموّ أكثر النبات.'},
+  {name:'شباط أول',stars:1,dur:13,m:1,d:10,desc:'يُعرف شعبيًا بـ«مقرقع البِيبان» لشدّة هبوب رياحه الباردة المفاجئة.'},
+  {name:'شباط ثاني',stars:1,dur:13,m:1,d:23,desc:'يبدأ فيه دبيب العصارة في فروع الأشجار استعدادًا للربيع.'},
+  {name:'العقرب الأولى',stars:1,dur:13,m:2,d:5,desc:'«عقرب السمّ»؛ بردٌ يلسع كالعقرب فجأة مع تقلّبات حادّة بين دفءٍ وعودة برد.'},
+  {name:'العقرب الثانية',stars:1,dur:13,m:2,d:18,desc:'«عقرب الدم»؛ استمرار البرد اللاسع وتذبذب الأجواء.'},
+  {name:'العقرب الثالثة',stars:1,dur:13,m:3,d:2,desc:'«عقرب الدسم»؛ آخر لسعات البرد قبل دخول الدفء.'},
+  {name:'الحميم الأول',stars:1,dur:13,m:3,d:16,desc:'بداية الدفء الحقيقي ومقدّمة الربيع.'},
+  {name:'الحميم الثاني',stars:1,dur:13,m:3,d:29,desc:'يشتدّ الدفء؛ يُقال «بيّاع الخبل عباته» لمن يغترّ به فيعود البرد فجأة.'},
+  {name:'الذراع الأول',stars:1,dur:13,m:4,d:11,desc:'ارتفاعٌ ملحوظ في الحرارة، وبدء حصاد المحاصيل الشتوية كالقمح.'},
+  {name:'الذراع الثاني',stars:1,dur:13,m:4,d:24,desc:'استمرار ارتفاع الحرارة وكثرة الرياح المثيرة للغبار.'},
+  {name:'الشريطين',stars:1,dur:13,m:5,d:7,desc:'بداية «كنّة الثريا»؛ ميلٌ للحرارة واختفاء معالم الربيع تدريجيًا.'},
+  {name:'البطين',stars:1,dur:13,m:5,d:20,desc:'تشتدّ الحرارة أكثر، وتكثر رياح البوارح الجافّة المغبّرة.'},
+  {name:'الثريا',stars:1,dur:13,m:6,d:2,desc:'بداية «جمرة القيظ» والحرّ الشديد والسموم، وتجفّ الأعشاب البرّية تمامًا.'},
+  {name:'التويبع',stars:1,dur:13,m:6,d:15,desc:'يتبع الثريا في شدّة الحر؛ فيه الانقلاب الصيفي (أطول نهارٍ وأقصر ليل في السنة).'},
+  {name:'الجوزاء',stars:1,dur:26,m:6,d:28,desc:'ذروة الحرّ والجفاف؛ «طبّاخ اللون» حين تبدأ ثمار النخيل بالتلوّن (الاحمرار والاصفرار) استعدادًا للنضج.'},
+  {name:'المرزم',stars:1,dur:13,m:7,d:24,desc:'استمرار شدّة الحر؛ «طبّاخ التمر» حيث ينضج التمر متسارعًا ويكثر جنيه.'},
+  {name:'الكليبين',stars:1,dur:13,m:8,d:6,desc:'آخر فترات الحرّ الشديد مع رطوبةٍ مزعجة («غسّاق الكليبين»)، ويسبق عودة سهيل الذي يعيد لطف الأجواء.'}
 ];
 const STAR_ICON='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2l2.94 6.26 6.86.9-5.05 4.72 1.3 6.82L12 17.9 5.99 21.7l1.3-6.82L2.24 9.36l6.86-.9z"/></svg>';
 function starCluster(n){let s='';for(let i=0;i<n;i++)s+=STAR_ICON;return s;}
@@ -603,6 +617,7 @@ function buildNujumUI(){
       دخل <span class="day-tag">${weekdayAr(entered)}</span> · <b>${fmtHijriShort.format(entered)}</b><br>
       الموافق <b>${fmtGregShort.format(entered)} م</b> · عدد النجوم <b>${ar(cur.s.stars)}</b> · مدّته <b>${ar(cur.s.dur)}</b> يومًا
     </div>
+    ${cur.s.desc?`<div class="fdesc">${cur.s.desc}</div>`:''}
     <div class="count" id="starcount">
       <div class="u"><b data-d>0</b><i>يـــــوم</i></div>
       <div class="u"><b data-h>0</b><i>ساعة</i></div>
@@ -631,7 +646,7 @@ function buildNujumUI(){
       : `<div class="evcount"><div class="n" data-d>0</div><div class="l">يوم على دخوله</div></div>`;
     el.innerHTML=`<span class="evicon"><span class="starmini">${starCluster(o.s.stars)}</span></span>
       <div class="evbody"><div class="evname">${o.s.name}</div>
-        <div class="evdate">${dateLine}</div><div class="evsub">${sub}</div></div>${cnt}`;
+        <div class="evdate">${dateLine}</div><div class="evsub">${sub}</div>${o.s.desc?`<div class="evdesc">${o.s.desc}</div>`:''}</div>${cnt}`;
     list.appendChild(el); observeReveal(el);
     if(!o.current) liveEls.push({type:'row',el,target:dt});
   });
