@@ -305,8 +305,9 @@
   .hadith .hsrc{display:block;margin-top:12px;font-size:.85rem;color:var(--primary);font-weight:600}
 
   /* reveal-on-scroll — أقوى وأوضح + اتجاهي (عكسي عند السحب لأعلى) */
-  /* حركة ظهور خفيفة (opacity+إزاحة فقط، بلا blur) — تتكرّر صعودًا ونزولًا وسريعة */
-  .reveal{opacity:0;transform:translateY(30px);transition:opacity .5s ease, transform .55s cubic-bezier(.22,.61,.36,1)}
+  /* حركة ظهور خفيفة (opacity+إزاحة فقط، بلا blur) — تتبع اتجاه السحب */
+  /* الظهور دائمًا من الأسفل (يصعد) في الاتجاهين — نزولًا وصعودًا */
+  .reveal{opacity:0;transform:translateY(48px);transition:opacity .5s ease, transform .55s cubic-bezier(.22,.61,.36,1)}
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}html{scroll-behavior:auto}}
   /* دمج حركة الظهور مع لمسات المرور */
@@ -336,8 +337,19 @@
     <div id="celestial">
       <div class="cbody" id="sun"><span></span></div>
       <svg class="cbody" id="moon" viewBox="-42 -42 84 84">
+        <defs>
+          <!-- تظليل كروي: حافة مضيئة تتدرّج إلى ظل ناعم (إحساس ثلاثي الأبعاد) -->
+          <radialGradient id="moonSphere" cx="30%" cy="30%" r="82%">
+            <stop offset="0" stop-color="#fffdf7"></stop>
+            <stop offset="42%" stop-color="#f2ecda"></stop>
+            <stop offset="78%" stop-color="#cdc4dd"></stop>
+            <stop offset="100%" stop-color="#a89ec3"></stop>
+          </radialGradient>
+          <!-- تنعيم خفيف لخط الظل (الفاصل الضوئي) -->
+          <filter id="moonSoft" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="0.7"></feGaussianBlur></filter>
+        </defs>
         <g transform="scale(-1 1)">
-          <path id="moonLit" fill-rule="evenodd" fill="var(--moon,#fdfbef)" d=""></path>
+          <path id="moonLit" fill-rule="evenodd" fill="url(#moonSphere)" filter="url(#moonSoft)" d=""></path>
         </g>
       </svg>
     </div>
@@ -779,9 +791,10 @@ function observeReveal(el){if(revealObs)revealObs.observe(el);else el.classList.
 function initReveal(){
   const els=[...document.querySelectorAll('.reveal')];
   if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}
+  // هامش متماثل أعلى/أسفل: العنصر يُعاد ضبطه عند خروجه من أي حافة ويُعاد إظهاره (يصعد من الأسفل) عند دخوله المنطقة الوسطى — فتظهر الحركة في الاتجاهين
   revealObs=new IntersectionObserver((entries)=>{
-    for(const en of entries) en.target.classList.toggle('in',en.isIntersecting); // يتكرّر: يظهر عند الدخول (صعودًا أو نزولًا) ويُعاد ضبطه عند الخروج
-  },{threshold:0,rootMargin:'0px 0px -8% 0px'});
+    for(const en of entries) en.target.classList.toggle('in',en.isIntersecting);
+  },{threshold:0,rootMargin:'-10% 0px -10% 0px'});
   els.forEach(e=>revealObs.observe(e));
   // إظهار عناصر أوّل شاشة فورًا (إعادة استعلام لتشمل الصفوف المبنيّة بعد الإنشاء) — يمنع بقاءها مخفية
   setTimeout(()=>{const vh=window.innerHeight||800;document.querySelectorAll('.reveal:not(.in)').forEach(el=>{const r=el.getBoundingClientRect();
@@ -898,7 +911,9 @@ function init(){
   if(heroSlides.length>1 && !reduceM){
     setInterval(()=>{heroSlides[heroIdx].classList.remove('on');heroIdx=(heroIdx+1)%heroSlides.length;heroSlides[heroIdx].classList.add('on');},6500);
   }
-  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>10);}
+  function onScroll(){
+    nav.classList.toggle('scrolled',window.scrollY>10);
+  }
   onScroll();
   window.addEventListener('scroll',onScroll,{passive:true});
 
