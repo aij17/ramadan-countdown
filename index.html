@@ -307,13 +307,14 @@
   /* reveal-on-scroll — أقوى وأوضح + اتجاهي (عكسي عند السحب لأعلى) */
   /* حركة ظهور خفيفة (opacity+إزاحة فقط، بلا blur) — تتبع اتجاه السحب */
   /* اتجاهي: نزولًا يصعد من الأسفل (+)، وصعودًا ينزل من الأعلى (−) — الإزاحة تُحدَّد من موضع العنصر */
-  .reveal{opacity:0;transform:translateY(48px);transition:opacity .5s ease, transform .55s cubic-bezier(.22,.61,.36,1)}
-  .reveal.from-top{transform:translateY(-48px)}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .85s ease, transform .95s cubic-bezier(.16,1,.3,1)}
+  .reveal.from-top{transform:translateY(-40px)}
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}html{scroll-behavior:auto}}
-  /* دمج حركة الظهور مع لمسات المرور */
-  .events .ev{transition:opacity .5s ease, transform .5s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease)}
-  section .panel{transition:opacity .5s ease, transform .55s var(--ease), box-shadow .32s var(--ease)}
+  /* دمج حركة الظهور (سلسة وبطيئة قليلًا) مع لمسات المرور (تبقى سريعة) */
+  .events .ev{transition:opacity .85s ease, transform .95s cubic-bezier(.16,1,.3,1), border-color .3s var(--ease), box-shadow .3s var(--ease)}
+  .events .ev:hover{transition:transform .28s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease)} /* رفع المرور يبقى سريعًا */
+  section .panel{transition:opacity .85s ease, transform .95s cubic-bezier(.16,1,.3,1), box-shadow .32s var(--ease)}
 </style>
 </head>
 <body>
@@ -484,7 +485,7 @@
       </div>
       <p>
         الحساب مبني على <b>تقويم أم القرى</b> الرسمي، ويغطي حتى 1500 هجري.<br>
-        مستند على كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا.<br>
+        مستند على كتاب <b>التوفيقات الإلهامية في مقارنة التواريخ</b> — محمد مختار باشا رحمه الله.<br>
         قد يختلف التقويم يومًا واحدًا حسب رؤية الهلال في كل بلد.
       </p>
       <div class="credit-sub">الحساب النجمي للفلكي الشهير الشيخ سليمان إبراهيم البسام رحمه الله</div>
